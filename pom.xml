@@ -34,10 +34,18 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+<!--        阿里云上运行-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <version>5.1.46</version>-->
+<!--        </dependency>-->
+
+<!--        本地开发-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.46</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

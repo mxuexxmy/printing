@@ -77,6 +77,11 @@ public class TbPrintOrder implements Serializable {
     private String note;
 
     /**
+     * 订单状态
+     */
+    private String orderStatus;
+
+    /**
      * 地点
      */
     private String address;

@@ -60,12 +60,6 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">订单详情</h3>
                     </div>
-                    <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
-                        <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
-                        <strong th:text="${msg}"></strong>
-                        <strong th:text="${totalAmount}"></strong>
-                    </div>
-
                     <div class="box-body">
                         <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
                         <p class="text-muted">
@@ -77,6 +71,24 @@
                             [[${order.userName}]]
                         </p>
                         <hr>
+                        <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
+                        <p class="text-muted">
+                            [[${order.totalAmount}]]元
+                        </p> <hr>
+                        <strong><i class="fa   fa-user margin-r-5"></i>打印份数</strong>
+                        <p class="text-muted">
+                            [[${order.prinfNumber}]]
+                        </p>
+                        <hr>
+                        <strong><i class="fa   fa-user margin-r-5"></i>张数</strong>
+                        <p class="text-muted">
+                            [[${order.paperNumber}]]
+                        </p>
+                        <hr>
+                        <strong><i class="fa   fa-user margin-r-5"></i>价格</strong>
+                        <p class="text-muted">
+                            [[${order.amount}]]元
+                        </p> <hr>
                         <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
                         <p class="text-muted">
                             [[${order.userQq}]]
@@ -97,24 +109,6 @@
                             [[${order.printFileName}]]
                         </p>
                         <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>打印份数</strong>
-                        <p class="text-muted">
-                            [[${order.prinfNumber}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>张数</strong>
-                        <p class="text-muted">
-                            [[${order.paperNumber}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>价格</strong>
-                        <p class="text-muted">
-                            [[${order.amount}]]元
-                        </p> <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
-                        <p class="text-muted">
-                            [[${order.totalAmount}]]元
-                        </p> <hr>
                         <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
                         <p class="text-muted">
                             [[${order.note}]]
@@ -147,7 +141,7 @@
             <div class="pull-right hnameden-xs">
                 <b>Version</b> 1.0.0
             </div>
-            <strong>Copyright &copy; 2020-2021 <a href="#">荣荣打印</a>.</strong> All rights
+            <strong>Copyright &copy; 2020-2021 <a href="/index">荣荣打印</a>.</strong> All rights
             reserved.
         </div>
         <!-- /.container -->

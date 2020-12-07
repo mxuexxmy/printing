@@ -77,13 +77,9 @@
                         <tr>
                             <th>序号</th>
                             <th>姓名</th>
-                            <th>QQ</th>
-                            <th>微信</th>
-                            <th>电话</th>
-                            <th>文件名</th>
                             <th>金额</th>
                             <th>备注</th>
-                            <th>地点</th>
+                            <th>完成</th>
                             <th>更新时间</th>
                             <th>操作</th>
                         </tr>
@@ -103,7 +99,7 @@
             <div class="pull-right hnameden-xs">
                 <b>Version</b> 1.0.0
             </div>
-            <strong>Copyright &copy; 2020-2021 <a href="#">荣荣打印</a>.</strong> All rights
+            <strong>Copyright &copy; 2020-2021 <a href="/index">荣荣打印</a>.</strong> All rights
             reserved.
         </div>
         <!-- /.container -->
@@ -137,13 +133,9 @@
         var _columns = [
             {"data": "id"},
             {"data": "userName"},
-            {"data": "userQq"},
-            {"data": "userWxchat"},
-            {"data": "userPhone"},
-            {"data": "printFileName"},
             {"data": "totalAmount"},
             {"data": "note"},
-            {"data": "address"},
+            {"data": "orderStatus"},
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {

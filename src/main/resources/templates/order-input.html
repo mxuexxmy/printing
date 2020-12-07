@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>荣荣打印 | 订单录入</title>
+    <title>荣荣打印 | 详细录入</title>
     <!-- 告诉浏览器该页面是自适应布局 -->
     <meta content="wnameth=device-wnameth, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" th:href="@{/favicon.ico}">
@@ -50,7 +50,7 @@
             <section class="content-header">
                 <h1>
                     记录打印
-                    <small>录入打印</small>
+                    <small>详细录入</small>
                 </h1>
             </section>
 
@@ -59,10 +59,10 @@
                 <div class="box box-default">
                     <div class="box-header">
                         <a class="btn btn-app" href="/index">
-                            <i class="fa fa-edit control-label" ></i> 计算价格
+                            <i class="fa fa-edit control-label" ></i> 录入打印
                         </a>
                         <a class="btn btn-app" href="/order-input">
-                            <i class="fa fa-plus-square control-label"></i> 录入打印
+                            <i class="fa fa-plus-square control-label"></i> 详细录入
                         </a>
                     </div>
                     <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
@@ -77,6 +77,27 @@
 
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control"  name="userName" placeholder="请输入姓名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">打印份数</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="prinfNumber" placeholder="请输入打印份数">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">张数</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="paperNumber" placeholder="请输入打印张数">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">价格</label>
+
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="amount" placeholder="请输入打印一张的价格">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -105,27 +126,6 @@
 
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="printFileName" placeholder="请输入文件名">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label">打印份数</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="prinfNumber" placeholder="请输入打印份数">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label">张数</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="paperNumber" placeholder="请输入打印张数">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label">价格</label>
-
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="amount" placeholder="请输入打印一张的价格">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -163,7 +163,7 @@
             <div class="pull-right hnameden-xs">
                 <b>Version</b> 1.0.0
             </div>
-            <strong>Copyright &copy; 2020-2021 <a href="#">荣荣打印</a>.</strong> All rights
+            <strong>Copyright &copy; 2020-2021 <a href="/index">荣荣打印</a>.</strong> All rights
             reserved.
         </div>
         <!-- /.container -->

@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.util.OrderStatusEnum;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.service.TbPrintOrderService;
 
@@ -39,6 +40,7 @@ public class TbPrintOrderController {
         tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
         tbPrintOrder.setCreateTime(new Date());
         tbPrintOrder.setUpdateTime(new Date());
+        tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         boolean b = orderService.save(tbPrintOrder);
         if (b) {
             map.put("msg", "添加到打印记录！");
@@ -53,6 +55,7 @@ public class TbPrintOrderController {
     public String addPrintingOrder(ModelMap map,
                                    @ModelAttribute @Valid TbPrintOrder tbPrintOrder) {
         tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
+        tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         tbPrintOrder.setCreateTime(new Date());
         tbPrintOrder.setUpdateTime(new Date());
         boolean b = orderService.save(tbPrintOrder);
@@ -62,7 +65,7 @@ public class TbPrintOrderController {
         } else {
             map.put("msg", "添加打印记录失败！");
         }
-        return "print-list";
+        return "order-input";
     }
 
 
