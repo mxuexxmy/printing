@@ -40,6 +40,43 @@
                         <li class="active"><a href="/time">定时统计</a></li>
                     </ul>
                 </div>
+
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- The user image in the navbar-->
+                                <img th:src="@{/img/user2-160x160.jpg}" class="user-image" alt="用户图像">
+                                <!-- hidden-xs 在小型设备上隐藏用户名，只显示图像。 -->
+                                <span class="hidden-xs">荣荣</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img th:src="@{/img/user2-160x160.jpg}" class="img-circle" alt="用户图像">
+                                    <p>
+                                        荣荣
+                                        <small>注册于2012年11月</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">资料</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-custom-menu -->
             </div>
         </nav>
     </header>
@@ -76,6 +113,7 @@
                             <a href="/printing/tb-order-year/year-record"><button type="button" class="btn bg-navy btn-flat margin">年统计</button></a>
                         </p>
                     </div>
+
                 </div>
                 <!-- /.box -->
             </section>

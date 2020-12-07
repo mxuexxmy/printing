@@ -20,7 +20,7 @@ public class CodeGenerator {
 
         // 配置 GlobalConfig
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("F:\\Project\\printing\\src\\main\\java"); // 绝对路径写法
+        gc.setOutputDir("F:\\Project\\rongrong\\printing\\src\\main\\java"); // 绝对路径写法
         gc.setAuthor("mxuexxmy");
         gc.setOpen(false); // 生成后是否打开资源管理器
         gc.setFileOverride(true); // 重新生成文件时是否覆盖
@@ -56,7 +56,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
 
 //        strategy.setInclude("fields", "task", "task_list", "task_type");
-        strategy.setInclude("tb_order_day", "tb_order_month", "tb_order_year");
+        strategy.setInclude("tb_user");
 
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); // 生成实体是去掉表前缀

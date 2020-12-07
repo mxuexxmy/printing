@@ -18,6 +18,12 @@
     <!-- AdminLTE 皮肤。
          从 css/skins 目录下选择一个皮肤，以减少负载，而不是下载所有皮肤。 -->
     <link rel="stylesheet"  th:href="@{/css/skins/_all-skins.min.css}">
+    <style>
+        label.xrequired:before {
+            content: '* ';
+            color: red;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
@@ -40,6 +46,43 @@
                         <li><a href="/time">定时统计</a></li>
                     </ul>
                 </div>
+
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- The user image in the navbar-->
+                                <img th:src="@{/img/user2-160x160.jpg}" class="user-image" alt="用户图像">
+                                <!-- hidden-xs 在小型设备上隐藏用户名，只显示图像。 -->
+                                <span class="hidden-xs">荣荣</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img th:src="@{/img/user2-160x160.jpg}" class="img-circle" alt="用户图像">
+                                    <p>
+                                             荣荣
+                                        <small>注册于2012年11月</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">资料</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-custom-menu -->
             </div>
         </nav>
     </header>
@@ -73,28 +116,28 @@
                     <form action="/printing/tb-print-order/add" id="myForm" class="form-horizontal" method="post">
                         <div class="box-body">
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">顾客姓名</label>
+                                <label  class="col-sm-2 control-label xrequired">顾客姓名</label>
 
                                 <div class="col-sm-8">
                                     <input type="text" class="form-control"  name="userName" placeholder="请输入姓名">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">打印份数</label>
+                                <label  class="col-sm-2 control-label xrequired">打印份数</label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="prinfNumber" placeholder="请输入打印份数">
+                                    <input type="text" class="form-control xrequired" name="prinfNumber" placeholder="请输入打印份数">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">张数</label>
+                                <label  class="col-sm-2 control-label xrequired">张数</label>
 
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="paperNumber" placeholder="请输入打印张数">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label  class="col-sm-2 control-label">价格</label>
+                                <label  class="col-sm-2 control-label xrequired">价格</label>
 
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="amount" placeholder="请输入打印一张的价格">
