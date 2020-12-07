@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TbUserService extends IService<TbUser> {
 
+    TbUser getByUsername(String userPhone, String password);
 }

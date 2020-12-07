@@ -1,4 +1,4 @@
-package xyz.mxue.printing.commons.util;
+package xyz.mxue.printing.commons.commonenum;
 
 import lombok.Getter;
 

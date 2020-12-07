@@ -14,7 +14,7 @@ public class IndexController {
 
     @GetMapping
     public String index() {
-        return "index";
+        return "login";
     }
 
     @GetMapping("/index")
@@ -22,7 +22,7 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("order-input")
+    @GetMapping("/order-input")
     public String orderInput() {
         return "order-input";
     }
