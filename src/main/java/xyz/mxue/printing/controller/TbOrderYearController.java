@@ -61,7 +61,7 @@ public class TbOrderYearController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping("/page")
     public PageInfo<TbOrderYear> page(HttpServletRequest request, TbOrderYear tbOrderYear) {
         String strDraw = request.getParameter("draw");
         String strStart = request.getParameter("start");

@@ -94,77 +94,85 @@
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
+                    <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
+                        <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
+                        <strong th:text="${msg}"></strong>
+                    </div>
                     <div class="box-header with-border">
                         <h3 class="box-title">订单详情</h3>
                     </div>
                     <div class="box-body">
-                        <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
-                        <p class="text-muted">
-                            [[${order.id}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>顾客姓名</strong>
-                        <p class="text-muted">
-                            [[${order.userName}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
-                        <p class="text-muted">
-                            [[${order.totalAmount}]]元
-                        </p> <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>打印份数</strong>
-                        <p class="text-muted">
-                            [[${order.prinfNumber}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>张数</strong>
-                        <p class="text-muted">
-                            [[${order.paperNumber}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>价格</strong>
-                        <p class="text-muted">
-                            [[${order.amount}]]元
-                        </p> <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
-                        <p class="text-muted">
-                            [[${order.userQq}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>顾客微信</strong>
-                        <p class="text-muted">
-                            [[${order.userWxchat}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>手机号</strong>
-                        <p class="text-muted">
-                            [[${order.userPhone}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>文件名</strong>
-                        <p class="text-muted">
-                            [[${order.printFileName}]]
-                        </p>
-                        <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
-                        <p class="text-muted">
-                            [[${order.note}]]
-                        </p> <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>地址</strong>
-                        <p class="text-muted">
-                            [[${order.address}]]
-                        </p> <hr>
-                        <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
-                        <p class="text-muted">
-                            [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]
-                        </p>
-                    </div>
+                        <form action="/printing/tb-print-order/confirm" method="post">
+<!--                            <input type="hidden" name="id" th:field="*{order.id}" th:value="${order.id}" ></input>-->
+                            <input type="hidden" th:value="${order.id}" name="id" />
+                            <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
+                            <p class="text-muted">
+                                [[${order.id}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>顾客姓名</strong>
+                            <p class="text-muted">
+                                [[${order.userName}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
+                            <p class="text-muted">
+                                [[${order.totalAmount}]]元
+                            </p> <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>打印份数</strong>
+                            <p class="text-muted">
+                                [[${order.prinfNumber}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>张数</strong>
+                            <p class="text-muted">
+                                [[${order.paperNumber}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>价格</strong>
+                            <p class="text-muted">
+                                [[${order.amount}]]元
+                            </p> <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
+                            <p class="text-muted">
+                                [[${order.userQq}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>顾客微信</strong>
+                            <p class="text-muted">
+                                [[${order.userWxchat}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>手机号</strong>
+                            <p class="text-muted">
+                                [[${order.userPhone}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>文件名</strong>
+                            <p class="text-muted">
+                                [[${order.printFileName}]]
+                            </p>
+                            <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
+                            <p class="text-muted">
+                                [[${order.note}]]
+                            </p> <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>地址</strong>
+                            <p class="text-muted">
+                                [[${order.address}]]
+                            </p> <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
+                            <p class="text-muted">
+                                [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]
+                            </p>
 
-                    <div class="box-footer">
-                        <button type="button" class="btn btn-default"  onclick="history.go(-1)">返回</button>
-                        <button type="submit" class="btn btn-info pull-right">确认</button>
-                    </div>
+                            <div class="box-footer">
+                                <button type="button" class="btn btn-default"  onclick="history.go(-1)">返回</button>
+                                <button type="submit" class="btn btn-info pull-right">确认完成</button>
+                            </div>
+                        </form>
 
+                   </div>
                 </div>
                 <!-- /.box -->
             </section>

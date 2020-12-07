@@ -28,7 +28,6 @@ public class LoginController {
     @PostMapping("login")
     public String login(@RequestParam(required = true) String userPhone, @RequestParam(required = true) String password,
                         HttpServletRequest httpServletRequest, ModelMap map) {
-        System.out.println("userPhone:" + userPhone + " password:" + password);
         TbUser user = userService.getByUsername(userPhone, password);
         if (user == null) {
             map.put("msg", "手机号或者密码不正确");

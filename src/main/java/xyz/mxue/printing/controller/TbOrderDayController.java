@@ -59,7 +59,7 @@ public class TbOrderDayController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping("/page")
     public PageInfo<TbOrderDay> page(HttpServletRequest request, TbOrderDay tbOrderDay) {
         String strDraw = request.getParameter("draw");
         String strStart = request.getParameter("start");

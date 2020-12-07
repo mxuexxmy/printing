@@ -11,6 +11,7 @@ import xyz.mxue.printing.commons.commonenum.OrderStatusEnum;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.service.TbPrintOrderService;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
@@ -27,7 +28,7 @@ import java.util.Date;
 @RequestMapping("/printing/tb-print-order")
 public class TbPrintOrderController {
 
-    @Autowired
+    @Resource
     private TbPrintOrderService orderService;
 
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
@@ -77,6 +78,28 @@ public class TbPrintOrderController {
         return "order-detail";
     }
 
+    @PostMapping("confirm")
+    public String confirmOrder(@RequestParam(required = true) Long id, ModelMap map) {
+
+        TbPrintOrder tbPrintOrder = orderService.getById(id);
+        if (tbPrintOrder.getOrderStatus().equals(OrderStatusEnum.COMPLETE.getDesc())) {
+            map.put("msg",tbPrintOrder.getUserName() + "的订单已确认，无需再更改!");
+            return "print-list";
+        }
+        tbPrintOrder.setOrderStatus(OrderStatusEnum.COMPLETE.getDesc());
+        boolean b = orderService.saveOrUpdate(tbPrintOrder);
+        if (b) {
+            if (tbPrintOrder.getUserName().isEmpty()) {
+                 map.put("msg", "序号" +tbPrintOrder.getId() + "用户的订单已完成");
+                 return "print-list";
+            }
+            map.put("msg", tbPrintOrder.getUserName() + "的订单已完成");
+
+        }
+        map.put("msg", "订单确认失败，请稍后再试！");
+        return "print-list";
+    }
+
     /**
      * 分页查询
      *
@@ -85,7 +108,7 @@ public class TbPrintOrderController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @GetMapping("/page")
     public PageInfo<TbPrintOrder> page(HttpServletRequest request, TbPrintOrder tbPrintOrder) {
         String strDraw = request.getParameter("draw");
         String strStart = request.getParameter("start");
