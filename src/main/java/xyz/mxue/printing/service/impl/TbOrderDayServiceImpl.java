@@ -1,7 +1,7 @@
 package xyz.mxue.printing.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import xyz.mxue.printing.commons.model.PageInfo;
-import xyz.mxue.printing.commons.util.DateUtil;
 import xyz.mxue.printing.entity.TbOrderDay;
 import xyz.mxue.printing.mapper.TbOrderDayMapper;
 import xyz.mxue.printing.service.TbOrderDayService;
@@ -47,15 +47,14 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
     }
 
     @Override
-    public String dayRecord(Date date) throws ParseException {
+    public String dayRecord(Date date)  {
         Map<String, Object> params = new HashMap<>();
-        DateUtil dateUtil = new DateUtil();
         // 今日开始时间
-        Date startDate = dateUtil.getStartOfDay(date);
+        Date startDate = DateUtil.beginOfDay(date);
         // 今日结束时间
-        Date endDate = dateUtil.getEndOfDay(date);
+        Date endDate = DateUtil.endOfDay(date);
 
-        Date dayDate = dateUtil.getDay(date);
+        Date dayDate = DateUtil.beginOfDay(date);
 
         params.put("startDate", startDate);
         params.put("endDate", endDate);

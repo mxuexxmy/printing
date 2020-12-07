@@ -35,7 +35,7 @@ public class TbOrderDayController {
     }
 
     @GetMapping("day-record")
-    public String dayRecord(ModelMap map) throws ParseException {
+    public String dayRecord(ModelMap map) {
         Date date = new Date();
         String message = dayService.dayRecord(date);
         map.put("msg", message);

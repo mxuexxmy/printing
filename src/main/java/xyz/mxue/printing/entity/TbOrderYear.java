@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +30,7 @@ public class TbOrderYear implements Serializable {
     /**
      * 统计年
      */
+    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy")
     private Date statsYear;
 
     /**

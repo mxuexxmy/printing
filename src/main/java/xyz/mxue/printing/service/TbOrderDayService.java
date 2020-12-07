@@ -20,5 +20,5 @@ public interface TbOrderDayService extends IService<TbOrderDay> {
 
     PageInfo<TbOrderDay> page(int start, int length, int draw, TbOrderDay tbOrderDay);
 
-    String dayRecord(Date date) throws ParseException;
+    String dayRecord(Date date) ;
 }

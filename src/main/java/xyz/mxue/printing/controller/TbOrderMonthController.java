@@ -2,6 +2,7 @@ package xyz.mxue.printing.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
@@ -12,6 +13,7 @@ import xyz.mxue.printing.service.TbOrderMonthService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * <p>
@@ -31,6 +33,13 @@ public class TbOrderMonthController {
     @GetMapping
     public String orderMonth() {
         return "order-month";
+    }
+
+    @GetMapping("month-record")
+    public String monthRecord(ModelMap map) {
+        String message = monthService.monthRecord(new Date());
+        map.put("msg", message);
+        return "timing-statistics";
     }
 
     /**

@@ -1,5 +1,6 @@
 package xyz.mxue.printing.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.mapper.TbOrderMonthMapper;
@@ -8,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,5 +43,51 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
         pageInfo.setData(monthMapper.page(params));
 
         return pageInfo;
+    }
+
+    @Override
+    public String monthRecord(Date date) {
+        Map<String, Object> params = new HashMap<>();
+        // 这个月开始时间
+        Date startDate = DateUtil.beginOfMonth(date);
+        // 这个月结束时间
+        Date endDate = DateUtil.endOfMonth(date);
+        // 这个月
+        Date dayDate = DateUtil.beginOfMonth(date);
+
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        params.put("dayDate", dayDate);
+
+        System.out.println("startDate:" + startDate + " endDate:" + endDate + " dayDate:" +dayDate);
+        // 计算每月的份数
+        Integer printNumber  = monthMapper.sumPrintNumber(params);
+        // 计算每月的金额
+        Double totalAmount = monthMapper.sumAmount(params);
+        // 查询是否有记录
+        TbOrderMonth tbOrderMonth = monthMapper.getOrderMonth(params);
+        System.out.println("printNumber:" + printNumber + " totalAmount:" + totalAmount + " tbOrderMonth:" +tbOrderMonth);
+
+        if (tbOrderMonth != null) {
+            tbOrderMonth.setTotalAmount(totalAmount);
+            tbOrderMonth.setPrintNumber(printNumber);
+            tbOrderMonth.setUpdateTime(date);
+            int i = monthMapper.updateById(tbOrderMonth);
+            if (i > 0) {
+                return "月记录更新成功";
+            }
+            return "月记录更新失败";
+        }
+        TbOrderMonth newOrderMonth =  new TbOrderMonth();
+        newOrderMonth.setPrintNumber(printNumber);
+        newOrderMonth.setTotalAmount(totalAmount);
+        newOrderMonth.setStatsMonth(dayDate);
+        newOrderMonth.setCreateTime(date);
+        newOrderMonth.setUpdateTime(date);
+        int insert = monthMapper.insert(newOrderMonth);
+        if (insert > 0) {
+            return "月记录插入成功";
+        }
+        return "月记录插入失败";
     }
 }

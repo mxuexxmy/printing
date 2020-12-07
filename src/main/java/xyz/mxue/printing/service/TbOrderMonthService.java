@@ -6,6 +6,8 @@ import xyz.mxue.printing.entity.TbOrderMonth;
 import com.baomidou.mybatisplus.extension.service.IService;
 import xyz.mxue.printing.entity.TbPrintOrder;
 
+import java.util.Date;
+
 /**
  * <p>
  * 月记录 服务类
@@ -18,4 +20,5 @@ public interface TbOrderMonthService extends IService<TbOrderMonth> {
 
     PageInfo<TbOrderMonth> page(int start, int length, int draw, TbOrderMonth tbOrderMonth);
 
+    String monthRecord(Date date);
 }

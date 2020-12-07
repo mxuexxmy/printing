@@ -1,6 +1,8 @@
 package xyz.mxue.printing.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.entity.TbOrderYear;
 import xyz.mxue.printing.mapper.TbOrderYearMapper;
 import xyz.mxue.printing.service.TbOrderYearService;
@@ -8,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,4 +45,51 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
 
         return pageInfo;
     }
+
+    @Override
+    public String yearRecord(Date date) {
+        Map<String, Object> params = new HashMap<>();
+        // 这年开始时间
+        Date startDate = DateUtil.beginOfYear(date);
+        // 这年结束时间
+        Date endDate = DateUtil.endOfYear(date);
+        // 这年
+        Date dayDate = DateUtil.beginOfYear(date);
+
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        params.put("dayDate", dayDate);
+
+        System.out.println("startDate:" + startDate + " endDate:" + endDate + " dayDate:" +dayDate);
+        // 计算每月的份数
+        Integer printNumber  = yearMapper.sumPrintNumber(params);
+        // 计算每月的金额
+        Double totalAmount = yearMapper.sumAmount(params);
+        // 查询是否有记录
+        TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
+        System.out.println("printNumber:" + printNumber + " totalAmount:" + totalAmount + " tbOrderYear:" +tbOrderYear);
+
+        if (tbOrderYear != null) {
+            tbOrderYear.setTotalAmount(totalAmount);
+            tbOrderYear.setPrintNumber(printNumber);
+            tbOrderYear.setUpdateTime(date);
+            int i = yearMapper.updateById(tbOrderYear);
+            if (i > 0) {
+                return "年记录更新成功";
+            }
+            return "年记录更新失败";
+        }
+        TbOrderYear newTbOrderYear =  new TbOrderYear();
+        newTbOrderYear.setPrintNumber(printNumber);
+        newTbOrderYear.setTotalAmount(totalAmount);
+        newTbOrderYear.setStatsYear(dayDate);
+        newTbOrderYear.setCreateTime(date);
+        newTbOrderYear.setUpdateTime(date);
+        int insert = yearMapper.insert(newTbOrderYear);
+        if (insert > 0) {
+            return "年记录插入成功";
+        }
+        return "年记录插入失败";
+    }
+
 }

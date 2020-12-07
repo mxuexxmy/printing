@@ -3,6 +3,7 @@ package xyz.mxue.printing.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
@@ -13,6 +14,7 @@ import xyz.mxue.printing.service.TbOrderYearService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * <p>
@@ -32,6 +34,13 @@ public class TbOrderYearController {
     @GetMapping
     public String orderYear() {
         return "order-year";
+    }
+
+    @GetMapping("year-record")
+    public String yearRecord(ModelMap map) {
+        String message = yearService.yearRecord(new Date());
+        map.put("msg", message);
+        return "timing-statistics";
     }
 
     /**
