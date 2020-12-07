@@ -1,0 +1,54 @@
+package xyz.mxue.printing.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
+
+/**
+ * <p>
+ * 月记录
+ * </p>
+ *
+ * @author mxuexxmy
+ * @since 2020-12-07
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class TbOrderMonth implements Serializable {
+
+    private static final long serialVersionUID=1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 统计月份
+     */
+    private Date statsMonth;
+
+    /**
+     * 统计每月打印份数
+     */
+    private Integer printNumber;
+
+    /**
+     * 统计每月的钱
+     */
+    private Double totalAmount;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date update;
+
+
+}
