@@ -1,6 +1,7 @@
 package xyz.mxue.printing.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,9 +39,18 @@ public class TbOrderYearController {
 
     @GetMapping("year-record")
     public String yearRecord(ModelMap map) {
-        String message = yearService.yearRecord(new Date());
-        map.put("msg", message);
+        Date date = new Date();
+        String message = yearService.yearRecord(date);
+        map.put("msg", DateUtil.format(date, "yyyy") +  message);
         return "timing-statistics";
+    }
+
+    @GetMapping("update/{id}")
+    public String update(@PathVariable Long id, ModelMap map) {
+        TbOrderYear orderYear = yearService.getById(id);
+        String message = yearService.yearRecord(orderYear.getStatsYear());
+        map.put("msg", DateUtil.format(orderYear.getStatsYear(), "yyyy")  + message);
+        return "order-year";
     }
 
     /**

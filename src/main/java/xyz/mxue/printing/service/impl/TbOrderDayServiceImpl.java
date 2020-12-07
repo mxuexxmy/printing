@@ -70,7 +70,7 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         if (tbOrderDay != null) {
             tbOrderDay.setTotalAmount(totalAmount);
             tbOrderDay.setPrintNumber(printNumber);
-            tbOrderDay.setUpdateTime(date);
+            tbOrderDay.setUpdateTime(new Date());
             int i = dayMapper.updateById(tbOrderDay);
             if (i > 0) {
                 return "日记录更新成功";
@@ -81,8 +81,8 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         newOrderDay.setPrintNumber(printNumber);
         newOrderDay.setTotalAmount(totalAmount);
         newOrderDay.setStatsDay(dayDate);
-        newOrderDay.setCreateTime(date);
-        newOrderDay.setUpdateTime(date);
+        newOrderDay.setCreateTime(new Date());
+        newOrderDay.setUpdateTime(new Date());
         int insert = dayMapper.insert(newOrderDay);
         if (insert > 0) {
             return "日记录插入成功";

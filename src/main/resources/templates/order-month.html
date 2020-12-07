@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>荣荣打印</title>
+    <title>荣荣打印 | 月记录</title>
     <!-- 告诉浏览器该页面是自适应布局 -->
     <meta content="wnameth=device-wnameth, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/favicon.ico}">
@@ -71,6 +71,11 @@
                             <i class="fa  fa-bar-chart control-label"></i> 年记录
                         </a>
                     </div>
+                    <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
+                        <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
+                        <strong th:text="${msg}"></strong>
+                        <strong th:text="${totalAmount}"></strong>
+                    </div>
                     <div class="box-body">
                         <table id="dataTable" class="table table-bordered table-hover">
                             <thead>
@@ -137,7 +142,7 @@
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a type="button"  href="show" target="_blank" class="btn btn-sm btn-default" ><i class="fa fa-search"></i>更新</a>&nbsp;&nbsp;&nbsp;'
+                    return '<a type="button"   href="/printing/tb-order-month/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i>更新</a>&nbsp;&nbsp;&nbsp;'
 
                 }
             }

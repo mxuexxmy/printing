@@ -59,19 +59,17 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
         params.put("endDate", endDate);
         params.put("dayDate", dayDate);
 
-        System.out.println("startDate:" + startDate + " endDate:" + endDate + " dayDate:" +dayDate);
         // 计算每月的份数
         Integer printNumber  = monthMapper.sumPrintNumber(params);
         // 计算每月的金额
         Double totalAmount = monthMapper.sumAmount(params);
         // 查询是否有记录
         TbOrderMonth tbOrderMonth = monthMapper.getOrderMonth(params);
-        System.out.println("printNumber:" + printNumber + " totalAmount:" + totalAmount + " tbOrderMonth:" +tbOrderMonth);
 
         if (tbOrderMonth != null) {
             tbOrderMonth.setTotalAmount(totalAmount);
             tbOrderMonth.setPrintNumber(printNumber);
-            tbOrderMonth.setUpdateTime(date);
+            tbOrderMonth.setUpdateTime(new Date());
             int i = monthMapper.updateById(tbOrderMonth);
             if (i > 0) {
                 return "月记录更新成功";
@@ -82,8 +80,8 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
         newOrderMonth.setPrintNumber(printNumber);
         newOrderMonth.setTotalAmount(totalAmount);
         newOrderMonth.setStatsMonth(dayDate);
-        newOrderMonth.setCreateTime(date);
-        newOrderMonth.setUpdateTime(date);
+        newOrderMonth.setCreateTime(new Date());
+        newOrderMonth.setUpdateTime(new Date());
         int insert = monthMapper.insert(newOrderMonth);
         if (insert > 0) {
             return "月记录插入成功";

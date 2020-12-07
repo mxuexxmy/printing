@@ -71,6 +71,13 @@ public class TbPrintOrderController {
         return "print-list";
     }
 
+    @GetMapping("show/{id}")
+    public String orderDetail(@PathVariable Long id, ModelMap map) {
+        TbPrintOrder order = orderService.getById(id);
+        map.put("order", order);
+        return "order-detail";
+    }
+
     /**
      * 分页查询
      *

@@ -60,19 +60,17 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         params.put("endDate", endDate);
         params.put("dayDate", dayDate);
 
-        System.out.println("startDate:" + startDate + " endDate:" + endDate + " dayDate:" +dayDate);
         // 计算每月的份数
         Integer printNumber  = yearMapper.sumPrintNumber(params);
         // 计算每月的金额
         Double totalAmount = yearMapper.sumAmount(params);
         // 查询是否有记录
         TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
-        System.out.println("printNumber:" + printNumber + " totalAmount:" + totalAmount + " tbOrderYear:" +tbOrderYear);
 
         if (tbOrderYear != null) {
             tbOrderYear.setTotalAmount(totalAmount);
             tbOrderYear.setPrintNumber(printNumber);
-            tbOrderYear.setUpdateTime(date);
+            tbOrderYear.setUpdateTime(new Date());
             int i = yearMapper.updateById(tbOrderYear);
             if (i > 0) {
                 return "年记录更新成功";
@@ -83,8 +81,8 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         newTbOrderYear.setPrintNumber(printNumber);
         newTbOrderYear.setTotalAmount(totalAmount);
         newTbOrderYear.setStatsYear(dayDate);
-        newTbOrderYear.setCreateTime(date);
-        newTbOrderYear.setUpdateTime(date);
+        newTbOrderYear.setCreateTime(new Date());
+        newTbOrderYear.setUpdateTime(new Date());
         int insert = yearMapper.insert(newTbOrderYear);
         if (insert > 0) {
             return "年记录插入成功";

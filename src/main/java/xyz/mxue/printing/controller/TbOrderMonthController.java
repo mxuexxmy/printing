@@ -1,6 +1,7 @@
 package xyz.mxue.printing.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +38,19 @@ public class TbOrderMonthController {
 
     @GetMapping("month-record")
     public String monthRecord(ModelMap map) {
-        String message = monthService.monthRecord(new Date());
-        map.put("msg", message);
+        Date date = new Date();
+        String message = monthService.monthRecord(date);
+        map.put("msg",DateUtil.format(date, "yyyy-MM") + message);
         return "timing-statistics";
     }
 
+    @GetMapping("update/{id}")
+    public String update(@PathVariable Long id, ModelMap map) {
+        TbOrderMonth orderMonth = monthService.getById(id);
+        String message = monthService.monthRecord(orderMonth.getStatsMonth());
+        map.put("msg", DateUtil.format(orderMonth.getStatsMonth(), "yyyy-MM") + message);
+        return "order-month";
+    }
     /**
      * 分页查询
      *

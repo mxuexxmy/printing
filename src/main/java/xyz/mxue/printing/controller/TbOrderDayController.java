@@ -1,6 +1,7 @@
 package xyz.mxue.printing.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,16 @@ public class TbOrderDayController {
     public String dayRecord(ModelMap map) {
         Date date = new Date();
         String message = dayService.dayRecord(date);
-        map.put("msg", message);
+        map.put("msg", DateUtil.format(date, "yyyy-MM-dd") + message);
         return "timing-statistics";
+    }
+
+    @GetMapping("update/{id}")
+    public String update(@PathVariable Long id, ModelMap map) {
+        TbOrderDay orderDay = dayService.getById(id);
+        String message = dayService.dayRecord(orderDay.getStatsDay());
+        map.put("msg", DateUtil.format(orderDay.getStatsDay(), "yyyy-MM-dd") + "的" + message);
+        return "order-day";
     }
 
     /**
