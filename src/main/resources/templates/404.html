@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>荣荣打印 | 首页</title>
+    <!-- 告诉浏览器该页面是自适应布局 -->
+    <meta content="wnameth=device-wnameth, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" th:href="@{/favicon.ico}">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet"  th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}">
+    <!-- AdminLTE 皮肤。
+         从 css/skins 目录下选择一个皮肤，以减少负载，而不是下载所有皮肤。 -->
+    <link rel="stylesheet"  th:href="@{/css/skins/_all-skins.min.css}">
+    <style>
+        label.xrequired:before {
+            content: '* ';
+            color: red;
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (页眉) -->
+        <section class="content-header">
+            <h1>
+                404 错误页
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="error-page">
+                <h2 class="headline text-yellow"> 404</h2>
+
+                <div class="error-content">
+                    <h3><i class="fa fa-warning text-yellow"></i> 哎呀！找不到网页。</h3>
+
+                    <p>
+                        我们找不到你需要的网页。
+                        同时，您可以<a href="/">返回仪表盘</a>或尝试使用搜索。
+                    </p>
+
+                    <form class="search-form">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="搜索">
+
+                            <div class="input-group-btn">
+                                <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.input-group -->
+                    </form>
+                </div>
+                <!-- /.error-content -->
+            </div>
+            <!-- /.error-page -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="pull-right hnameden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; 2020-2021 <a href="/index">荣荣打印</a>.</strong> All rights
+            reserved.
+        </div>
+        <!-- /.container -->
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- SlimScroll -->
+<script th:src="@{/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/bower_components/fastclick/lib/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/adminlte.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+
+</body>
+</html>

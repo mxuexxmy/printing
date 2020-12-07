@@ -37,13 +37,14 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     @Override
     public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder) {
 
-        int count = orderMapper.count(tbPrintOrder);
+
 
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("length", length);
         params.put("pageParams", tbPrintOrder);
 
+        int count = orderMapper.count(params);
         PageInfo<TbPrintOrder> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
         pageInfo.setRecordsTotal(count);

@@ -22,7 +22,11 @@ public interface TbPrintOrderMapper extends BaseMapper<TbPrintOrder> {
      * @param params，需要两个参数，start/记录开始的位置 length/每页记录数
      * @return
      */
-    @Select("SELECT * FROM tb_print_order  ORDER BY  create_time DESC   LIMIT #{start}, #{length}")
+    @Select({"<script>" +
+            "select * from tb_print_order" +
+            "<if test='pageParams.userName != null'>where user_name like concat('%',#{pageParams.userName},'%') </if>" +
+            "limit #{start},#{length}" +
+            "</script>"})
     List<TbPrintOrder> page(Map<String, Object> params);
 
     /**
@@ -30,7 +34,10 @@ public interface TbPrintOrderMapper extends BaseMapper<TbPrintOrder> {
      *
      * @return
      */
-    @Select("SELECT COUNT(*) FROM tb_print_order")
-    int count(TbPrintOrder tbPrintOrder);
+    @Select({"<script>" +
+            "select count(*) from tb_print_order" +
+            "<if test='pageParams.userName != null'>where user_name like concat('%',#{pageParams.userName},'%') </if>" +
+            "</script>"})
+    int count(Map<String, Object> params);
 
 }
