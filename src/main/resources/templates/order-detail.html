@@ -161,6 +161,10 @@
                             <p class="text-muted">
                                 [[${order.address}]]
                             </p> <hr>
+                            <strong><i class="fa   fa-user margin-r-5"></i>创建时间</strong>
+                            <p class="text-muted">
+                                [[${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}]]
+                            </p> <hr>
                             <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
                             <p class="text-muted">
                                 [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]

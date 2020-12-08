@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.commons.commonenum.OrderStatusEnum;
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.service.TbPrintOrderService;
 
@@ -133,14 +134,13 @@ public class TbPrintOrderController {
     }
 
     @GetMapping("delete/{id}")
-    public String deleteOrder(@PathVariable Long id, ModelMap map) {
+    @ResponseBody
+    public Result deleteOrder(@PathVariable Long id, ModelMap map) {
         boolean b = orderService.removeById(id);
         if (b) {
-            map.put("msg", "序号" + id + "的打印记录删除成功！");
-            return "print-list";
+             return Result.success("序号" + id + "的打印记录删除成功!");
         }
-        map.put("msg", "序号" + id + "的打印记录删除失败！");
-        return "print-list";
+        return Result.fail("序号" + id + "的打印记录删除失败!");
     }
 
 

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -57,6 +59,7 @@ public class TbUser implements Serializable {
     /**
      * 更新时间
      */
+    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:MM")
     private Date updateTime;
 
 
