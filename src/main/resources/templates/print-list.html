@@ -208,8 +208,8 @@
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a type="button"  href="show/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa fa-search"></i> 查看</a>&nbsp;&nbsp;&nbsp;'
-
+                    return '<a type="button"  href="/printing/tb-print-order/show/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-search"></i> 查看</a>&nbsp;&nbsp;&nbsp;' +
+                        '<a type="button"  href="/printing/tb-print-order/delete/'+ row.id +'" class="btn btn-sm btn-danger" ><i class="fa fa-trash-o"></i> 删除</a>';
                 }
             }
         ];

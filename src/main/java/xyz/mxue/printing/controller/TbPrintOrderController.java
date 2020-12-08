@@ -34,6 +34,22 @@ public class TbPrintOrderController {
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
     public String calculate(ModelMap map,
                                    @ModelAttribute @Valid TbPrintOrder tbPrintOrder) {
+        if (tbPrintOrder.getUserName().isEmpty()) {
+            map.put("msg","请输入姓名！");
+            return "index";
+        }
+        if (tbPrintOrder.getPrinfNumber() == null) {
+            map.put("msg","请输入打印份数！");
+            return "index";
+        }
+        if (tbPrintOrder.getPaperNumber() == null) {
+            map.put("msg","请输入纸张数！");
+            return "index";
+        }
+        if (tbPrintOrder.getAmount() == null) {
+            map.put("msg","请输入打印一张纸的金额！");
+            return "index";
+        }
         tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
         tbPrintOrder.setCreateTime(new Date());
         tbPrintOrder.setUpdateTime(new Date());
@@ -51,6 +67,22 @@ public class TbPrintOrderController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addPrintingOrder(ModelMap map,
                                    @ModelAttribute @Valid TbPrintOrder tbPrintOrder) {
+        if (tbPrintOrder.getUserName().isEmpty()) {
+            map.put("msg","请输入姓名！");
+            return "order-input";
+        }
+        if (tbPrintOrder.getPrinfNumber() == null) {
+            map.put("msg","请输入打印份数！");
+            return "order-input";
+        }
+        if (tbPrintOrder.getPaperNumber() == null) {
+            map.put("msg","请输入纸张数！");
+            return "order-input";
+        }
+        if (tbPrintOrder.getAmount() == null) {
+            map.put("msg","请输入打印一张纸的金额！");
+            return "order-input";
+        }
         tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
         tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         tbPrintOrder.setCreateTime(new Date());
@@ -94,11 +126,23 @@ public class TbPrintOrderController {
                  return "print-list";
             }
             map.put("msg", tbPrintOrder.getUserName() + "的订单已完成");
-
+            return "print-list";
         }
         map.put("msg", "订单确认失败，请稍后再试！");
         return "print-list";
     }
+
+    @GetMapping("delete/{id}")
+    public String deleteOrder(@PathVariable Long id, ModelMap map) {
+        boolean b = orderService.removeById(id);
+        if (b) {
+            map.put("msg", "序号" + id + "的打印记录删除成功！");
+            return "print-list";
+        }
+        map.put("msg", "序号" + id + "的打印记录删除失败！");
+        return "print-list";
+    }
+
 
     /**
      * 分页查询
