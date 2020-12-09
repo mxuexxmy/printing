@@ -67,6 +67,13 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         // 查询是否有记录
         TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
 
+        if (printNumber == null) {
+            printNumber = 0;
+        }
+        if (totalAmount == null) {
+            totalAmount = 0D;
+        }
+
         if (tbOrderYear != null) {
             tbOrderYear.setTotalAmount(totalAmount);
             tbOrderYear.setPrintNumber(printNumber);

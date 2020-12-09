@@ -67,6 +67,13 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         // 查询是否有记录
         TbOrderDay tbOrderDay = dayMapper.getOrderDay(params);
 
+        if (printNumber == null) {
+            printNumber = 0;
+        }
+        if (totalAmount == null) {
+            totalAmount = 0D;
+        }
+
         if (tbOrderDay != null) {
             tbOrderDay.setTotalAmount(totalAmount);
             tbOrderDay.setPrintNumber(printNumber);

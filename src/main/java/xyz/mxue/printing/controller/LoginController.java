@@ -24,7 +24,7 @@ public class LoginController {
     @Resource
     private TbUserService userService;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public String login(@RequestParam(required = true) String userPhone, @RequestParam(required = true) String password,
                         HttpServletRequest httpServletRequest, ModelMap map) {
         TbUser user = userService.getByUsername(userPhone, password);

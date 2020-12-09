@@ -66,6 +66,13 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
         // 查询是否有记录
         TbOrderMonth tbOrderMonth = monthMapper.getOrderMonth(params);
 
+        if (printNumber == null) {
+            printNumber = 0;
+        }
+        if (totalAmount == null) {
+            totalAmount = 0D;
+        }
+
         if (tbOrderMonth != null) {
             tbOrderMonth.setTotalAmount(totalAmount);
             tbOrderMonth.setPrintNumber(printNumber);
