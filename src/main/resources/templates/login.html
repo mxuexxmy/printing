@@ -50,13 +50,13 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox" > 记住我
+                            <input type="checkbox" checked="true" id="rememberUser"> 记住我
                         </label>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button  type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+                    <button id="btn-submit" type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
                 </div>
                 <!-- /.col -->
             </div>
@@ -90,6 +90,39 @@
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' /* optional */
         });
+        if($.cookie("rememberUser")) {
+            $("#rememberUser").attr("checked", true);
+            $("#userPhone").val($.cookie("userPhone"));
+            $("#password").val($.cookie("password"));
+        };
+    });
+
+    $("#btn-submit").on("click", function() {
+        var userPhone = $("#userPhone").val();
+        var password = $("#password").val();
+        var flag = $("#rememberUser").prop("checked");
+        if(flag) {
+            $.cookie("rememberUser", "true", {
+                expires: 7
+            });
+            $.cookie("userPhone", userPhone, {
+                expires: 7
+            });
+            $.cookie("password", password, {
+                expires: 7
+            });
+            location.href="http://mxue.xyz:9080/";
+        } else {
+            $.cookie("rememberUser", "false", {
+                expires: -1
+            });
+            $.cookie("userPhone", '', {
+                expires: -1
+            });
+            $.cookie("password", '', {
+                expires: -1
+            });
+        }
     });
 
 
