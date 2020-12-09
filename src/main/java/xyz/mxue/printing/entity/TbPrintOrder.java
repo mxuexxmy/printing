@@ -94,7 +94,7 @@ public class TbPrintOrder implements Serializable {
     /**
      * 更新时间
      */
-    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:MM")
+    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
 
 
