@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>荣荣打印 | 个人中心</title>
+    <!-- 告诉浏览器该页面是自适应布局 -->
+    <meta content="wnameth=device-wnameth, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" th:href="@{/favicon.ico}">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet"  th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/bower_components/Ionicons/css/ionicons.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}">
+    <!-- AdminLTE 皮肤。
+         从 css/skins 目录下选择一个皮肤，以减少负载，而不是下载所有皮肤。 -->
+    <link rel="stylesheet"  th:href="@{/css/skins/_all-skins.min.css}">
+
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+    <header class="main-header">
+        <nav class="navbar navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/index" class="navbar-brand">荣荣打印</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/index">记录打印<span class="sr-only">（当前）</span></a></li>
+                        <li><a href="/printing/tb-print-order/list">打印统计</a></li>
+                        <li><a href="/time">定时统计</a></li>
+                    </ul>
+                </div>
+
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <!-- The user image in the navbar-->
+                                <img th:src="@{/img/user2-160x160.jpg}" class="user-image" alt="用户图像">
+                                <!-- hidden-xs 在小型设备上隐藏用户名，只显示图像。 -->
+                                <span class="hidden-xs"th:text="${session.user.getUserName()}" >荣荣</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img th:src="@{/img/user2-160x160.jpg}" class="img-circle" alt="用户图像">
+                                    <p>
+                                        [[${session.user.getUserName()}]]
+                                        <small>注册于 [[${#dates.format(session.user.getCreateTime(),'yyyy-MM-dd HH:mm:ss')}]]</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="/printing/tb-user/profile" class="btn btn-default btn-flat">资料</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/logout" class="btn btn-default btn-flat">退出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-custom-menu -->
+            </div>
+
+        </nav>
+    </header>
+    <!-- Full Wnameth Column -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Content Header (页眉) -->
+            <section class="content-header">
+                <h1>
+                    用户资料
+                    <small>个人中心</small>
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="box box-default">
+                    <div class="col-sm-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title ibox-title-gray dashboard-header gray-bg">
+                                <h5>个人资料</h5>
+                            </div>
+
+                            <!-- Profile Image -->
+                            <div class="box box-primary">
+
+                                <div class="alert alert-danger alert-dismissible"  th:if="*{msg != null}"  >
+                                    <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
+                                    <strong th:value="*{msg}"></strong>
+                                </div>
+
+                                <div class="box-body box-profile">
+                                    <img class="profile-user-img img-responsive img-circle" src="../static/dist/img/user2-160x160.jpg" th:src="@{/img/user2-160x160.jpg}" alt="用户资料 picture">
+
+                                    <h3 class="profile-username text-center" th:text="${session.user.getUserName()}">Nina Mcintire</h3>
+
+                                    <p class="text-muted text-center" th:if="${session.user.getUserType() == 1}">系统管理员</p>
+
+                                    <p class="text-muted text-center" th:if="${session.user.getUserType() == 2}">管理员</p>
+
+                                    <p class="text-muted text-center" th:if="${session.user.getUserType() == 2}">用户</p>
+
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <b>号码</b> <a class="pull-right" th:text="${session.user.getUserPhone()}">13,287</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>地址</b> <a class="pull-right" th:text="${session.user.getAddress()}"></a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>注册时间</b> <a class="pull-right" th:text="${#dates.format(session.user.getCreateTime(),'yyyy-MM-dd HH:mm:ss')}">543</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+                    </div>
+
+                    <div class="col-sm-9 about">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title ibox-title-gray dashboard-header">
+                                <h5>基本资料</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#user_info" data-toggle="tab" aria-expanded="true">基本资料</a></li>
+                                        <li><a href="#modify_password" data-toggle="tab" aria-expanded="false">修改密码</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <!--用户信息-->
+                                        <div class="tab-pane active" id="user_info" >
+                                            <form class="form-horizontal"  th:action="@{/printing/tb-user/update}" id="form-user-edit" method="post">
+                                                <input type="hidden" name="id" th:value="${tbUser.id}"/>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">用户名称：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="userName" th:filed="*{tbUser.userName}" th:value="*{tbUser.userName}" placeholder="请输入用户名称">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">手机号码：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="userPhone" maxlength="11" th:filed="*{tbUser.userPhone}" th:value="*{tbUser.userPhone}" placeholder="请输入手机号码">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">地址：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="address" maxlength="11" th:filed="*{tbUser.address}" th:value="*{tbUser.address}" placeholder="请输入手机号码">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                        <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i>保 存</button>&nbsp;
+                                                        <button type="button" class="btn btn-sm btn-danger" onclick="history.go(-1)"><i class="fa fa-reply-all"></i>关 闭 </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <!--修改密码-->
+                                        <div class="tab-pane" id="modify_password">
+                                            <form class="form-horizontal" th:action="@{/printing/tb-user/password}" id="form-user-resetPwd" method="post">
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">旧密码：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" name="oldPassword"  id="oldPassword" placeholder="请输入旧密码">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">新密码：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" name="newPassword" id="newPassword"   placeholder="请输入新密码">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">确认密码：</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="password" class="form-control" name="confirmPassword" placeholder="请确认密码">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                        <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-check"></i>保 存</button>&nbsp;
+                                                        <button type="button" class="btn btn-sm btn-danger" onclick="history.go(-1)"><i class="fa fa-reply-all"></i>关 闭 </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="pull-right hnameden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; 2020-2021 <a href="/about">荣荣打印</a>.</strong> All rights
+            reserved.
+        </div>
+        <!-- /.container -->
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- SlimScroll -->
+<script th:src="@{/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/bower_components/fastclick/lib/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/adminlte.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+
+</body>
+</html>
