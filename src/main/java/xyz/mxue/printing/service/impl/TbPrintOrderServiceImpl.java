@@ -37,8 +37,6 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     @Override
     public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder) {
 
-
-
         Map<String, Object> params = new HashMap<>();
         params.put("start", start);
         params.put("length", length);

@@ -21,6 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 未登录
         if (user == null) {
             httpServletResponse.sendRedirect("/login");
+            return  false;
         }
 
         // 放行
