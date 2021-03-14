@@ -17,6 +17,8 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Controller
 public class MyErrorController implements ErrorController {
 
+    private String prefix = "error";
+
     public MyErrorController() {}
 
     @GetMapping(value = "/error")
@@ -29,10 +31,10 @@ public class MyErrorController implements ErrorController {
             Integer statusCode = Integer.valueOf(status.toString());
 
             if(statusCode == NOT_FOUND.value()) {
-                return "404";
+                return prefix + "/404";
             }
             else if(statusCode == INTERNAL_SERVER_ERROR.value()) {
-                return "500";
+                return prefix +"/500";
             }
         }
         return "error";

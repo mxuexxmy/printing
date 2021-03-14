@@ -7,6 +7,7 @@ import xyz.mxue.printing.mapper.TbOrderDayMapper;
 import xyz.mxue.printing.service.TbOrderDayService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import xyz.mxue.printing.service.TbPrintOrderService;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -27,6 +28,9 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
 
     @Resource
     private TbOrderDayMapper dayMapper;
+
+    @Resource
+    private TbPrintOrderService orderService;
 
     @Override
     public PageInfo<TbOrderDay> page(int start, int length, int draw, TbOrderDay tbOrderDay) {
@@ -61,9 +65,9 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         params.put("dayDate", dayDate);
 
         // 计算每一日的份数
-        Integer printNumber  = dayMapper.sumPrintNumber(params);
+        Integer printNumber  = orderService.sumPrintNumber(params);
         // 计算每一次的金额
-        Double totalAmount = dayMapper.sumAmount(params);
+        Double totalAmount = orderService.sumAmount(params);
         // 查询是否有记录
         TbOrderDay tbOrderDay = dayMapper.getOrderDay(params);
 

@@ -1,7 +1,6 @@
 package xyz.mxue.printing.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +28,8 @@ import java.util.Date;
 @RequestMapping("/printing/tb-print-order")
 public class TbPrintOrderController {
 
+    private String prefix = "printf";
+
     @Resource
     private TbPrintOrderService orderService;
 
@@ -37,19 +38,19 @@ public class TbPrintOrderController {
                                    @ModelAttribute @Valid TbPrintOrder tbPrintOrder) {
         if (tbPrintOrder.getUserName().isEmpty()) {
             map.put("msg","请输入姓名！");
-            return "index";
+            return prefix + "/index";
         }
         if (tbPrintOrder.getPrinfNumber() == null) {
             map.put("msg","请输入打印份数！");
-            return "index";
+            return prefix + "/index";
         }
         if (tbPrintOrder.getPaperNumber() == null) {
             map.put("msg","请输入纸张数！");
-            return "index";
+            return prefix + "/index";
         }
         if (tbPrintOrder.getAmount() == null) {
             map.put("msg","请输入打印一张纸的金额！");
-            return "index";
+            return prefix +"/index";
         }
         tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
         tbPrintOrder.setCreateTime(new Date());
@@ -62,7 +63,7 @@ public class TbPrintOrderController {
         } else {
             map.put("msg", "添加打印记录失败！");
         }
-        return "index";
+        return prefix + "/index";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -70,19 +71,19 @@ public class TbPrintOrderController {
                                    @ModelAttribute @Valid TbPrintOrder tbPrintOrder) {
         if (tbPrintOrder.getUserName().isEmpty()) {
             map.put("msg","请输入姓名！");
-            return "order-input";
+            return prefix + "/order-input";
         }
         if (tbPrintOrder.getPrinfNumber() == null) {
             map.put("msg","请输入打印份数！");
-            return "order-input";
+            return prefix + "/order-input";
         }
         if (tbPrintOrder.getPaperNumber() == null) {
             map.put("msg","请输入纸张数！");
-            return "order-input";
+            return prefix + "/order-input";
         }
         if (tbPrintOrder.getAmount() == null) {
             map.put("msg","请输入打印一张纸的金额！");
-            return "order-input";
+            return prefix + "/order-input";
         }
         tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
         tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
@@ -95,20 +96,20 @@ public class TbPrintOrderController {
         } else {
             map.put("msg", "添加打印记录失败！");
         }
-        return "order-input";
+        return prefix + "/order-input";
     }
 
 
     @GetMapping("/list")
     public String printList() {
-        return "print-list";
+        return prefix + "/print-list";
     }
 
     @GetMapping("show/{id}")
     public String orderDetail(@PathVariable Long id, ModelMap map) {
         TbPrintOrder order = orderService.getById(id);
         map.put("order", order);
-        return "order-detail";
+        return prefix + "/order-detail";
     }
 
     @PostMapping("confirm")
@@ -117,20 +118,20 @@ public class TbPrintOrderController {
         TbPrintOrder tbPrintOrder = orderService.getById(id);
         if (tbPrintOrder.getOrderStatus().equals(OrderStatusEnum.COMPLETE.getDesc())) {
             map.put("msg",tbPrintOrder.getUserName() + "的订单已确认，无需再更改!");
-            return "print-list";
+            return prefix + "/print-list";
         }
         tbPrintOrder.setOrderStatus(OrderStatusEnum.COMPLETE.getDesc());
         boolean b = orderService.saveOrUpdate(tbPrintOrder);
         if (b) {
             if (tbPrintOrder.getUserName().isEmpty()) {
                  map.put("msg", "序号" +tbPrintOrder.getId() + "用户的订单已完成");
-                 return "print-list";
+                 return prefix + "/print-list";
             }
             map.put("msg", tbPrintOrder.getUserName() + "的订单已完成");
-            return "print-list";
+            return prefix + "/print-list";
         }
         map.put("msg", "订单确认失败，请稍后再试！");
-        return "print-list";
+        return prefix + "/print-list";
     }
 
     @GetMapping("delete/{id}")

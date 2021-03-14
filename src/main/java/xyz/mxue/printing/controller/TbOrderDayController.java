@@ -7,12 +7,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbOrderDay;
-import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.service.TbOrderDayService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -27,20 +25,14 @@ import java.util.Date;
 @RequestMapping("/printing/tb-order-day")
 public class TbOrderDayController {
 
+    private String prefix = "printf";
+
     @Resource
     private TbOrderDayService dayService;
 
     @GetMapping
     public String orderDay() {
-        return "order-day";
-    }
-
-    @GetMapping("day-record")
-    public String dayRecord(ModelMap map) {
-        Date date = new Date();
-        String message = dayService.dayRecord(date);
-        map.put("msg", DateUtil.format(date, "yyyy-MM-dd") + message);
-        return "timing-statistics";
+        return prefix + "/order-day";
     }
 
     @GetMapping("update/{id}")
@@ -48,7 +40,7 @@ public class TbOrderDayController {
         TbOrderDay orderDay = dayService.getById(id);
         String message = dayService.dayRecord(orderDay.getStatsDay());
         map.put("msg", DateUtil.format(orderDay.getStatsDay(), "yyyy-MM-dd") + "的" + message);
-        return "order-day";
+        return prefix + "/order-day";
     }
 
     /**

@@ -52,4 +52,14 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
         return pageInfo;
     }
 
+    @Override
+    public Integer sumPrintNumber(Map<String, Object> params) {
+        return orderMapper.sumPrintNumber(params);
+    }
+
+    @Override
+    public Double sumAmount(Map<String, Object> params) {
+        return orderMapper.sumAmount(params);
+    }
+
 }

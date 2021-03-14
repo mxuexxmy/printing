@@ -1,7 +1,6 @@
 package xyz.mxue.printing.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.DigestUtils;
@@ -26,6 +25,10 @@ import javax.validation.Valid;
 @RequestMapping("/printing/tb-user")
 public class TbUserController {
 
+    private String printfPrefix = "printf";
+
+    private String prefix = "user";
+
     @Resource
     private TbUserService userService;
 
@@ -33,12 +36,12 @@ public class TbUserController {
     public String profile(ModelMap map, HttpServletRequest request) {
         TbUser tbUser = (TbUser) request.getSession().getAttribute("user");
         map.addAttribute("tbUser", tbUser);
-        return "profile";
+        return prefix + "/profile";
     }
 
     @GetMapping("profile/info")
     public String profileInfo() {
-        return "profile";
+        return prefix + "/profile";
     }
 
     @PostMapping("update")
@@ -52,7 +55,7 @@ public class TbUserController {
             return "redirect:/printing/tb-user/profile";
         }
         map.put("msg","基本信息修改失败");
-        return "index";
+        return printfPrefix + "/index";
     }
 
     /**
@@ -73,7 +76,7 @@ public class TbUserController {
             return "login";
         }
         map.put("msg","原密码错误，请重新输入");
-        return "index";
+        return printfPrefix + "/index";
     }
 
 }

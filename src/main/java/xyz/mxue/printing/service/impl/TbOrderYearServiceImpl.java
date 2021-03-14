@@ -8,6 +8,7 @@ import xyz.mxue.printing.mapper.TbOrderYearMapper;
 import xyz.mxue.printing.service.TbOrderYearService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import xyz.mxue.printing.service.TbPrintOrderService;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -27,6 +28,9 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
 
     @Resource
     private TbOrderYearMapper yearMapper;
+
+    @Resource
+    private TbPrintOrderService orderService;
 
     @Override
     public PageInfo<TbOrderYear> page(int start, int length, int draw, TbOrderYear tbOrderYear) {
@@ -61,9 +65,9 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         params.put("dayDate", dayDate);
 
         // 计算每月的份数
-        Integer printNumber  = yearMapper.sumPrintNumber(params);
+        Integer printNumber  = orderService.sumPrintNumber(params);
         // 计算每月的金额
-        Double totalAmount = yearMapper.sumAmount(params);
+        Double totalAmount = orderService.sumAmount(params);
         // 查询是否有记录
         TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
 

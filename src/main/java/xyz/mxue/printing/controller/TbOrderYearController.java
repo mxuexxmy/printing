@@ -2,15 +2,12 @@ package xyz.mxue.printing.controller;
 
 
 import cn.hutool.core.date.DateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
-import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.entity.TbOrderYear;
-import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.service.TbOrderYearService;
 
 import javax.annotation.Resource;
@@ -29,20 +26,14 @@ import java.util.Date;
 @RequestMapping("/printing/tb-order-year")
 public class TbOrderYearController {
 
+    private String prefix = "printf";
+
     @Resource
     private TbOrderYearService yearService;
 
     @GetMapping
     public String orderYear() {
-        return "order-year";
-    }
-
-    @GetMapping("year-record")
-    public String yearRecord(ModelMap map) {
-        Date date = new Date();
-        String message = yearService.yearRecord(date);
-        map.put("msg", DateUtil.format(date, "yyyy") +  message);
-        return "timing-statistics";
+        return prefix + "/order-year";
     }
 
     @GetMapping("update/{id}")
@@ -50,7 +41,7 @@ public class TbOrderYearController {
         TbOrderYear orderYear = yearService.getById(id);
         String message = yearService.yearRecord(orderYear.getStatsYear());
         map.put("msg", DateUtil.format(orderYear.getStatsYear(), "yyyy")  + message);
-        return "order-year";
+        return prefix + "/order-year";
     }
 
     /**

@@ -24,12 +24,6 @@ public interface TbOrderDayMapper extends BaseMapper<TbOrderDay> {
     @Select("SELECT * FROM tb_order_day ORDER BY stats_day DESC limit #{start}, #{length}")
     List<TbOrderDay> page(Map<String, Object> params);
 
-    @Select("SELECT SUM( prinf_number ) FROM tb_print_order WHERE create_time BETWEEN #{startDate} AND #{endDate}")
-    Integer sumPrintNumber(Map<String, Object> params);
-
-    @Select("SELECT SUM( total_amount ) FROM tb_print_order WHERE create_time BETWEEN #{startDate} AND #{endDate}")
-    Double sumAmount(Map<String, Object> params);
-
     @Select("SELECT * FROM tb_order_day WHERE stats_day = #{dayDate}")
     TbOrderDay getOrderDay(Map<String, Object> params);
 }

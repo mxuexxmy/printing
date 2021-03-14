@@ -3,10 +3,6 @@ package xyz.mxue.printing.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.mxue.printing.commons.commonenum.ConstantUtils;
-import xyz.mxue.printing.entity.TbUser;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author mxuexxmy
@@ -15,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping
 public class IndexController {
+
+    private String prefix = "printf";
 
     @GetMapping()
     public String index() {
@@ -33,11 +31,11 @@ public class IndexController {
 
     @GetMapping("/index")
     public String indexView() {
-        return "index";
+        return prefix + "/index";
     }
 
     @GetMapping("/order-input")
     public String orderInput() {
-        return "order-input";
+        return prefix + "/order-input";
     }
 }

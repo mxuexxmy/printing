@@ -7,9 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
-import xyz.mxue.printing.entity.TbOrderDay;
 import xyz.mxue.printing.entity.TbOrderMonth;
-import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.service.TbOrderMonthService;
 
 import javax.annotation.Resource;
@@ -28,29 +26,25 @@ import java.util.Date;
 @RequestMapping("/printing/tb-order-month")
 public class TbOrderMonthController {
 
+    private String prefix = "printf";
+
     @Resource
     private TbOrderMonthService monthService;
 
     @GetMapping
     public String orderMonth() {
-        return "order-month";
+        return prefix + "/order-month";
     }
 
-    @GetMapping("month-record")
-    public String monthRecord(ModelMap map) {
-        Date date = new Date();
-        String message = monthService.monthRecord(date);
-        map.put("msg",DateUtil.format(date, "yyyy-MM") + message);
-        return "timing-statistics";
-    }
 
     @GetMapping("update/{id}")
     public String update(@PathVariable Long id, ModelMap map) {
         TbOrderMonth orderMonth = monthService.getById(id);
         String message = monthService.monthRecord(orderMonth.getStatsMonth());
         map.put("msg", DateUtil.format(orderMonth.getStatsMonth(), "yyyy-MM") + message);
-        return "order-month";
+        return prefix + "/order-month";
     }
+
     /**
      * 分页查询
      *
