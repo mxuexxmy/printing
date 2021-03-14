@@ -31,10 +31,9 @@
                         </a>
                     </div>
                     <div class="box-body ">
-                        <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
-                            <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
-                            <strong th:text="${msg}"></strong>
-                        </div>
+
+                        <th:block th:replace="commons/commons :: msg"/>
+
                         <p>
                             <a href="/time/day-record"><button type="button" class="btn bg-maroon btn-flat margin">日统计</button></a>
                             <a href="/time/month-record"><button type="button" class="btn bg-purple btn-flat margin">月统计</button></a>
@@ -55,5 +54,6 @@
 <!-- ./wrapper -->
 
 <th:block th:include="include/include :: foot"/>
+
 </body>
 </html>

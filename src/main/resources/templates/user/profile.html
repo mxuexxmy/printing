@@ -31,10 +31,7 @@
                             <!-- Profile Image -->
                             <div class="box box-primary">
 
-                                <div class="alert alert-danger alert-dismissible"  th:if="*{msg != null}"  >
-                                    <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
-                                    <strong th:value="*{msg}"></strong>
-                                </div>
+                                <th:block th:replace="commons/commons :: msg"/>
 
                                 <div class="box-body box-profile">
                                     <img class="profile-user-img img-responsive img-circle" src="../static/dist/img/user2-160x160.jpg" th:src="@{/img/user2-160x160.jpg}" alt="用户资料 picture">

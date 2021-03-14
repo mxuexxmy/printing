@@ -58,8 +58,7 @@ public class TbPrintOrderController {
         tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         boolean b = orderService.save(tbPrintOrder);
         if (b) {
-            map.put("msg", "添加到打印记录！");
-            map.put("totalAmount", "总价格:" + tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() + "元");
+            map.put("msg", "添加打印记录成功！" + "总价格:" + tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() + "元");
         } else {
             map.put("msg", "添加打印记录失败！");
         }
@@ -91,8 +90,7 @@ public class TbPrintOrderController {
         tbPrintOrder.setUpdateTime(new Date());
         boolean b = orderService.save(tbPrintOrder);
         if (b) {
-            map.put("msg", "添加打印记录成功！");
-            map.put("totalAmount", "总价格:" + tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() + "元");
+            map.put("msg", "添加打印记录成功！" + "总价格:" + tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() + "元");
         } else {
             map.put("msg", "添加打印记录失败！");
         }

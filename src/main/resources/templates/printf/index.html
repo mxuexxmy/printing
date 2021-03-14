@@ -28,19 +28,11 @@
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
-                    <div class="box-header">
-                        <a class="btn btn-app" href="/index">
-                            <i class="fa fa-edit control-label"></i> 录入打印
-                        </a>
-                        <a class="btn btn-app" href="/order-input">
-                            <i class="fa fa-plus-square control-label"></i> 详细录入
-                        </a>
-                    </div>
-                    <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
-                        <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
-                        <strong th:text="${msg}"></strong>
-                        <strong th:text="${totalAmount}"></strong>
-                    </div>
+
+                    <th:block th:replace="printf/printf-box-header :: header"/>
+
+                    <th:block th:replace="commons/commons :: msg"/>
+
                     <form action="/printing/tb-print-order/calculate" id="myForm" class="form-horizontal" method="post">
                         <div class="box-body">
                             <div class="form-group">

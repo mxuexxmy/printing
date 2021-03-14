@@ -22,25 +22,10 @@
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
-                    <div class="box-header">
-                        <a class="btn btn-app" href="/printing/tb-print-order/list">
-                            <i class="fa  fa-bar-chart control-label"></i> 打印记录
-                        </a>
-                        <a class="btn btn-app" href="/printing/tb-order-day">
-                            <i class="fa  fa-bar-chart control-label"></i> 日记录
-                        </a>
-                        <a class="btn btn-app" href="/printing/tb-order-month">
-                            <i class="fa  fa-bar-chart control-label"></i> 月记录
-                        </a>
-                        <a class="btn btn-app" href="/printing/tb-order-year">
-                            <i class="fa  fa-bar-chart control-label"></i> 年记录
-                        </a>
-                    </div>
 
-                    <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
-                        <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
-                        <strong th:text="${msg}"></strong>
-                    </div>
+                    <th:block th:replace="printf/order-box-header:: header"/>
+
+                    <th:block th:replace="commons/commons :: msg"/>
 
                     <div class="box box-info box-info-search" style="display: none;">
                         <div class="box-header">
