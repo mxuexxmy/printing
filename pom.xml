@@ -36,10 +36,18 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- 阿里云数据库驱动 -->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <version>5.1.46</version>-->
+<!--        </dependency>-->
+
+        <!-- 本地数据库驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.46</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

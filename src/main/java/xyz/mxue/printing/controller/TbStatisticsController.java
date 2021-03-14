@@ -17,5 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/printing/tb-statistics")
 public class TbStatisticsController {
 
+
 }
 

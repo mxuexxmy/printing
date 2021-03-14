@@ -2,6 +2,7 @@ package xyz.mxue.printing.controller;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -16,6 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/printing/tb-account-book")
 public class TbAccountBookController {
+
+    private String prefix = "book-keeping";
+
+    @GetMapping()
+    private String index() {
+        return prefix + "/account";
+    }
 
 }
 
