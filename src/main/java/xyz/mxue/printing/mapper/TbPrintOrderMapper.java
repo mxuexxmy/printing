@@ -25,6 +25,9 @@ public interface TbPrintOrderMapper extends BaseMapper<TbPrintOrder> {
     @Select({"<script>" +
             "select * from tb_print_order" +
             "<if test='pageParams.userName != null'>where user_name like concat('%',#{pageParams.userName},'%') </if>" +
+            "<if test='pageParams.userName != null and pageParams.orderStatus != null'>and</if>" +
+            "<if test='pageParams.userName == null and pageParams.orderStatus != null'>where</if>" +
+            "<if test='pageParams.orderStatus != null'> order_status = #{pageParams.orderStatus} </if>" +
             "ORDER BY create_time DESC limit #{start},#{length}" +
             "</script>"})
     List<TbPrintOrder> page(Map<String, Object> params);

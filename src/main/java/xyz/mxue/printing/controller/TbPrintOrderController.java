@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * <p>
@@ -160,6 +161,14 @@ public class TbPrintOrderController {
         int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
         int start = strStart == null ? 0 : Integer.parseInt(strStart);
         int length = strLength == null ? 10 : Integer.parseInt(strLength);
+
+        // 对输入的值进行处理 orderStatus
+        if (Objects.nonNull(tbPrintOrder)) {
+            if (tbPrintOrder.getUserName() != null) {
+                if (tbPrintOrder.getOrderStatus().equals("请选择"))
+                tbPrintOrder.setOrderStatus(null);
+            }
+        }
 
         // 封装 Datatables 需要的结果
         PageInfo<TbPrintOrder> pageInfo = orderService.page(start, length, draw, tbPrintOrder);
