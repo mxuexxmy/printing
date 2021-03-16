@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include/include :: head('收支统计-荣荣打印')"/>
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+    <th:block th:replace="include/header :: header"/>
+
+    <!-- Full Wnameth Column -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Content Header (页眉) -->
+            <section class="content-header">
+                <h1>
+                    记账管家
+                    <small>收支统计</small>
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="box box-default">
+
+                    <th:block th:replace="book-keeping/account-box-header :: header"/>
+
+                    <th:block th:replace="commons/commons :: msg"/>
+
+                    <div class="box-body ">
+
+                        <ul class="timeline">
+
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-red">
+                                    2021年4月
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+
+                            <!-- timeline item -->
+                            <li>
+                                <!-- timeline icon -->
+                                <i class="fa fa-bar-chart bg-blue"></i>
+                                <div class="timeline-item">
+                                    <div class="box box-default collapsed-box box-solid">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">统计情况-展开查看</h3>
+
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- /.box-tools -->
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                                <ul class="nav nav-stacked">
+                                                    <li><a href="#">盈利情况<span class="pull-right badge bg-aqua">-100</span></a></li>
+                                                    <li><a href="#">支出 <span class="pull-right badge bg-aqua">300</span></a></li>
+                                                    <li><a href="#">收入 <span class="pull-right badge bg-aqua">200</span></a></li>
+                                                    <li><a href="#">卫生纸<span class="pull-right badge bg-aqua">20</span></a></li>
+                                                    <li><a href="#">买菜<span class="pull-right badge bg-aqua">100</span></a></li>
+                                                </ul>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </li>
+
+                        <ul class="timeline">
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-red">
+                                    2021年3月
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+
+                            <!-- timeline item -->
+                            <li>
+                                <!-- timeline icon -->
+                                <i class="fa fa-bar-chart bg-blue"></i>
+                                <div class="timeline-item">
+                                    <div class="box box-default collapsed-box box-solid">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">统计情况-展开查看</h3>
+
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- /.box-tools -->
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <ul class="nav nav-stacked">
+                                                <li><a href="#">盈利情况<span class="pull-right badge bg-aqua">-100</span></a></li>
+                                                <li><a href="#">支出 <span class="pull-right badge bg-aqua">300</span></a></li>
+                                                <li><a href="#">收入 <span class="pull-right badge bg-aqua">200</span></a></li>
+                                                <li><a href="#">卫生纸<span class="pull-right badge bg-aqua">20</span></a></li>
+                                                <li><a href="#">买菜<span class="pull-right badge bg-aqua">100</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </li>
+
+                            <!-- timeline time label -->
+                            <li class="time-label">
+                                <span class="bg-red">
+                                    2021年2月
+                                </span>
+                            </li>
+                            <!-- /.timeline-label -->
+
+                            <!-- timeline item -->
+                            <li>
+                                <!-- timeline icon -->
+                                <i class="fa fa-bar-chart bg-blue"></i>
+                                <div class="timeline-item">
+                                    <div class="box box-default collapsed-box box-solid">
+                                        <div class="box-header with-border">
+                                            <h3 class="box-title">统计情况-展开查看</h3>
+
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- /.box-tools -->
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <ul class="nav nav-stacked">
+                                                <li><a href="#">盈利情况<span class="pull-right badge bg-aqua">-100</span></a></li>
+                                                <li><a href="#">支出 <span class="pull-right badge bg-aqua">300</span></a></li>
+                                                <li><a href="#">收入 <span class="pull-right badge bg-aqua">200</span></a></li>
+                                                <li><a href="#">卫生纸<span class="pull-right badge bg-aqua">20</span></a></li>
+                                                <li><a href="#">买菜<span class="pull-right badge bg-aqua">100</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+                <!-- /.box -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.container -->
+    </div>
+
+    <th:block th:replace="include/footer :: footer"/>
+</div>
+<!-- ./wrapper -->
+
+<th:block th:include="include/include :: foot"/>
+
+</body>
+</html>
