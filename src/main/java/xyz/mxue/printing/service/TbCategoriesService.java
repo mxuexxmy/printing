@@ -1,7 +1,9 @@
 package xyz.mxue.printing.service;
 
+import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbCategories;
 import com.baomidou.mybatisplus.extension.service.IService;
+import xyz.mxue.printing.entity.vo.AccountVO;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TbCategoriesService extends IService<TbCategories> {
 
+    PageInfo<TbCategories> page(int start, int length, int draw);
 }

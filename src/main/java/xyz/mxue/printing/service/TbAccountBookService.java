@@ -1,7 +1,13 @@
 package xyz.mxue.printing.service;
 
+import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbAccountBook;
 import com.baomidou.mybatisplus.extension.service.IService;
+import xyz.mxue.printing.entity.vo.AccountUpdateDTO;
+import xyz.mxue.printing.entity.vo.AccountVO;
+import xyz.mxue.printing.entity.vo.CategoriesNameDTO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +19,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TbAccountBookService extends IService<TbAccountBook> {
 
+   PageInfo<AccountVO> page(int start, int length, int draw);
+
+   List<CategoriesNameDTO> categoriesNames();
+
+    AccountUpdateDTO accountUpdate(Long id);
 }

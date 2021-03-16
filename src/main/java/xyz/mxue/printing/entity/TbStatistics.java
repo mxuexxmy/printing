@@ -29,6 +29,9 @@ public class TbStatistics implements Serializable {
      */
     private Date statisticTime;
 
+    /**
+     * 金额
+     */
     private Double money;
 
     /**

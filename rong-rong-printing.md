@@ -202,6 +202,12 @@ public class ScheduledTasks {
  }
 ```
 
+```
+AccountUpdateDTO(id=10, money=110.0, categoriesName=[CategoriesNameDTO(categoriesId=1, categoriesName=A4纸), CategoriesNameDTO(categoriesId=1, categoriesName=A4纸), CategoriesNameDTO(categoriesId=2, categoriesName=卫生纸)], spendTypes=[SpendType(spendType=0, spendTypeName=支出), SpendType(spendType=1, spendTypeName=收入)], description=测试, updateTime=Tue Mar 16 11:10:29 CST 2021)
+```
+
+
+
 ### 2020-12-9
 
 * 修复过滤器与拦截器的bug， 其实就是配置

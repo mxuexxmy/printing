@@ -214,6 +214,7 @@ var App = function () {
             "searching": false,
             "serverSide": true,
             "deferRender": true,
+            "autoWidth": true,
             "ajax": {
                 "url": url
             },

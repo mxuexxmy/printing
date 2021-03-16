@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include/include :: head('修改类别-荣荣打印')"/>
+</head>
+<body class="hold-transition skin-blue layout-top-nav">
+<div class="wrapper">
+
+    <th:block th:replace="include/header :: header"/>
+
+    <!-- Full Wnameth Column -->
+    <div class="content-wrapper">
+        <div class="container">
+            <!-- Content Header (页眉) -->
+            <section class="content-header">
+                <h1>
+                    记账管家
+                    <small>修改类别</small>
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="box box-default">
+                    <th:block th:replace="book-keeping/account-box-header :: header"/>
+
+                    <th:block th:replace="commons/commons :: msg"/>
+
+                    <div class="box-body ">
+                        <form action="/printing/tb-categories/saveUpdate" id="myForm" class="form-horizontal" method="post">
+                            <div class="box-body">
+
+                                <input type="hidden" name="id" th:value="${categories.id}"/>
+
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label xrequired">类别</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control"  name="name" th:value="${categories.name}" placeholder="请输入类别名">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label xrequired">说明</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" name="description" th:value="${categories.description}" placeholder="说明">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+                                <button type="button" class="btn btn-default"  onclick="history.go(-1)">返回</button>
+                                <button type="submit" class="btn btn-info pull-right">修改</button>
+                            </div>
+                            <!-- /.box-footer -->
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.box -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.container -->
+    </div>
+
+    <th:block th:replace="include/footer :: footer"/>
+</div>
+<!-- ./wrapper -->
+
+<th:block th:include="include/include :: foot"/>
+<script>
+    function formReset()
+    {
+        document.getElementById("myForm").reset();
+    }
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@
             <section class="content-header">
                 <h1>
                     记账管家
-                    <small>帐单列表</small>
+                    <small>类别列表</small>
                 </h1>
             </section>
 
@@ -30,7 +30,7 @@
                     <div class="box-body">
 
                         <div class="btn-group">
-                            <a type="button" class="btn btn-info" href="/printing/tb-account-book/add-account">添加账单</a>
+                            <a type="button" class="btn btn-info" href="/printing/tb-categories/add">添加类别</a>
                         </div>
 
                         <div class="box-body">
@@ -38,9 +38,7 @@
                                 <thead>
                                 <tr>
                                     <th>序号</th>
-                                    <th>金额</th>
                                     <th>类别</th>
-                                    <th>消费类型</th>
                                     <th>说明</th>
                                     <th>更新时间</th>
                                     <th>操作</th>
@@ -93,22 +91,20 @@
     $(function () {
         var _columns = [
             {"data": "id"},
-            {"data": "money"},
-            {"data": "categoriesName"},
-            {"data": "spendTypeName"},
+            {"data": "name"},
             {"data": "description"},
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    let deleteUrl = "/printing/tb-account-book/delete/" + row.id;
-                    let msg = '你确认删除序号'  + row.id  + '的账单？';
-                    return '<a type="button"  href="/printing/tb-account-book/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-search"></i>修改</a>&nbsp;&nbsp;&nbsp;' +
+                    let deleteUrl = "/printing/tb-categories/delete/" + row.id;
+                    let msg = '你确认删除序号'  + row.id  + '的类别？';
+                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-search"></i>修改</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteOrder(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i>删除</button>';
                 }
             }
         ];
 
-        _dataTable = App.initDataTables("/printing/tb-account-book/page", _columns);
+        _dataTable = App.initDataTables("/printing/tb-categories/page", _columns);
     });
 
     // 删除打印记录

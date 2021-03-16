@@ -35,6 +35,11 @@ public class TbAccountBook implements Serializable {
     private Long categoriesId;
 
     /**
+     * 消费类型
+     */
+    private Integer spendType;
+
+    /**
      * 描述
      */
     private String description;
@@ -47,7 +52,7 @@ public class TbAccountBook implements Serializable {
     /**
      * 更新时间
      */
-    private Date update;
+    private Date updateTime;
 
 
 }

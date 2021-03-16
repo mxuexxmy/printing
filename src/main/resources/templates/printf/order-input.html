@@ -31,11 +31,7 @@
 
                     <th:block th:replace="printf/printf-box-header :: header"/>
 
-                    <div class="alert alert-danger alert-dismissible"  th:if="${msg != null}"  >
-                        <button type="button" class="close" data-dismiss="alert" aria-hnameden="true" >&times;</button>
-                        <strong th:text="${msg}"></strong>
-                        <strong th:text="${totalAmount}"></strong>
-                    </div>
+                    <th:block th:replace="commons/commons :: msg"/>
 
                     <form action="/printing/tb-print-order/add" id="myForm" class="form-horizontal" method="post">
                         <div class="box-body">
