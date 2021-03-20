@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Select;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -40,12 +41,15 @@ public interface TbPrintOrderMapper extends BaseMapper<TbPrintOrder> {
     @Select({"<script>" +
             "select count(*) from tb_print_order" +
             "<if test='pageParams.userName != null'>where user_name like concat('%',#{pageParams.userName},'%') </if>" +
+            "<if test='pageParams.userName != null and pageParams.orderStatus != null'>and</if>" +
+            "<if test='pageParams.userName == null and pageParams.orderStatus != null'>where</if>" +
+            "<if test='pageParams.orderStatus != null'> order_status = #{pageParams.orderStatus} </if>"  +
             "</script>"})
     int count(Map<String, Object> params);
 
-    @Select("SELECT SUM( prinf_number ) FROM tb_print_order WHERE create_time BETWEEN #{startDate} AND #{endDate}")
+    @Select("SELECT SUM( printf_number ) FROM tb_print_order WHERE create_time BETWEEN #{startDate} AND #{endDate}")
     Integer sumPrintNumber(Map<String, Object> params);
 
     @Select("SELECT SUM( total_amount ) FROM tb_print_order WHERE create_time BETWEEN #{startDate} AND #{endDate}")
-    Double sumAmount(Map<String, Object> params);
+    BigDecimal sumAmount(Map<String, Object> params);
 }

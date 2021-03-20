@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -59,7 +60,7 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     }
 
     @Override
-    public Double sumAmount(Map<String, Object> params) {
+    public BigDecimal sumAmount(Map<String, Object> params) {
         return orderMapper.sumAmount(params);
     }
 

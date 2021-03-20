@@ -14,6 +14,7 @@ import xyz.mxue.printing.service.TbPrintOrderService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -41,7 +42,7 @@ public class TbPrintOrderController {
             map.put("msg","请输入姓名！");
             return prefix + "/index";
         }
-        if (tbPrintOrder.getPrinfNumber() == null) {
+        if (tbPrintOrder.getPrintfNumber() == null) {
             map.put("msg","请输入打印份数！");
             return prefix + "/index";
         }
@@ -53,13 +54,14 @@ public class TbPrintOrderController {
             map.put("msg","请输入打印一张纸的金额！");
             return prefix +"/index";
         }
-        tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
+        BigDecimal calTotalAmount = calculationTotalAmount(tbPrintOrder.getPrintfNumber(), tbPrintOrder.getPaperNumber(), tbPrintOrder.getAmount());
+        tbPrintOrder.setTotalAmount(calTotalAmount);
         tbPrintOrder.setCreateTime(new Date());
         tbPrintOrder.setUpdateTime(new Date());
         tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         boolean b = orderService.save(tbPrintOrder);
         if (b) {
-            map.put("msg", "添加打印记录成功！" + "总价格:" + tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() + "元");
+            map.put("msg", "添加打印记录成功！" + "总价格:" + calTotalAmount + "元");
         } else {
             map.put("msg", "添加打印记录失败！");
         }
@@ -73,7 +75,7 @@ public class TbPrintOrderController {
             map.put("msg","请输入姓名！");
             return prefix + "/order-input";
         }
-        if (tbPrintOrder.getPrinfNumber() == null) {
+        if (tbPrintOrder.getPrintfNumber() == null) {
             map.put("msg","请输入打印份数！");
             return prefix + "/order-input";
         }
@@ -85,13 +87,14 @@ public class TbPrintOrderController {
             map.put("msg","请输入打印一张纸的金额！");
             return prefix + "/order-input";
         }
-        tbPrintOrder.setTotalAmount(tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() );
+        BigDecimal calTotalAmount = calculationTotalAmount(tbPrintOrder.getPrintfNumber(),tbPrintOrder.getPaperNumber(), tbPrintOrder.getAmount());
+        tbPrintOrder.setTotalAmount(calTotalAmount);
         tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         tbPrintOrder.setCreateTime(new Date());
         tbPrintOrder.setUpdateTime(new Date());
         boolean b = orderService.save(tbPrintOrder);
         if (b) {
-            map.put("msg", "添加打印记录成功！" + "总价格:" + tbPrintOrder.getPrinfNumber() * tbPrintOrder.getPaperNumber() * tbPrintOrder.getAmount() + "元");
+            map.put("msg", "添加打印记录成功！" + "总价格:" + calTotalAmount + "元");
         } else {
             map.put("msg", "添加打印记录失败！");
         }
@@ -174,6 +177,12 @@ public class TbPrintOrderController {
         PageInfo<TbPrintOrder> pageInfo = orderService.page(start, length, draw, tbPrintOrder);
 
         return pageInfo;
+    }
+
+    private BigDecimal calculationTotalAmount(Integer printfNumber, Integer paperNumber, BigDecimal amount) {
+        BigDecimal printfNumberOfBigDecimal = BigDecimal.valueOf(Integer.toUnsignedLong(printfNumber));
+        BigDecimal paperNumberOfBigDecimal = BigDecimal.valueOf(Integer.toUnsignedLong(paperNumber));
+        return amount.multiply(printfNumberOfBigDecimal.multiply(paperNumberOfBigDecimal));
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import xyz.mxue.printing.service.TbPrintOrderService;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
         // 计算每月的份数
         Integer printNumber  = orderService.sumPrintNumber(params);
         // 计算每月的金额
-        Double totalAmount = orderService.sumAmount(params);
+        BigDecimal totalAmount = orderService.sumAmount(params);
         // 查询是否有记录
         TbOrderMonth tbOrderMonth = monthMapper.getOrderMonth(params);
 
@@ -74,12 +75,12 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
             printNumber = 0;
         }
         if (totalAmount == null) {
-            totalAmount = 0D;
+            totalAmount = BigDecimal.valueOf(0D);
         }
 
         if (tbOrderMonth != null) {
             tbOrderMonth.setTotalAmount(totalAmount);
-            tbOrderMonth.setPrintNumber(printNumber);
+            tbOrderMonth.setPrintfNumber(printNumber);
             tbOrderMonth.setUpdateTime(new Date());
             int i = monthMapper.updateById(tbOrderMonth);
             if (i > 0) {
@@ -88,7 +89,7 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
             return "月记录更新失败";
         }
         TbOrderMonth newOrderMonth =  new TbOrderMonth();
-        newOrderMonth.setPrintNumber(printNumber);
+        newOrderMonth.setPrintfNumber(printNumber);
         newOrderMonth.setTotalAmount(totalAmount);
         newOrderMonth.setStatsMonth(dayDate);
         newOrderMonth.setCreateTime(new Date());

@@ -34,10 +34,10 @@ public class CodeGenerator {
 
         // 配置 DataSourceConfig
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://120.79.233.52:3306/printing");
-        dsc.setDriverName("com.mysql.jdbc.Driver");
+        dsc.setUrl("jdbc:mysql://localhost:3306/printing?useSSL=false&serverTimezone=GMT%2B8");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("P7nPtemE2NP58yzf");
+        dsc.setPassword("123456");
         dsc.setDbType(DbType.MYSQL);
 
         mpg.setDataSource(dsc);
@@ -56,7 +56,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
 
 //        strategy.setInclude("fields", "task", "task_list", "task_type");
-        strategy.setInclude("tb_categories","tb_account_book","tb_statistics");
+        strategy.setInclude("tb_statistics_details");
 
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); // 生成实体是去掉表前缀

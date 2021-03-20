@@ -20,7 +20,7 @@ import java.util.Date;
 @RequestMapping("time")
 public class TimingStatisticController {
 
-    private String prefix = "time";
+    private String prefix = "printf";
 
     @Resource
     private TbOrderDayService dayService;
@@ -31,17 +31,12 @@ public class TimingStatisticController {
     @Resource
     private TbOrderYearService yearService;
 
-    @GetMapping
-    public String time() {
-        return prefix + "/timing-statistics";
-    }
-
     @GetMapping("day-record")
     public String dayRecord(ModelMap map) {
         Date date = new Date();
         String message = dayService.dayRecord(date);
         map.put("msg", DateUtil.format(date, "yyyy-MM-dd") + message);
-        return prefix + "/timing-statistics";
+        return prefix + "/order-day";
     }
 
     @GetMapping("month-record")
@@ -49,7 +44,7 @@ public class TimingStatisticController {
         Date date = new Date();
         String message = monthService.monthRecord(date);
         map.put("msg",DateUtil.format(date, "yyyy-MM") + message);
-        return prefix + "/timing-statistics";
+        return prefix + "/order-month";
     }
 
     @GetMapping("year-record")
@@ -57,6 +52,6 @@ public class TimingStatisticController {
         Date date = new Date();
         String message = yearService.yearRecord(date);
         map.put("msg", DateUtil.format(date, "yyyy") +  message);
-        return prefix + "/timing-statistics";
+        return prefix + "/order-year";
     }
 }

@@ -3,6 +3,7 @@ package xyz.mxue.printing.entity.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class AccountUpdateDTO implements Serializable {
     /**
      * 金额
      */
-    private Double money;
+    private BigDecimal money;
 
     /**
      * 类别列表

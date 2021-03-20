@@ -1,6 +1,8 @@
 package xyz.mxue.printing.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -36,12 +38,12 @@ public class TbOrderYear implements Serializable {
     /**
      * 统计年打印的份数
      */
-    private Integer printNumber;
+    private Integer printfNumber;
 
     /**
      * 统计年费用
      */
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     /**
      * 创建时间

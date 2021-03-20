@@ -4,6 +4,7 @@ import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -30,5 +31,5 @@ public interface TbPrintOrderService extends IService<TbPrintOrder> {
      * @param params 查询参数
      * @return Double
      */
-    Double sumAmount(Map<String, Object> params);
+    BigDecimal sumAmount(Map<String, Object> params);
 }

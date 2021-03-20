@@ -1,6 +1,8 @@
 package xyz.mxue.printing.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -36,12 +38,12 @@ public class TbOrderMonth implements Serializable {
     /**
      * 统计每月打印份数
      */
-    private Integer printNumber;
+    private Integer printfNumber;
 
     /**
      * 统计每月的钱
      */
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     /**
      * 创建时间

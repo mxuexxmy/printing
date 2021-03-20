@@ -1,6 +1,8 @@
 package xyz.mxue.printing.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -54,7 +56,7 @@ public class TbPrintOrder implements Serializable {
     /**
      * 打印的份数
      */
-    private Integer prinfNumber;
+    private Integer printfNumber;
 
     /**
      * 打印的页数
@@ -64,12 +66,12 @@ public class TbPrintOrder implements Serializable {
     /**
      * 价格
      */
-    private Double amount;
+    private BigDecimal amount;
 
     /**
      * 总的价格
      */
-    private Double totalAmount;
+    private BigDecimal totalAmount;
 
     /**
      * 备注

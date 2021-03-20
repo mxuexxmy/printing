@@ -1,8 +1,7 @@
 package xyz.mxue.printing.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-
 import java.math.BigDecimal;
+import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
@@ -11,15 +10,15 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ * 类别消费统计
  * </p>
  *
  * @author mxuexxmy
- * @since 2021-03-14
+ * @since 2021-03-20
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class TbAccountBook implements Serializable {
+public class TbStatisticsDetails implements Serializable {
 
     private static final long serialVersionUID=1L;
 
@@ -27,24 +26,19 @@ public class TbAccountBook implements Serializable {
     private Long id;
 
     /**
-     * 金额
+     * 统计ID
      */
-    private BigDecimal money;
+    private Long statisticsId;
 
     /**
-     * 类别名id
+     * 类别ID
      */
     private Long categoriesId;
 
     /**
-     * 消费类型
+     * 金额
      */
-    private Integer spendType;
-
-    /**
-     * 描述
-     */
-    private String description;
+    private BigDecimal money;
 
     /**
      * 创建时间

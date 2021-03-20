@@ -30,11 +30,6 @@ public class TbStatistics implements Serializable {
     private Date statisticTime;
 
     /**
-     * 金额
-     */
-    private Double money;
-
-    /**
      * 创建时间
      */
     private Date createTime;

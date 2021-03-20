@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import xyz.mxue.printing.service.TbPrintOrderService;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         // 计算每月的份数
         Integer printNumber  = orderService.sumPrintNumber(params);
         // 计算每月的金额
-        Double totalAmount = orderService.sumAmount(params);
+        BigDecimal totalAmount = orderService.sumAmount(params);
         // 查询是否有记录
         TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
 
@@ -75,12 +76,12 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
             printNumber = 0;
         }
         if (totalAmount == null) {
-            totalAmount = 0D;
+            totalAmount = BigDecimal.valueOf(0D);
         }
 
         if (tbOrderYear != null) {
             tbOrderYear.setTotalAmount(totalAmount);
-            tbOrderYear.setPrintNumber(printNumber);
+            tbOrderYear.setPrintfNumber(printNumber);
             tbOrderYear.setUpdateTime(new Date());
             int i = yearMapper.updateById(tbOrderYear);
             if (i > 0) {
@@ -89,7 +90,7 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
             return "年记录更新失败";
         }
         TbOrderYear newTbOrderYear =  new TbOrderYear();
-        newTbOrderYear.setPrintNumber(printNumber);
+        newTbOrderYear.setPrintfNumber(printNumber);
         newTbOrderYear.setTotalAmount(totalAmount);
         newTbOrderYear.setStatsYear(dayDate);
         newTbOrderYear.setCreateTime(new Date());
