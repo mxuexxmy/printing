@@ -1,6 +1,7 @@
-package xyz.mxue.printing.entity.vo;
+package xyz.mxue.printing.entity.dto;
 
 import lombok.Data;
+import xyz.mxue.printing.entity.vo.SpendType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

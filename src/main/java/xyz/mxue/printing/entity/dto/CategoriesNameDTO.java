@@ -1,4 +1,4 @@
-package xyz.mxue.printing.entity.vo;
+package xyz.mxue.printing.entity.dto;
 
 import lombok.Data;
 

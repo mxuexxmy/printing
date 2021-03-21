@@ -43,7 +43,7 @@ public class TimingStatisticController {
     public String monthRecord(ModelMap map) {
         Date date = new Date();
         String message = monthService.monthRecord(date);
-        map.put("msg",DateUtil.format(date, "yyyy-MM") + message);
+        map.put("msg", DateUtil.format(date, "yyyy-MM") + message);
         return prefix + "/order-month";
     }
 
@@ -51,7 +51,7 @@ public class TimingStatisticController {
     public String yearRecord(ModelMap map) {
         Date date = new Date();
         String message = yearService.yearRecord(date);
-        map.put("msg", DateUtil.format(date, "yyyy") +  message);
+        map.put("msg", DateUtil.format(date, "yyyy") + message);
         return prefix + "/order-year";
     }
 }

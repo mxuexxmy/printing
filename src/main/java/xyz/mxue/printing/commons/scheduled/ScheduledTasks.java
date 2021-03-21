@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import xyz.mxue.printing.service.TbOrderDayService;
 import xyz.mxue.printing.service.TbOrderMonthService;
 import xyz.mxue.printing.service.TbOrderYearService;
+import xyz.mxue.printing.service.TbStatisticsDetailsService;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -26,6 +27,9 @@ public class ScheduledTasks {
     @Resource
     private TbOrderYearService yearService;
 
+    @Resource
+    private TbStatisticsDetailsService statisticsDetailsService;
+
     @Scheduled(cron = "0 0,10 0,0 ? * ? ")
     public void reportCurrentTime() {
         Date date = new Date();
@@ -34,5 +38,7 @@ public class ScheduledTasks {
         System.out.println(DateUtil.today() + "日记录定时更新：" + dayService.dayRecord(date));
         System.out.println(DateUtil.beginOfMonth(date) + "月记录定时更新：" + monthService.monthRecord(date));
         System.out.println(DateUtil.beginOfYear(date) + "年记录定时更新：" + yearService.yearRecord(date));
+        System.out.println("记账管家-每月统计：" + statisticsDetailsService.statisticsTimeShowOfMonth(date));
+        System.out.println("记账管家-每年统计：" + statisticsDetailsService.statisticsTimeShowOfYear(date));
     }
 }

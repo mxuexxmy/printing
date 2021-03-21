@@ -3,9 +3,10 @@ package xyz.mxue.printing.service.impl;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbAccountBook;
 import xyz.mxue.printing.entity.TbCategories;
-import xyz.mxue.printing.entity.vo.AccountUpdateDTO;
+import xyz.mxue.printing.entity.dto.AccountUpdateDTO;
+import xyz.mxue.printing.entity.dto.MoneyAndSpendTypeDTO;
 import xyz.mxue.printing.entity.vo.AccountVO;
-import xyz.mxue.printing.entity.vo.CategoriesNameDTO;
+import xyz.mxue.printing.entity.dto.CategoriesNameDTO;
 import xyz.mxue.printing.entity.vo.SpendType;
 import xyz.mxue.printing.mapper.TbAccountBookMapper;
 import xyz.mxue.printing.mapper.TbCategoriesMapper;
@@ -14,10 +15,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -74,6 +72,14 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
         accountUpdateDTO.setSpendTypes(spendTypeHanding(tbAccountBook.getSpendType()));
         accountUpdateDTO.setCategoriesName(categoriesNameHanding(tbAccountBook.getCategoriesId()));
         return accountUpdateDTO;
+    }
+
+    @Override
+    public List<MoneyAndSpendTypeDTO> queryMoneyAndSpendType(Date startTime, Date endTime) {
+        Map<String ,Object> params = new HashMap<>();
+        params.put("startTime", startTime);
+        params.put("endTime", endTime);
+        return accountBookMapper.queryMoneyAndSpendType(params);
     }
 
     /**

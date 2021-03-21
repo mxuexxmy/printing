@@ -3,8 +3,9 @@ package xyz.mxue.printing.mapper;
 import org.apache.ibatis.annotations.Select;
 import xyz.mxue.printing.entity.TbAccountBook;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import xyz.mxue.printing.entity.dto.MoneyAndSpendTypeDTO;
 import xyz.mxue.printing.entity.vo.AccountVO;
-import xyz.mxue.printing.entity.vo.CategoriesNameDTO;
+import xyz.mxue.printing.entity.dto.CategoriesNameDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -27,4 +28,9 @@ public interface TbAccountBookMapper extends BaseMapper<TbAccountBook> {
 
     @Select("SELECT id categoriesId, name categoriesName FROM tb_categories")
     List<CategoriesNameDTO> categoriesNames();
+
+    @Select("SELECT SUM(money) money, spend_type FROM tb_account_book WHERE\n" +
+            "\tcreate_time BETWEEN #{startTime} \n" +
+            "\tAND #{endTime} GROUP BY spend_type")
+    List<MoneyAndSpendTypeDTO> queryMoneyAndSpendType(Map<String, Object> params);
 }

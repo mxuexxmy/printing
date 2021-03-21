@@ -54,19 +54,20 @@ public class TbUserController {
         if (b) {
             return "redirect:/printing/tb-user/profile";
         }
-        map.put("msg","基本信息修改失败");
+        map.put("msg", "基本信息修改失败");
         return printfPrefix + "/index";
     }
 
     /**
      * 修改个人密码
+     *
      * @param oldPassword
      * @param newPassword
      * @param request
      * @return
      */
     @PostMapping("/password")
-    public String updatePassword(@RequestParam("oldPassword") String  oldPassword, @RequestParam("newPassword") String newPassword, HttpServletRequest request, ModelMap map) {
+    public String updatePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, HttpServletRequest request, ModelMap map) {
         TbUser tbUser = (TbUser) request.getSession().getAttribute("user");
         // 查询原密码是否符合
         if (tbUser.getPassword().equals(DigestUtils.md5DigestAsHex(oldPassword.getBytes()))) {
@@ -75,7 +76,7 @@ public class TbUserController {
             request.getSession().invalidate();
             return "login";
         }
-        map.put("msg","原密码错误，请重新输入");
+        map.put("msg", "原密码错误，请重新输入");
         return printfPrefix + "/index";
     }
 

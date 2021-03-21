@@ -1,9 +1,10 @@
 package xyz.mxue.printing.service;
 
-import xyz.mxue.printing.entity.TbStatisticsDetails;
-import com.baomidou.mybatisplus.extension.service.IService;
+import xyz.mxue.printing.entity.dto.CategoriesDetailsDTO;
+import xyz.mxue.printing.entity.vo.StatisticsDateVO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -13,8 +14,30 @@ import java.util.Date;
  * @author mxuexxmy
  * @since 2021-03-20
  */
-public interface TbStatisticsDetailsService extends IService<TbStatisticsDetails> {
+public interface TbStatisticsDetailsService {
 
+    /**
+     * 每月统计
+     *
+     * @param statisticsTime 时间
+     * @return List<StatisticsDateVO>
+     */
+    List<StatisticsDateVO> statisticsTimeShowOfMonth(Date statisticsTime);
 
+    /**
+     * 根据时间查询类别详情
+     *
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return
+     */
+    List<CategoriesDetailsDTO> categoriesDetailsByTime(Date startTime, Date endTime);
 
+    /**
+     * 每年统计
+     *
+     * @param statisticsTime 时间
+     * @return List<StatisticsDateVO>
+     */
+    List<StatisticsDateVO> statisticsTimeShowOfYear(Date statisticsTime);
 }

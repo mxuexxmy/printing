@@ -27,8 +27,8 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
     @Override
     public TbUser getByUsername(String userPhone, String password) {
         QueryWrapper<TbUser> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_phone",userPhone);
-        TbUser user=  userMapper.selectOne(wrapper);
+        wrapper.eq("user_phone", userPhone);
+        TbUser user = userMapper.selectOne(wrapper);
         if (user != null) {
             // 明文密码加密
             String md5Password = DigestUtils.md5DigestAsHex(password.getBytes());
@@ -37,6 +37,6 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser> impleme
                 return user;
             }
         }
-        return  null;
+        return null;
     }
 }

@@ -11,7 +11,7 @@
 
     <groupId>xyz.mxue</groupId>
     <artifactId>printing</artifactId>
-    <version>1.7.5-SNAPSHOT</version>
+    <version>1.8.0-SNAPSHOT</version>
     <name>printing</name>
     <description>荣荣打印</description>
 

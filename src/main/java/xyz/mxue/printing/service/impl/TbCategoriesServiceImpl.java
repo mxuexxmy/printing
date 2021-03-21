@@ -2,6 +2,7 @@ package xyz.mxue.printing.service.impl;
 
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbCategories;
+import xyz.mxue.printing.entity.dto.CategoriesDetailsDTO;
 import xyz.mxue.printing.entity.vo.AccountVO;
 import xyz.mxue.printing.mapper.TbCategoriesMapper;
 import xyz.mxue.printing.service.TbCategoriesService;
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,5 +44,13 @@ public class TbCategoriesServiceImpl extends ServiceImpl<TbCategoriesMapper, TbC
         pageInfo.setData(categoriesMapper.page(params));
 
         return pageInfo;
+    }
+
+    @Override
+    public List<CategoriesDetailsDTO> queryMoneyAndCategoriesByTime(Date startTime, Date endTime) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("startTime",startTime);
+        params.put("endTime", endTime);
+        return categoriesMapper.queryMoneyAndCategoriesByTime(params);
     }
 }

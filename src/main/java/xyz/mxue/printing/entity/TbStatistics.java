@@ -27,7 +27,7 @@ public class TbStatistics implements Serializable {
     /**
      * 统计时间
      */
-    private Date statisticTime;
+    private Date statisticsTime;
 
     /**
      * 创建时间
