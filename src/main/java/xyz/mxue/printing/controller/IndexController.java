@@ -31,7 +31,12 @@ public class IndexController {
 
     @GetMapping("/index")
     public String indexView() {
-        return prefix + "/index";
+        return "/index";
+    }
+
+    @GetMapping("/input-printf")
+    public String inputPrintf() {
+        return prefix + "/input-printf";
     }
 
     @GetMapping("/order-input")

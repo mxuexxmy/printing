@@ -40,19 +40,19 @@ public class TbPrintOrderController {
                                    @ModelAttribute @Valid TbPrintOrder tbPrintOrder) {
         if (tbPrintOrder.getUserName().isEmpty()) {
             map.put("msg","请输入姓名！");
-            return prefix + "/index";
+            return prefix + "/input-printf";
         }
         if (tbPrintOrder.getPrintfNumber() == null) {
             map.put("msg","请输入打印份数！");
-            return prefix + "/index";
+            return prefix + "/input-printf";
         }
         if (tbPrintOrder.getPaperNumber() == null) {
             map.put("msg","请输入纸张数！");
-            return prefix + "/index";
+            return prefix + "/input-printf";
         }
         if (tbPrintOrder.getAmount() == null) {
             map.put("msg","请输入打印一张纸的金额！");
-            return prefix +"/index";
+            return prefix +"/input-printf";
         }
         BigDecimal calTotalAmount = calculationTotalAmount(tbPrintOrder.getPrintfNumber(), tbPrintOrder.getPaperNumber(), tbPrintOrder.getAmount());
         tbPrintOrder.setTotalAmount(calTotalAmount);
@@ -65,7 +65,7 @@ public class TbPrintOrderController {
         } else {
             map.put("msg", "添加打印记录失败！");
         }
-        return prefix + "/index";
+        return prefix + "/input-printf";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

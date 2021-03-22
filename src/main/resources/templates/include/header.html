@@ -11,9 +11,42 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li ><a href="/index">记录打印<span class="sr-only">（当前）</span></a></li>
-                    <li ><a href="/printing/tb-print-order/list">打印统计</a></li>
-                    <li ><a href="/printing/tb-account-book">记账管家</a></li>
+                    <li ><a href="/index">首页</a><li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">记录打印<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/input-printf">录入打印</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/order-input">详细录入</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">打印统计<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/printing/tb-print-order/list">打印记录</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/printing/tb-order-day">每日记录</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/printing/tb-order-month">每月记录</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/printing/tb-order-year">每年记录</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">记账管家<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/printing/tb-account-book">账单列表</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/printing/tb-categories">类型列表</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/printing/tb-statistics-details/month">每月统计</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/printing/tb-statistics-details/year">每年统计</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
 

@@ -17,15 +17,18 @@
                     记账管家
                     <small>每年统计</small>
                 </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li><a href="#">记账管家</a></li>
+                    <li class="active">每年统计</li>
+                </ol>
             </section>
 
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
 
-                    <th:block th:replace="book-keeping/account-box-header :: header"/>
-
-                    <th:block th:replace="commons/commons :: msg"/>
+                    <th:block th:replace="commons/commons :: box-title('每年账单统计信息')"/>
 
                     <div class="box-body ">
 

@@ -17,21 +17,72 @@
                     记账管家
                     <small>帐单列表</small>
                 </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li><a href="#">记账管家</a></li>
+                    <li class="active">帐单列表</li>
+                </ol>
             </section>
 
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
 
-                    <th:block th:replace="book-keeping/account-box-header :: header"/>
+                    <th:block th:replace="commons/commons :: box-title('账单记录列表')"/>
 
                     <th:block th:replace="commons/commons :: msg"/>
 
+                    <div class="box box-info box-info-search" style="display: none;">
+                        <div class="box-header">
+                            <h3 class="box-title">高级搜索</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row form-horizontal">
+                                <div class="col-xs-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label  class="col-sm-4 control-label ">类别</label>
+                                        <div class="col-sm-8">
+                                            <select  name="categoriesId" class="form-control" >
+                                                <option>选项 1</option>
+                                                <option>选项 2</option>
+                                                <option>选项 3</option>
+                                                <option>选项 4</option>
+                                                <option>选项 5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xs-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label  class="col-sm-4 control-label">日期</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="time" class="form-control" placeholder="请选择日期">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-info pull-right" onclick="search();">搜索</button>
+                        </div>
+                    </div>
+
                     <div class="box-body">
 
-                        <div class="btn-group">
-                            <a type="button" class="btn btn-info" href="/printing/tb-account-book/add-account">添加账单</a>
-                        </div>
+
+                        <a type="button" class="btn btn-info" href="/printing/tb-account-book/add-account">
+                            <i class="fa fa-plus "></i> 添加账单
+                        </a>
+
+                        <a type="button" class="btn btn-info"
+                           onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')">
+                            <i class="fa fa-search"></i> 搜索
+                        </a>
 
                         <div class="box-body">
                             <table id="dataTable" class="table table-bordered table-hover">
@@ -86,6 +137,7 @@
 
 <script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/plugins/laydate/laydate.js}"></script>
 
 <script>
     var _dataTable;
@@ -152,7 +204,24 @@
                 });
             }, 500)
         });
-    }
+
+    };
+
+    laydate.render({
+        elem: '#time' //指定元素
+    });
+
+    function search() {
+        let userName = $("#userName").val();
+        let orderStatus = $("#orderStatus").val();
+
+        let param = {
+            "userName": userName,
+            "orderStatus": orderStatus
+        };
+        _dataTable.settings()[0].ajax.data = param;
+        _dataTable.ajax.reload();
+    };
 </script>
 </body>
 </html>

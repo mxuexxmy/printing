@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Objects;
 
 
 /**
@@ -50,6 +51,23 @@ public class TbCategoriesController {
 
     @PostMapping("save")
     public String saveCategories(ModelMap map, @ModelAttribute @Valid TbCategories tbCategories) {
+
+        if (tbCategories.getName().isEmpty()) {
+            map.put("msg", "类别不能为空！");
+            return prefix + "/add-categories";
+        }
+
+        // 查询是否存在相同的类别
+        QueryWrapper<TbCategories> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", tbCategories.getName());
+        TbCategories tbCategories1 = categoriesService.getOne(queryWrapper);
+
+        if (Objects.isNull(tbCategories1)) {
+            map.put("msg", "存在相同的类别，请检查！");
+            return prefix + "/add-categories";
+        }
+
+
         tbCategories.setCreateTime(new Date());
         tbCategories.setUpdateTime(new Date());
         boolean save = categoriesService.save(tbCategories);

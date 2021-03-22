@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include/include :: head('日记录-荣荣打印')"/>
+    <th:block th:include="include/include :: head('每日记录-荣荣打印')"/>
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
@@ -15,19 +15,60 @@
             <section class="content-header">
                 <h1>
                     打印统计
-                    <small>日记录</small>
+                    <small>每日记录</small>
                 </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li><a href="#">打印统计</a></li>
+                    <li class="active">每日记录</li>
+                </ol>
             </section>
 
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
 
-                    <th:block th:replace="printf/order-box-header:: header"/>
+                    <th:block th:replace="commons/commons :: box-title('每日打印统计列表')"/>
 
                     <th:block th:replace="commons/commons :: msg"/>
 
+
+                    <div class="box box-info box-info-search" style="display: none;">
+                        <div class="box-header">
+                            <h3 class="box-title">高级搜索</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row form-horizontal">
+                                <div class="col-xs-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label  class="col-sm-4 control-label">日期</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="dayTime" class="form-control" placeholder="请选择日期">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button type="button" class="btn btn-info pull-right" onclick="search();">搜索</button>
+                        </div>
+                    </div>
+
                     <div class="box-body">
+                        <a type="button" class="btn btn-info" href="/input-printf">
+                            <i class="fa fa-plus "></i> 录入打印
+                        </a>
+                        <a  type="button" class="btn btn-info" href="/order-input">
+                            <i class="fa fa-plus "></i> 详细录入
+                        </a>
+                        <a type="button" class="btn btn-info"
+                                onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')">
+                            <i class="fa fa-search"></i> 搜索
+                        </a>
+
                         <table id="dataTable" class="table table-bordered table-hover">
                             <thead>
                             <tr>
@@ -57,6 +98,7 @@
 
 <script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/plugins/laydate/laydate.js}"></script>
 
 <script>
     var _dataTable;
@@ -77,6 +119,22 @@
 
         _dataTable = App.initDataTables("/printing/tb-order-day/page", _columns);
     });
+
+    laydate.render({
+        elem: '#dayTime' //指定元素
+    });
+
+    function search() {
+        let userName = $("#userName").val();
+        let orderStatus = $("#orderStatus").val();
+
+        let param = {
+            "userName": userName,
+            "orderStatus": orderStatus
+        };
+        _dataTable.settings()[0].ajax.data = param;
+        _dataTable.ajax.reload();
+    };
 
 </script>
 </body>

@@ -17,13 +17,18 @@
                     打印统计
                     <small>打印记录</small>
                 </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li><a href="#">打印统计</a></li>
+                    <li class="active">打印记录</li>
+                </ol>
             </section>
 
             <!-- Main content -->
             <section class="content">
                 <div class="box box-default">
 
-                    <th:block th:replace="printf/order-box-header:: header"/>
+                    <th:block th:replace="commons/commons :: box-title('打印记录列表')"/>
 
                     <th:block th:replace="commons/commons :: msg"/>
 
@@ -38,7 +43,8 @@
                                     <div class="form-group">
                                         <label for="userName" class="col-sm-4 control-label">姓名</label>
                                         <div class="col-sm-8">
-                                            <input id="userName" name="userName" class="form-control" placeholder="请输入姓名" />
+                                            <input id="userName" name="userName" class="form-control"
+                                                   placeholder="请输入姓名"/>
                                         </div>
                                     </div>
                                 </div>
@@ -48,10 +54,19 @@
                                         <label class="col-sm-4 control-label">完成</label>
                                         <div class="col-sm-8">
                                             <select id="orderStatus" name="orderStatus" class="form-control">
-                                                <option >请选择</option>
+                                                <option>请选择</option>
                                                 <option value="否">否</option>
                                                 <option value="是">是</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label  class="col-sm-4 control-label">日期</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="time" class="form-control" placeholder="请选择日期">
                                         </div>
                                     </div>
                                 </div>
@@ -65,20 +80,28 @@
                     </div>
 
                     <div class="box-body">
-
-                    <button type="button" class="btn btn-sm btn-primary" onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')"><i class="fa fa-search"></i> 搜索</button>
-                    <table id="dataTable" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>姓名</th>
-                            <th>金额</th>
-                            <th>完成</th>
-                            <th>更新时间</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                    </table>
+                        <a type="button" class="btn btn-info" href="/input-printf">
+                            <i class="fa fa-plus "></i> 录入打印
+                        </a>
+                        <a  type="button" class="btn btn-info" href="/order-input">
+                            <i class="fa fa-plus "></i> 详细录入
+                        </a>
+                        <a type="button" class="btn btn-info"
+                                onclick="$('.box-info-search').css('display') == 'none' ? $('.box-info-search').show('fast') : $('.box-info-search').hide('fast')">
+                            <i class="fa fa-search"></i> 搜索
+                        </a>
+                        <table id="dataTable" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>姓名</th>
+                                <th>金额</th>
+                                <th>完成</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
                 <!-- /.box -->
@@ -121,6 +144,7 @@
 
 <script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/plugins/laydate/laydate.js}"></script>
 
 <script>
     var _dataTable;
@@ -135,8 +159,8 @@
             {
                 "data": function (row, type, val, meta) {
                     let deleteUrl = "/printing/tb-print-order/delete/" + row.id;
-                    let msg = '你确认删除'  + row.userName  + '的订单？';
-                    return '<a type="button"  href="/printing/tb-print-order/show/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-search"></i> 查看</a>&nbsp;&nbsp;&nbsp;' +
+                    let msg = '你确认删除' + row.userName + '的订单？';
+                    return '<a type="button"  href="/printing/tb-print-order/show/' + row.id + '" class="btn btn-sm btn-default" ><i class="fa fa-search"></i> 查看</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteOrder(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }
@@ -145,8 +169,8 @@
         _dataTable = App.initDataTables("/printing/tb-print-order/page", _columns);
     });
 
-   // 删除打印记录
-    function deleteOrder(url,  msg) {
+    // 删除打印记录
+    function deleteOrder(url, msg) {
         if (!msg) msg = null;
         $("#modal-message").html(msg);
         $("#modal-danger").modal("show");
@@ -188,13 +212,17 @@
         });
     }
 
+    laydate.render({
+        elem: '#time' //指定元素
+    });
+
     function search() {
         let userName = $("#userName").val();
         let orderStatus = $("#orderStatus").val();
 
         let param = {
             "userName": userName,
-            "orderStatus" : orderStatus
+            "orderStatus": orderStatus
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();
