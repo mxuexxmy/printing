@@ -208,6 +208,20 @@ AccountUpdateDTO(id=10, money=110.0, categoriesName=[CategoriesNameDTO(categorie
 
 
 
+
+
+### 添加输入框
+
+JavaScript + Mootools 
+
+资料：
+
+https://stackoverflow.com/questions/9455066/add-input-fields-to-div-container-javascript
+
+http://jsfiddle.net/5sWA2/
+
+
+
 ### 2020-12-9
 
 * 修复过滤器与拦截器的bug， 其实就是配置
