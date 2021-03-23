@@ -1,8 +1,12 @@
 package xyz.mxue.printing.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
+import xyz.mxue.printing.commons.commonenum.OrderStatusEnum;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.entity.TbPrintfInfo;
@@ -14,6 +18,8 @@ import xyz.mxue.printing.service.TbPrintfInfoService;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -43,32 +49,35 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
      * @return
      */
     @Override
-    public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder) {
+    public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder)  {
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("length", length);
-        params.put("pageParams", tbPrintOrder);
+        Page<TbPrintOrder> printOrderPage = new Page<>(start, length);
 
-        int count = orderMapper.count(params);
+        QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StrUtil.isNotBlank(tbPrintOrder.getUserName()), "user_name", tbPrintOrder.getUserName())
+                .eq(StrUtil.isNotBlank(tbPrintOrder.getOrderStatus()), "order_status", tbPrintOrder.getOrderStatus())
+                .like(StringUtils.isNotBlank(tbPrintOrder.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbPrintOrder.getFlagPermDate());
+
+        Page<TbPrintOrder> tbPrintOrderPage = orderMapper.queryPrintfOrderInfo(printOrderPage, queryWrapper);
+
         PageInfo<TbPrintOrder> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(count);
-        pageInfo.setRecordsFiltered(count);
-        pageInfo.setData(orderMapper.page(params));
+        pageInfo.setRecordsTotal(tbPrintOrderPage.getTotal());
+        pageInfo.setRecordsFiltered(tbPrintOrderPage.getTotal());
+        pageInfo.setData(tbPrintOrderPage.getRecords());
 
         return pageInfo;
     }
 
     @Override
-    public Integer sumPrintNumber(Map<String, Object> params) {
-        return orderMapper.sumPrintNumber(params);
+    public Integer sumPrintNumber(Date startDate, Date endDate) {
+        QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_status",OrderStatusEnum.COMPLETE.getDesc())
+                .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, endDate);
+        Integer result =  orderMapper.sumPrintNumber(queryWrapper);
+        return result != null ? result : 0;
     }
 
-    @Override
-    public BigDecimal sumAmount(Map<String, Object> params) {
-        return orderMapper.sumAmount(params);
-    }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -86,20 +95,19 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     }
 
     @Override
-    public Integer getDayOfPrintfNumber(Date date) {
-        Date startDay = DateUtil.beginOfDay(date);
-        Date endDay = DateUtil.endOfDay(date);
+    public Integer getDayOfPrintfNumber(Date startDay, Date endDay) {
         QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.between(Objects.nonNull(date), "create_time", startDay, endDay);
+        queryWrapper.between(Objects.nonNull(startDay) && Objects.nonNull(endDay), "create_time", startDay, endDay);
         Integer queryResult = orderMapper.selectCount(queryWrapper);
         return queryResult != null ? queryResult : 0;
     }
 
     @Override
-    public BigDecimal getDayOfPrintfIncome(Date date) {
-        Date startDay = DateUtil.beginOfDay(date);
-        Date endDay = DateUtil.endOfDay(date);
-        BigDecimal queryResult = orderMapper.getDayOfPrintfIncome(startDay, endDay);
+    public BigDecimal getPrintfIncomeByDate(Date startDate, Date endDate) {
+        QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_status", OrderStatusEnum.COMPLETE.getDesc())
+                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, endDate);
+        BigDecimal queryResult = orderMapper.getPrintfIncomeByDate(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
 

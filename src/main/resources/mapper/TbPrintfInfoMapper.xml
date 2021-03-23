@@ -16,4 +16,8 @@
         <result column="update_time" property="updateTime" />
     </resultMap>
 
+    <select id="queryPrintfInfos" resultType="xyz.mxue.printing.entity.TbPrintfInfo">
+        SELECT * FROM tb_printf_info WHERE order_id = #{orderId}
+    </select>
+
 </mapper>

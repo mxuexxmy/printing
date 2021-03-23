@@ -30,12 +30,12 @@ public class TbStatisticsServiceImpl extends ServiceImpl<TbStatisticsMapper, TbS
     private TbAccountBookService accountBookService;
 
     @Override
-    public BigDecimal getDayOfIncome(Date date) {
-        return accountBookService.getDayOfIncome(date);
+    public BigDecimal getDayOfIncome(Date startDate, Date endDate) {
+        return accountBookService.getDayOfIncome(startDate, endDate);
     }
 
     @Override
-    public BigDecimal getDayOfPayOut(Date date) {
-        return accountBookService.getDayOfPayOut(date);
+    public BigDecimal getDayOfPayOut(Date startDate, Date endDate) {
+        return accountBookService.getDayOfPayOut(startDate,  endDate);
     }
 }

@@ -12,10 +12,11 @@ import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.entity.TbPrintfInfo;
 import xyz.mxue.printing.entity.dto.PrintfInfoDTO;
 import xyz.mxue.printing.entity.dto.PrintfOrderInfoDTO;
+import xyz.mxue.printing.entity.vo.PrintfNumberInfoVO;
 import xyz.mxue.printing.service.TbPrintOrderService;
+import xyz.mxue.printing.service.TbPrintfInfoService;
 
 import javax.annotation.Resource;
-import javax.print.attribute.standard.PrinterInfo;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -38,7 +39,10 @@ public class TbPrintOrderController {
     @Resource
     private TbPrintOrderService orderService;
 
-    @RequestMapping(value = "/calculate", method = RequestMethod.POST)
+    @Resource
+    private TbPrintfInfoService printfInfoService;
+
+    @PostMapping(value = "/calculate")
     public String calculate(ModelMap map,
                             @ModelAttribute @Valid PrintfOrderInfoDTO printfOrderInfoDTO) {
 
@@ -177,9 +181,32 @@ public class TbPrintOrderController {
 
     @GetMapping("show/{id}")
     public String orderDetail(@PathVariable Long id, ModelMap map) {
+        // 订单
         TbPrintOrder order = orderService.getById(id);
+        // 份数详情
+        List<TbPrintfInfo> printfInfoList = printfInfoService.queryPrintfInfos(order.getId());
+        System.out.println("printfInfoList:" + printfInfoList);
         map.put("order", order);
+        map.put("printfInfos", convertSingleAndDoubleSidedName(printfInfoList));
         return prefix + "/order-detail";
+    }
+
+    // 转换单双面名称
+    private List<PrintfNumberInfoVO> convertSingleAndDoubleSidedName(List<TbPrintfInfo> printfInfoList) {
+        List<PrintfNumberInfoVO> printfNumberInfoVOS = new ArrayList<>();
+        // 1是单面。2是双面
+        String[] str = {"单面", "双面"};
+        for (TbPrintfInfo info : printfInfoList) {
+            PrintfNumberInfoVO infoVO = new PrintfNumberInfoVO();
+            infoVO.setAmount(info.getAmount());
+            infoVO.setPrintfMoney(info.getPrintfMoney());
+            infoVO.setPagesNumber(info.getPagesNumber());
+            infoVO.setPrintfNumber(info.getPrintfNumber());
+            infoVO.setSingleDoubleSided(str[info.getSingleDoubleSided() - 1]);
+            infoVO.setFileName(info.getFileName());
+            printfNumberInfoVOS.add(infoVO);
+        }
+        return printfNumberInfoVOS;
     }
 
     @PostMapping("confirm")
@@ -213,7 +240,6 @@ public class TbPrintOrderController {
         }
         return Result.fail("序号" + id + "的打印记录删除失败!");
     }
-
 
     /**
      * 分页查询

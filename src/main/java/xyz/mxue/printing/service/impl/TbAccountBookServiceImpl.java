@@ -1,7 +1,10 @@
 package xyz.mxue.printing.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbAccountBook;
 import xyz.mxue.printing.entity.TbCategories;
@@ -17,6 +20,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -44,18 +48,22 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
     private TbCategoriesMapper categoriesMapper;
 
     @Override
-    public PageInfo<AccountVO> page(int start, int length, int draw) {
-        int count = accountBookMapper.count();
+    public PageInfo<AccountVO> page(int start, int length, int draw, TbAccountBook tbAccountBook) {
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("length", length);
+
+        Page<AccountVO> accountVOPage = new Page<>(start, length);
+        QueryWrapper<AccountVO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(Objects.nonNull(tbAccountBook.getCategoriesId()), "categories_id", tbAccountBook.getCategoriesId())
+                .like(Objects.nonNull(tbAccountBook.getSpendType()), "spend_type", tbAccountBook.getSpendType())
+                .like(StringUtils.isNotBlank(tbAccountBook.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbAccountBook.getFlagPermDate());
+
+        Page<AccountVO> accountVOPage1 = accountBookMapper.queryAccountBookInfos(accountVOPage, queryWrapper);
 
         PageInfo<AccountVO> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(count);
-        pageInfo.setRecordsFiltered(count);
-        List<AccountVO> pages = accountBookMapper.page(params);
+        pageInfo.setRecordsTotal(accountVOPage1.getTotal());
+        pageInfo.setRecordsFiltered(accountVOPage1.getTotal());
+        List<AccountVO> pages = accountVOPage1.getRecords();
         String[] categoriesName = {"支出", "收入"};
         for (AccountVO page : pages) {
              page.setSpendTypeName(categoriesName[page.getSpendType()]);
@@ -92,18 +100,20 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
     }
 
     @Override
-    public BigDecimal getDayOfIncome(Date date) {
-        Date startDay = DateUtil.beginOfDay(date);
-        Date endDay = DateUtil.endOfDay(date);
-        BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(INCOME, startDay, endDay);
+    public BigDecimal getDayOfIncome(Date startDate, Date endDate) {
+        QueryWrapper<TbAccountBook> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("spend_type", INCOME)
+                   .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, startDate);
+        BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
 
     @Override
-    public BigDecimal getDayOfPayOut(Date date) {
-        Date startDay = DateUtil.beginOfDay(date);
-        Date endDay = DateUtil.endOfDay(date);
-        BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(PAY_OUT, startDay, endDay);
+    public BigDecimal getDayOfPayOut(Date startDate, Date endDate) {
+        QueryWrapper<TbAccountBook> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("spend_type", PAY_OUT)
+                .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, endDate);
+        BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
 

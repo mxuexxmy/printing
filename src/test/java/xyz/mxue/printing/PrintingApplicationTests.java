@@ -25,7 +25,7 @@ class PrintingApplicationTests {
 
     @Test
     void testGetDayOfPrintfIncome() {
-        System.out.println(orderService.getDayOfPrintfIncome(new Date()));
+
     }
 
 

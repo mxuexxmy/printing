@@ -21,12 +21,12 @@ public interface TbStatisticsService extends IService<TbStatistics> {
      * @param date 日期
      * @return BigDecimal
      */
-    BigDecimal getDayOfIncome(Date date);
+    BigDecimal getDayOfIncome(Date startDate, Date endDate);
 
     /**
      * 获取指定他的支出
      * @param date
      * @return BigDecimal
      */
-    BigDecimal getDayOfPayOut(Date date);
+    BigDecimal getDayOfPayOut(Date startDate, Date endDate);
 }

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import xyz.mxue.printing.entity.TbPrintfInfo;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,21 +21,15 @@ import java.util.Map;
  */
 public interface TbPrintOrderService extends IService<TbPrintOrder> {
 
-    PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder);
+    PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder) ;
 
     /**
      * 统计份数
      * @param params 查询参数
      * @return Integer
      */
-    Integer sumPrintNumber(Map<String, Object> params);
+    Integer sumPrintNumber(Date startDate, Date endDate);
 
-    /**
-     * 统计金额
-     * @param params 查询参数
-     * @return Double
-     */
-    BigDecimal sumAmount(Map<String, Object> params);
 
     /**
      * 保持打印订单信息和订单信息
@@ -46,15 +41,19 @@ public interface TbPrintOrderService extends IService<TbPrintOrder> {
 
     /**
      * 指定天的打印单数
-     * @param date 日期
-     * @return 打印单数
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return Integer
      */
-    Integer getDayOfPrintfNumber(Date date);
+    Integer getDayOfPrintfNumber(Date startDate, Date endDate);
 
     /**
      * 指定天的打印收入
-     * @param date 日期
-     * @return 打印收入
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return BigDecimal
      */
-    BigDecimal getDayOfPrintfIncome(Date date);
+    BigDecimal getPrintfIncomeByDate(Date startDate, Date endDate);
+
+
 }

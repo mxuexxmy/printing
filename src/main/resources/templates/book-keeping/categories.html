@@ -43,11 +43,19 @@
                                     <div class="form-group">
                                         <label  class="col-sm-4 control-label">类别</label>
                                         <div class="col-sm-8">
-                                            <input id="userName"  name="userName" class="form-control"/>
+                                            <input id="name"  name="name" class="form-control"/>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-xs-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label  class="col-sm-4 control-label">日期</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="time" name="time" class="form-control" placeholder="请选择日期">
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -181,13 +189,18 @@
         });
     };
 
+    laydate.render({
+        elem: '#time' //指定元素
+    });
+
+
     function search() {
-        let userName = $("#userName").val();
-        let orderStatus = $("#orderStatus").val();
+        let name = $("#name").val();
+        let time = $("#time").val();
 
         let param = {
-            "userName": userName,
-            "orderStatus": orderStatus
+            "name": name,
+            "flagPermDate": time
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();

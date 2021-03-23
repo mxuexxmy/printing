@@ -1,6 +1,5 @@
 package xyz.mxue.printing.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbAccountBook;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -23,7 +22,7 @@ import java.util.List;
  */
 public interface TbAccountBookService extends IService<TbAccountBook> {
 
-   PageInfo<AccountVO> page(int start, int length, int draw);
+   PageInfo<AccountVO> page(int start, int length, int draw, TbAccountBook tbAccountBook);
 
    List<CategoriesNameDTO> categoriesNames();
 
@@ -31,7 +30,7 @@ public interface TbAccountBookService extends IService<TbAccountBook> {
 
     List<MoneyAndSpendTypeDTO> queryMoneyAndSpendType(Date startTime, Date endTime);
 
-    BigDecimal getDayOfIncome(Date date);
+    BigDecimal getDayOfIncome(Date startDate, Date endDate);
 
-    BigDecimal getDayOfPayOut(Date date);
+    BigDecimal getDayOfPayOut(Date startDate, Date endDate);
 }

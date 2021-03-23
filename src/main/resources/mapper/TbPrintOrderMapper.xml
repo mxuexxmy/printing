@@ -17,6 +17,25 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <select id="queryPrintfOrderInfo" resultType="xyz.mxue.printing.entity.TbPrintOrder">
+        select *
+        from tb_print_order ${ew.customSqlSegment}
+    </select>
+
+    <select id="getDayOfPrintfIncome" resultType="java.math.BigDecimal">
+        SELECT sum(total_amount) total_amount
+        FROM tb_print_order ${ew.customSqlSegment}
+    </select>
+
+    <select id="sumPrintNumber" resultType="java.lang.Integer">
+        SELECT SUM(b.printf_number)
+        FROM tb_print_order a
+                 LEFT JOIN tb_printf_info b ON a.id = b.order_id ${ew.customSqlSegment}
+    </select>
+    <select id="getPrintfIncomeByDate" resultType="java.math.BigDecimal">
+        SELECT SUM(total_amount)
+        FROM tb_print_order ${ew.customSqlSegment}
+    </select>
 
 
 </mapper>

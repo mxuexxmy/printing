@@ -431,6 +431,165 @@ http://jsfiddle.net/5sWA2/
 
 
 
+#### mybatis-plus配置找不到Mapper接口路径的坑
+
+https://blog.csdn.net/u013234928/article/details/94060733
+
+
+
+### 分页重写
+
+* 查询时间的解决方案 
+
+```java
+   /**
+     * 日期，虚假字段
+     */
+    @TableField(exist = false)
+    private String flagPermDate;
+```
+
+
+
+* Service 层次
+
+```java
+    /**
+     * 分页查询
+     *
+     * @param start
+     * @param length
+     * @param draw
+     * @param tbPrintOrder
+     * @return
+     */
+@Override
+public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder) {
+
+    Page<TbPrintOrder> printOrderPage = new Page<>(start, length);
+
+    QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
+    queryWrapper.like(StrUtil.isNotBlank(tbPrintOrder.getUserName()), "user_name", tbPrintOrder.getUserName())
+        .like(StrUtil.isNotBlank(tbPrintOrder.getOrderStatus()), "order_status", tbPrintOrder.getOrderStatus())
+        .like(Objects.nonNull(tbPrintOrder.getUpdateTime()), "update_time", tbPrintOrder.getFlagPermDate());
+
+    Page<TbPrintOrder> tbPrintOrderPage = orderMapper.queryPrintfOrderInfo(printOrderPage, queryWrapper);
+
+    System.out.println("total:" + tbPrintOrderPage.getTotal() );
+
+    PageInfo<TbPrintOrder> pageInfo = new PageInfo<>();
+    pageInfo.setDraw(draw);
+    pageInfo.setRecordsTotal(tbPrintOrderPage.getTotal());
+    pageInfo.setRecordsFiltered(tbPrintOrderPage.getTotal());
+    pageInfo.setData(tbPrintOrderPage.getRecords());
+
+    return pageInfo;
+}
+```
+
+* mapper 层次
+
+```java
+ Page<TbPrintOrder> queryPrintfOrderInfo(Page<TbPrintOrder> printOrderPage ,@Param(Constants.WRAPPER) QueryWrapper<TbPrintOrder> queryWrapper);
+```
+
+* xml  层次
+
+```java
+ <select id="queryPrintfOrderInfo" resultType="xyz.mxue.printing.entity.TbPrintOrder">
+        select *
+        from tb_print_order ${ew.customSqlSegment}
+</select>
+```
+
+* 临时用
+
+```html
+  <form action="/printing/tb-print-order/confirm" method="post">
+      <div class="box-body">
+          <div class="form-group">
+              <div class="col-sm-4">
+                  <input type="hidden" th:value="${order.id}" name="id"/>
+                  <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
+                  <p class="text-muted">
+                      [[${order.id}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>顾客姓名</strong>
+                  <p class="text-muted">
+                      [[${order.userName}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
+                  <p class="text-muted">
+                      [[${order.totalAmount}]]元
+                  </p>
+
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
+                  <p class="text-muted">
+                      [[${order.userQq}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>顾客微信</strong>
+                  <p class="text-muted">
+                      [[${order.userWxchat}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>手机号</strong>
+                  <p class="text-muted">
+                      [[${order.userPhone}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
+                  <p class="text-muted">
+                      [[${order.note}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>地址</strong>
+                  <p class="text-muted">
+                      [[${order.address}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>创建时间</strong>
+                  <p class="text-muted">
+                      [[${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}]]
+                  </p>
+                  <hr>
+                  <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
+                  <p class="text-muted">
+                      [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]
+                  </p>
+              </div>
+              <div class="col-sm-8">
+                  表格
+              </div>
+          </div>
+          <div class="box-footer">
+              <button type="button" class="btn btn-default" onclick="history.go(-1)">返回</button>
+              <button type="submit" class="btn btn-info pull-right">确认完成</button>
+          </div>
+
+      </div>
+</form>
+```
+
+### 打印统计
+
+#### 统计
+
+* 份数
+
+```sql
+
+```
+
+
+
+* 金额  已写好
+
+
+
 ### 2020-12-9
 
 * 修复过滤器与拦截器的bug， 其实就是配置

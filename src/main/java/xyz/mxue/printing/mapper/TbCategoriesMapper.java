@@ -19,9 +19,6 @@ import java.util.Map;
  */
 public interface TbCategoriesMapper extends BaseMapper<TbCategories> {
 
-    @Select("SELECT * FROM tb_categories ORDER BY create_time DESC LIMIT #{start}, #{length}")
-    List<TbCategories> page(Map<String, Object> params);
-
     @Select("SELECT\n" +
             "\tc.`name` categoriesName,\n" +
             "\tSUM( b.money ) money,\n" +

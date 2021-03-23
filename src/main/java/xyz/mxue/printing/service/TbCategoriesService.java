@@ -19,7 +19,7 @@ import java.util.List;
  */
 public interface TbCategoriesService extends IService<TbCategories> {
 
-    PageInfo<TbCategories> page(int start, int length, int draw);
+    PageInfo<TbCategories> page(int start, int length, int draw, TbCategories tbCategories);
 
     List<CategoriesDetailsDTO> queryMoneyAndCategoriesByTime(Date startTime, Date endTime);
 }

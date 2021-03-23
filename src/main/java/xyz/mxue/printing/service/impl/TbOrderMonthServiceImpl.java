@@ -43,8 +43,8 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
 
         PageInfo<TbOrderMonth> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(count);
-        pageInfo.setRecordsFiltered(count);
+        pageInfo.setRecordsTotal(0L);
+        pageInfo.setRecordsFiltered(0L);
         pageInfo.setData(monthMapper.page(params));
 
         return pageInfo;
@@ -60,14 +60,10 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
         // 这个月
         Date dayDate = DateUtil.beginOfMonth(date);
 
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        params.put("dayDate", dayDate);
-
         // 计算每月的份数
-        Integer printNumber  = orderService.sumPrintNumber(params);
+        Integer printNumber  = orderService.sumPrintNumber(startDate, endDate);
         // 计算每月的金额
-        BigDecimal totalAmount = orderService.sumAmount(params);
+        BigDecimal totalAmount = orderService.getPrintfIncomeByDate(startDate, endDate);
         // 查询是否有记录
         TbOrderMonth tbOrderMonth = monthMapper.getOrderMonth(params);
 

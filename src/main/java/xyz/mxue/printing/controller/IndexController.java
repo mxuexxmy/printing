@@ -1,5 +1,6 @@
 package xyz.mxue.printing.controller;
 
+import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,14 +46,17 @@ public class IndexController {
     @GetMapping("/index")
     public String indexView(ModelMap map) {
         IndexInfoVO indexInfoVO = new IndexInfoVO();
+        Date nowDate = new Date();
+        Date startDate = DateUtil.beginOfDay(nowDate);
+        Date endDate = DateUtil.endOfDay(nowDate);
         // 今日打印单数
-        indexInfoVO.setDayPrintfNumber(orderService.getDayOfPrintfNumber(new Date()));
+        indexInfoVO.setDayPrintfNumber(orderService.getDayOfPrintfNumber(startDate, endDate));
         // 今日打印收入
-        indexInfoVO.setDayPrintfIncome(orderService.getDayOfPrintfIncome(new Date()));
+        indexInfoVO.setDayPrintfIncome(orderService.getPrintfIncomeByDate(startDate, endDate));
         // 今日收入
-        indexInfoVO.setDayIncome(statisticsService.getDayOfIncome(new Date()).add(indexInfoVO.getDayPrintfIncome()));
+        indexInfoVO.setDayIncome(statisticsService.getDayOfIncome(startDate, endDate).add(indexInfoVO.getDayPrintfIncome()));
         // 今日支出
-         indexInfoVO.setDayPayOut(statisticsService.getDayOfPayOut(new Date()));
+         indexInfoVO.setDayPayOut(statisticsService.getDayOfPayOut(startDate, endDate));
 
         map.put("indexInfo", indexInfoVO);
 

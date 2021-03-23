@@ -1,7 +1,10 @@
 package xyz.mxue.printing.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import xyz.mxue.printing.entity.TbPrintfInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface TbPrintfInfoMapper extends BaseMapper<TbPrintfInfo> {
 
+    List<TbPrintfInfo> queryPrintfInfos(@Param(value = "orderId") Long orderId);
 }

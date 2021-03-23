@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
@@ -80,6 +81,12 @@ public class TbPrintOrder implements Serializable {
      */
     @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
     private Date updateTime;
+
+    /**
+     * 日期，虚假字段
+     */
+    @TableField(exist = false)
+    private String flagPermDate;
 
 
 }

@@ -1,5 +1,9 @@
 package xyz.mxue.printing.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbCategories;
 import xyz.mxue.printing.entity.dto.CategoriesDetailsDTO;
@@ -10,10 +14,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -30,18 +31,19 @@ public class TbCategoriesServiceImpl extends ServiceImpl<TbCategoriesMapper, TbC
     private TbCategoriesMapper categoriesMapper;
 
     @Override
-    public PageInfo<TbCategories> page(int start, int length, int draw) {
-        int count = categoriesMapper.selectCount(null);
+    public PageInfo<TbCategories> page(int start, int length, int draw, TbCategories tbCategories) {
+        Page<TbCategories> categoriesPage = new Page<>(start, length);
+        QueryWrapper<TbCategories> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StrUtil.isNotBlank(tbCategories.getName()), "name", tbCategories.getName())
+                .like(StringUtils.isNotBlank(tbCategories.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbCategories.getFlagPermDate());
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("length", length);
+        Page<TbCategories> categoriesPage1 = categoriesMapper.selectPage(categoriesPage, queryWrapper);
 
         PageInfo<TbCategories> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(count);
-        pageInfo.setRecordsFiltered(count);
-        pageInfo.setData(categoriesMapper.page(params));
+        pageInfo.setRecordsTotal(categoriesPage1.getTotal());
+        pageInfo.setRecordsFiltered(categoriesPage1.getTotal());
+        pageInfo.setData(categoriesPage1.getRecords());
 
         return pageInfo;
     }

@@ -44,8 +44,8 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
 
         PageInfo<TbOrderYear> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(count);
-        pageInfo.setRecordsFiltered(count);
+        pageInfo.setRecordsTotal(0L);
+        pageInfo.setRecordsFiltered(0L);
         pageInfo.setData(yearMapper.page(params));
 
         return pageInfo;
@@ -61,14 +61,10 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         // 这年
         Date dayDate = DateUtil.beginOfYear(date);
 
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        params.put("dayDate", dayDate);
-
         // 计算每月的份数
-        Integer printNumber  = orderService.sumPrintNumber(params);
+        Integer printNumber  = orderService.sumPrintNumber(startDate, endDate);
         // 计算每月的金额
-        BigDecimal totalAmount = orderService.sumAmount(params);
+        BigDecimal totalAmount = orderService.getPrintfIncomeByDate(startDate, endDate);
         // 查询是否有记录
         TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
 

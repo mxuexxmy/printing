@@ -43,8 +43,8 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
 
         PageInfo<TbOrderDay> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(count);
-        pageInfo.setRecordsFiltered(count);
+        pageInfo.setRecordsTotal(0L);
+        pageInfo.setRecordsFiltered(0L);
         pageInfo.setData(dayMapper.page(params));
 
         return pageInfo;
@@ -58,16 +58,10 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         // 今日结束时间
         Date endDate = DateUtil.endOfDay(date);
 
-        Date dayDate = DateUtil.beginOfDay(date);
-
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        params.put("dayDate", dayDate);
-
         // 计算每一日的份数
-        Integer printNumber  = orderService.sumPrintNumber(params);
+        Integer printNumber  = orderService.sumPrintNumber(startDate, endDate);
         // 计算每一次的金额
-        BigDecimal totalAmount = orderService.sumAmount(params);
+        BigDecimal totalAmount = orderService.getPrintfIncomeByDate(startDate, endDate);
         // 查询是否有记录
         TbOrderDay tbOrderDay = dayMapper.getOrderDay(params);
 
@@ -91,7 +85,7 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         TbOrderDay newOrderDay =  new TbOrderDay();
         newOrderDay.setPrintfNumber(printNumber);
         newOrderDay.setTotalAmount(totalAmount);
-        newOrderDay.setStatsDay(dayDate);
+        newOrderDay.setStatsDay(startDate);
         newOrderDay.setCreateTime(new Date());
         newOrderDay.setUpdateTime(new Date());
         int insert = dayMapper.insert(newOrderDay);

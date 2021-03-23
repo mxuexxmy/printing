@@ -117,7 +117,7 @@ public class TbCategoriesController {
 
     @GetMapping("page")
     @ResponseBody
-    public PageInfo<TbCategories> page(HttpServletRequest request) {
+    public PageInfo<TbCategories> page(HttpServletRequest request, TbCategories tbCategories) {
         String strDraw = request.getParameter("draw");
         String strStart = request.getParameter("start");
         String strLength = request.getParameter("length");
@@ -127,7 +127,7 @@ public class TbCategoriesController {
         int length = strLength == null ? 10 : Integer.parseInt(strLength);
 
         // 封装 Datatables 需要的结果
-        PageInfo<TbCategories> pageInfo = categoriesService.page(start, length, draw);
+        PageInfo<TbCategories> pageInfo = categoriesService.page(start, length, draw, tbCategories);
         return pageInfo;
     }
 

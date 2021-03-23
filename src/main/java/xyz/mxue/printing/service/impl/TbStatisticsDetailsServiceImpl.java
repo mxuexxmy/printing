@@ -25,8 +25,10 @@ import java.util.*;
 @Service
 public class TbStatisticsDetailsServiceImpl implements TbStatisticsDetailsService {
 
+    // 支出
     private final Integer PAY_OUT = 0;
 
+    // 收入
     private final Integer INCOME = 1;
 
     @Resource
@@ -127,16 +129,14 @@ public class TbStatisticsDetailsServiceImpl implements TbStatisticsDetailsServic
     public List<CategoriesDetailsDTO> categoriesDetailsByTime(Date startTime, Date endTime) {
         List<CategoriesDetailsDTO> categoriesDetailsDTOS = new ArrayList<>();
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("startDate", startTime);
-        params.put("endDate", endTime);
         // 打印金额
-        BigDecimal printfSumAmount = printOrderService.sumAmount(params);
+        BigDecimal printfSumAmount = printOrderService.getPrintfIncomeByDate(startTime, endTime);
         if (Objects.isNull(printfSumAmount)) {
             printfSumAmount = BigDecimal.valueOf(0D);
         }
         // 查询账单记录，统计支出和收入
         List<MoneyAndSpendTypeDTO> moneyAndSpendTypeDTOS = accountBookService.queryMoneyAndSpendType(startTime, endTime);
+
 
         // 盈利情况
         BigDecimal profits = printfSumAmount;
@@ -149,7 +149,7 @@ public class TbStatisticsDetailsServiceImpl implements TbStatisticsDetailsServic
             categoriesDetailsDTOS.add(categoriesDetailsDTOTemp);
             CategoriesDetailsDTO categoriesDetailsDTOTemp1 = new CategoriesDetailsDTO();
             categoriesDetailsDTOTemp1.setCategoriesName("收入");
-            categoriesDetailsDTOTemp1.setMoney(BigDecimal.valueOf(0D));
+            categoriesDetailsDTOTemp1.setMoney(printfSumAmount);
             categoriesDetailsDTOS.add(categoriesDetailsDTOTemp1);
         }
 
@@ -159,7 +159,7 @@ public class TbStatisticsDetailsServiceImpl implements TbStatisticsDetailsServic
                 CategoriesDetailsDTO categoriesDetailsDTOTemp = new CategoriesDetailsDTO();
                 // 如果有支出，那么收入为 0
                 if (moneyAndSpendTypeDTO.getSpendType().equals(PAY_OUT)) {
-                    categoriesDetailsDTOTemp.setMoney(BigDecimal.valueOf(0D));
+                    categoriesDetailsDTOTemp.setMoney(printfSumAmount);
                     categoriesDetailsDTOTemp.setCategoriesName("收入");
                 }
                 // 如果有收入，那么支出为 0
@@ -181,6 +181,7 @@ public class TbStatisticsDetailsServiceImpl implements TbStatisticsDetailsServic
             if (moneyAndSpendTypeDTO.getSpendType().equals(INCOME)) {
                 categoriesDetailsDTOTemp.setMoney(moneyAndSpendTypeDTO.getMoney().add(printfSumAmount));
                 profits = profits.add(moneyAndSpendTypeDTO.getMoney());
+
                 categoriesDetailsDTOTemp.setCategoriesName("收入");
             }
             categoriesDetailsDTOS.add(categoriesDetailsDTOTemp);

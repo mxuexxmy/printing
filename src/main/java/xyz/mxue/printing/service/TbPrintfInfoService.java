@@ -3,6 +3,8 @@ package xyz.mxue.printing.service;
 import xyz.mxue.printing.entity.TbPrintfInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 打印信息 服务类
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TbPrintfInfoService extends IService<TbPrintfInfo> {
 
+    List<TbPrintfInfo> queryPrintfInfos(Long id);
 }

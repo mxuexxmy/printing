@@ -43,23 +43,31 @@
                                     <div class="form-group">
                                         <label  class="col-sm-4 control-label ">类别</label>
                                         <div class="col-sm-8">
-                                            <select  name="categoriesId" class="form-control" >
-                                                <option>选项 1</option>
-                                                <option>选项 2</option>
-                                                <option>选项 3</option>
-                                                <option>选项 4</option>
-                                                <option>选项 5</option>
+                                            <select  id="categoriesId" name="categoriesId" class="form-control" >
+                                                <option th:each=" categorie: ${categories}" th:value="${categorie.categoriesId}">[[${categorie.categoriesName}]]</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="col-xs-12 col-sm-3">
+                                    <div class="form-group">
+                                        <label  class="col-sm-4 control-label ">消费</label>
+                                        <div class="col-sm-8">
+                                            <select  id="spendType" name="spendType" class="form-control">
+                                                <option value="2">请选择</option>
+                                                <option value="0">支出</option>
+                                                <option value="1">收入</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="col-xs-12 col-sm-3">
                                     <div class="form-group">
                                         <label  class="col-sm-4 control-label">日期</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="time" class="form-control" placeholder="请选择日期">
+                                            <input type="text" id="time" name="time" class="form-control" placeholder="请选择日期">
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +145,7 @@
 
 <script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-<script th:src="@{/plugins/laydate/laydate.js}"></script>
+
 
 <script>
     var _dataTable;
@@ -212,12 +220,14 @@
     });
 
     function search() {
-        let userName = $("#userName").val();
-        let orderStatus = $("#orderStatus").val();
+        let categoriesId = $("#categoriesId").val();
+        let time = $("#time").val();
+        let spendType = $("#spendType").val();
 
         let param = {
-            "userName": userName,
-            "orderStatus": orderStatus
+            "categoriesId": categoriesId,
+            "spendType" : spendType,
+            "flagPermDate": time
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();

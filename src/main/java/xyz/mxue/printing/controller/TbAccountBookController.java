@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Objects;
 
 
 /**
@@ -34,7 +35,8 @@ public class TbAccountBookController {
     private TbAccountBookService accountBookService;
 
     @GetMapping()
-    public String index() {
+    public String index(ModelMap map) {
+        map.put("categories", accountBookService.categoriesNames());
         return prefix + "/account";
     }
 
@@ -87,7 +89,7 @@ public class TbAccountBookController {
 
     @GetMapping("page")
     @ResponseBody
-    public PageInfo<AccountVO> page(HttpServletRequest request) {
+    public PageInfo<AccountVO> page(HttpServletRequest request, TbAccountBook tbAccountBook) {
         String strDraw = request.getParameter("draw");
         String strStart = request.getParameter("start");
         String strLength = request.getParameter("length");
@@ -96,8 +98,18 @@ public class TbAccountBookController {
         int start = strStart == null ? 0 : Integer.parseInt(strStart);
         int length = strLength == null ? 10 : Integer.parseInt(strLength);
 
+        // 对输入的值进行处理 spendType
+        Integer checkSpendType = 2;
+        if (Objects.nonNull(tbAccountBook)) {
+            if (tbAccountBook.getSpendType() != null) {
+                if (tbAccountBook.getSpendType().equals(checkSpendType)) {
+                    tbAccountBook.setSpendType(null);
+                }
+            }
+        }
+
         // 封装 Datatables 需要的结果
-        PageInfo<AccountVO> pageInfo = accountBookService.page(start, length, draw);
+        PageInfo<AccountVO> pageInfo = accountBookService.page(start, length, draw, tbAccountBook);
         return pageInfo;
     }
 

@@ -11,7 +11,7 @@
 
     <groupId>xyz.mxue</groupId>
     <artifactId>printing</artifactId>
-    <version>1.9.5-SNAPSHOT</version>
+    <version>1.9.6-SNAPSHOT</version>
     <name>printing</name>
     <description>荣荣打印</description>
 
@@ -71,13 +71,13 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.3.2</version>
+            <version>3.4.0</version>
         </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.3.2</version>
+            <version>3.4.0</version>
         </dependency>
 
         <dependency>

@@ -13,5 +13,16 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <select id="getDayOfIncomeOrPayOut" resultType="java.math.BigDecimal">
+        SELECT SUM(money)
+        FROM tb_account_book ${ew.customSqlSegment}
+    </select>
+
+    <select id="queryAccountBookInfos" resultType="xyz.mxue.printing.entity.vo.AccountVO">
+        SELECT a.id, a.money, b.`name` categories_name, a.spend_type, a.description, a.update_time
+        FROM tb_account_book a
+                 LEFT JOIN tb_categories b on a.categories_id = b.id ${ew.customSqlSegment}
+    </select>
+
 
 </mapper>

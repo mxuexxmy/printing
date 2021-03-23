@@ -66,7 +66,7 @@
                                     <div class="form-group">
                                         <label  class="col-sm-4 control-label">日期</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="time" class="form-control" placeholder="请选择日期">
+                                            <input type="text" id="time" name="time" class="form-control" placeholder="请选择日期">
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
 
 <script th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
-<script th:src="@{/plugins/laydate/laydate.js}"></script>
+
 
 <script>
     var _dataTable;
@@ -219,10 +219,11 @@
     function search() {
         let userName = $("#userName").val();
         let orderStatus = $("#orderStatus").val();
-
+        let time = $("#time").val();
         let param = {
             "userName": userName,
-            "orderStatus": orderStatus
+            "orderStatus": orderStatus,
+            "flagPermDate" : time
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();
