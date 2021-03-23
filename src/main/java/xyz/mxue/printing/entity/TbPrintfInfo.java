@@ -1,0 +1,73 @@
+package xyz.mxue.printing.entity;
+
+import java.math.BigDecimal;
+import com.baomidou.mybatisplus.annotation.IdType;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * <p>
+ * 打印信息
+ * </p>
+ *
+ * @author mxuexxmy
+ * @since 2021-03-23
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class TbPrintfInfo implements Serializable {
+
+    private static final long serialVersionUID=1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 打印订单ID
+     */
+    private Long orderId;
+
+    /**
+     * 打印一张的价格
+     */
+    private BigDecimal amount;
+
+    /**
+     * 打印的钱
+     */
+    private BigDecimal printfMoney;
+
+    /**
+     * 打印的页数
+     */
+    private Integer pagesNumber;
+
+    /**
+     * 打印的份数
+     */
+    private Integer printfNumber;
+
+    /**
+     * 打印文件名
+     */
+    private String fileName;
+
+    /**
+     * 0是单面。1是双面
+     */
+    private Integer singleDoubleSided;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+}

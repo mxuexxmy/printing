@@ -208,7 +208,38 @@ AccountUpdateDTO(id=10, money=110.0, categoriesName=[CategoriesNameDTO(categorie
 
 
 
+```java
+public class PrintfInfoDTO implements Serializable {
 
+    private static final long serialVersionUID=1L;
+
+    /**
+     * 单双面
+     */
+    private Integer singleDoubleSided;
+
+    /**
+     * 打印页数
+     */
+    private Integer pagesNumber;
+
+    /**
+     * 打印份数
+     */
+    private Integer printfNumber;
+
+    /**
+     * 打印一张的价格
+     */
+    private BigDecimal amount;
+
+    /**
+     * 打印文件名
+     */
+    private String fileName;
+
+}
+```
 
 ### 添加输入框
 
@@ -219,6 +250,184 @@ JavaScript + Mootools
 https://stackoverflow.com/questions/9455066/add-input-fields-to-div-container-javascript
 
 http://jsfiddle.net/5sWA2/
+
+
+
+```
+
+    /**
+     * 今日打印单数
+     */
+    private Integer dayPrintfNumber;
+
+    /**
+     * 今日打印收入
+     */
+    private BigDecimal dayPrintfIncome;
+
+    /**
+     * 今日收入
+     */
+    private BigDecimal dayIncome;
+
+    /**
+     * 今日支出
+     */
+    private BigDecimal dayPayOut;
+```
+
+
+
+### 排版
+
+```html
+  <div class="row box-info">
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label class="col-sm-3 control-label xrequired">张数</label>
+
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="paperNumber"
+                        placeholder="请输入打印张数">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label xrequired">份数</label>
+
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="paperNumber"
+                        placeholder="请输入打印份数">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label xrequired">价格</label>
+
+            <div class="col-sm-8">
+                <input type="text" class="form-control" name="paperNumber"
+                        placeholder="请输入打印一张的价格">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <a type="button" class="btn btn-info" href='javascript:void(0);'
+            onclick='addInput(" + addId + ")' id='addlink_" + addId + "'>
+            <i class="fa fa-plus "></i> 添加记录
+        </a>
+    </div>
+</div>
+```
+
+
+
+```html
+ <div class="form-group">
+                                <div class="col-sm-10">
+
+                                    <div class="box-body no-padding">
+                                        <div class="row">
+                                            <div class="col-md-9 col-sm-8">
+                                                <div class="pad">
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label xrequired">张数</label>
+
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" name="paperNumber"
+                                                                   placeholder="请输入打印张数">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label xrequired">份数</label>
+
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" name="paperNumber"
+                                                                   placeholder="请输入打印份数">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label xrequired">价格</label>
+
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" name="paperNumber"
+                                                                   placeholder="请输入打印一张的价格">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-md-3 col-sm-4">
+                                                <div class="pad box-pane-right bg-green ">
+                                                    <div class="description-block margin-bottom">
+                                                        <div class="sparkbar pad" data-color="#fff"></div>
+                                                        <a type="button" class="btn btn-info" href='javascript:void(0);'
+                                                           onclick='addInput(" + addId + ")' id='addlink_" + addId + "'>
+                                                            <i class="fa fa-plus "></i> 添加记录
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+
+                                </div>
+                            </div>
+```
+
+
+
+完成的
+
+```html
+<div class="form-group">
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-9">
+        <div class="box box-solid box-primary">
+            <div class="box-body">
+                <div class="box-tools pull-right">
+                    <a type="button" class="btn btn-info" href='javascript:void(0);'
+                       onclick='addInput(" + addId + ")' id='addlink_" + addId + "'>
+                        <i class="fa fa-plus "></i>
+                    </a>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label xrequired">张数</label>
+
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" name="paperNumber"
+                               placeholder="请输入打印张数">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label xrequired">份数</label>
+
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control xrequired" name="paperNumber"
+                               placeholder="请输入打印份数">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label xrequired">价格</label>
+
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" name="paperNumber"
+                               placeholder="请输入打印一张的价格">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+```
 
 
 

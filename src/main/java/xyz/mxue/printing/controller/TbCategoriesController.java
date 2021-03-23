@@ -61,8 +61,8 @@ public class TbCategoriesController {
         QueryWrapper<TbCategories> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("name", tbCategories.getName());
         TbCategories tbCategories1 = categoriesService.getOne(queryWrapper);
-
-        if (Objects.isNull(tbCategories1)) {
+        // 如果不为空，返回
+        if (Objects.nonNull(tbCategories1)) {
             map.put("msg", "存在相同的类别，请检查！");
             return prefix + "/add-categories";
         }

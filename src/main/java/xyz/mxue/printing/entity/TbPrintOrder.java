@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class TbPrintOrder implements Serializable {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -47,26 +49,6 @@ public class TbPrintOrder implements Serializable {
      * 打印人的电话
      */
     private String userPhone;
-
-    /**
-     * 打印的文件名
-     */
-    private String printFileName;
-
-    /**
-     * 打印的份数
-     */
-    private Integer printfNumber;
-
-    /**
-     * 打印的页数
-     */
-    private Integer paperNumber;
-
-    /**
-     * 价格
-     */
-    private BigDecimal amount;
 
     /**
      * 总的价格

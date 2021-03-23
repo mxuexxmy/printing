@@ -1,10 +1,14 @@
 package xyz.mxue.printing.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,4 +56,13 @@ public interface TbPrintOrderMapper extends BaseMapper<TbPrintOrder> {
 
     @Select("SELECT SUM( total_amount ) FROM tb_print_order WHERE create_time BETWEEN #{startDate} AND #{endDate}")
     BigDecimal sumAmount(Map<String, Object> params);
+
+    @Select(" SELECT\n" +
+            "            sum( total_amount ) total_amount\n" +
+            "        FROM\n" +
+            "            tb_print_order\n" +
+            "        WHERE\n" +
+            "            create_time BETWEEN #{startDate}\n" +
+            "                AND #{endDate}")
+    BigDecimal getDayOfPrintfIncome(@Param(value = "startDate") Date startDate,@Param(value = "endDate") Date endDate);
 }

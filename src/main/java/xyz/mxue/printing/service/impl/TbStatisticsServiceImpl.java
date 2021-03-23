@@ -1,10 +1,19 @@
 package xyz.mxue.printing.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import xyz.mxue.printing.entity.TbAccountBook;
 import xyz.mxue.printing.entity.TbStatistics;
 import xyz.mxue.printing.mapper.TbStatisticsMapper;
+import xyz.mxue.printing.service.TbAccountBookService;
 import xyz.mxue.printing.service.TbStatisticsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * <p>
@@ -17,4 +26,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class TbStatisticsServiceImpl extends ServiceImpl<TbStatisticsMapper, TbStatistics> implements TbStatisticsService {
 
+    @Resource
+    private TbAccountBookService accountBookService;
+
+    @Override
+    public BigDecimal getDayOfIncome(Date date) {
+        return accountBookService.getDayOfIncome(date);
+    }
+
+    @Override
+    public BigDecimal getDayOfPayOut(Date date) {
+        return accountBookService.getDayOfPayOut(date);
+    }
 }

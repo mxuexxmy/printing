@@ -15,6 +15,8 @@ import java.util.List;
 @Data
 public class AccountUpdateDTO implements Serializable {
 
+    private static final long serialVersionUID=1L;
+
     /**
      * id
      */

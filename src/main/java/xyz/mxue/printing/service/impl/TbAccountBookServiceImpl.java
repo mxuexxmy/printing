@@ -1,5 +1,7 @@
 package xyz.mxue.printing.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbAccountBook;
 import xyz.mxue.printing.entity.TbCategories;
@@ -15,6 +17,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -27,6 +30,12 @@ import java.util.*;
  */
 @Service
 public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, TbAccountBook> implements TbAccountBookService {
+
+    //  收入
+    private final int INCOME = 1;
+
+    // 支出
+    private final int PAY_OUT = 0;
 
     @Resource
     private TbAccountBookMapper accountBookMapper;
@@ -80,6 +89,22 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
         params.put("startTime", startTime);
         params.put("endTime", endTime);
         return accountBookMapper.queryMoneyAndSpendType(params);
+    }
+
+    @Override
+    public BigDecimal getDayOfIncome(Date date) {
+        Date startDay = DateUtil.beginOfDay(date);
+        Date endDay = DateUtil.endOfDay(date);
+        BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(INCOME, startDay, endDay);
+        return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
+    }
+
+    @Override
+    public BigDecimal getDayOfPayOut(Date date) {
+        Date startDay = DateUtil.beginOfDay(date);
+        Date endDay = DateUtil.endOfDay(date);
+        BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(PAY_OUT, startDay, endDay);
+        return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
 
     /**

@@ -56,7 +56,7 @@ public class CodeGenerator {
         StrategyConfig strategy = new StrategyConfig();
 
 //        strategy.setInclude("fields", "task", "task_list", "task_type");
-        strategy.setInclude("tb_statistics_year");
+        strategy.setInclude("tb_printf_info");
 
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); // 生成实体是去掉表前缀

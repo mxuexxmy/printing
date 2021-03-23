@@ -1,5 +1,7 @@
 package xyz.mxue.printing.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import xyz.mxue.printing.entity.TbAccountBook;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -7,6 +9,8 @@ import xyz.mxue.printing.entity.dto.MoneyAndSpendTypeDTO;
 import xyz.mxue.printing.entity.vo.AccountVO;
 import xyz.mxue.printing.entity.dto.CategoriesNameDTO;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,4 +37,8 @@ public interface TbAccountBookMapper extends BaseMapper<TbAccountBook> {
             "\tcreate_time BETWEEN #{startTime} \n" +
             "\tAND #{endTime} GROUP BY spend_type")
     List<MoneyAndSpendTypeDTO> queryMoneyAndSpendType(Map<String, Object> params);
+
+    @Select(" SELECT SUM(money) FROM tb_account_book where spend_type = #{spendType} AND create_time BETWEEN #{startDate} AND #{endDate}")
+    BigDecimal getDayOfIncomeOrPayOut(@Param(value = "spendType") int income, @Param(value = "startDate") Date startDate,@Param(value = "endDate") Date endDate);
+
 }

@@ -6,10 +6,10 @@
     <resultMap id="BaseResultMap" type="xyz.mxue.printing.entity.TbOrderMonth">
         <id column="id" property="id" />
         <result column="stats_month" property="statsMonth" />
-        <result column="print_number" property="printNumber" />
+        <result column="printf_number" property="printfNumber" />
         <result column="total_amount" property="totalAmount" />
         <result column="create_time" property="createTime" />
-        <result column="update" property="update" />
+        <result column="update_time" property="updateTime" />
     </resultMap>
 
 </mapper>

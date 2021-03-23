@@ -4,11 +4,10 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="xyz.mxue.printing.entity.TbStatistics">
-        <id column="id" property="id" />
-        <result column="statistic_time" property="statisticTime" />
-        <result column="money" property="money" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="id" property="id"/>
+        <result column="statistic_time" property="statisticsTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
 </mapper>
