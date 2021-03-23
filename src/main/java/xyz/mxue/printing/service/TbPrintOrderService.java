@@ -25,7 +25,8 @@ public interface TbPrintOrderService extends IService<TbPrintOrder> {
 
     /**
      * 统计份数
-     * @param params 查询参数
+     * @param startDate 开始时间
+     * @param endDate 结束时间
      * @return Integer
      */
     Integer sumPrintNumber(Date startDate, Date endDate);

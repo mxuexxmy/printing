@@ -137,7 +137,7 @@
                 "data": function (row, type, val, meta) {
                     let deleteUrl = "/printing/tb-categories/delete/" + row.id;
                     let msg = '你确认删除序号'  + row.id  + '的类别？';
-                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-search"></i>修改</a>&nbsp;&nbsp;&nbsp;' +
+                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-edit"></i>修改</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteOrder(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i>删除</button>';
                 }
             }

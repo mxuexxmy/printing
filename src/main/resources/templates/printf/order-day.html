@@ -44,7 +44,7 @@
                                     <div class="form-group">
                                         <label  class="col-sm-4 control-label">日期</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="dayTime" class="form-control" placeholder="请选择日期">
+                                            <input type="text" id="dayTime" name="dayTime" class="form-control" placeholder="请选择日期">
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a type="button" href="/printing/tb-order-day/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i>更新</a>&nbsp;&nbsp;&nbsp;'
+                    return '<a type="button" href="/printing/tb-order-day/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i> 更新</a>&nbsp;&nbsp;&nbsp;'
                 }
             }
         ];
@@ -124,12 +124,11 @@
     });
 
     function search() {
-        let userName = $("#userName").val();
-        let orderStatus = $("#orderStatus").val();
+        let dayTime = $("#dayTime").val();
 
         let param = {
-            "userName": userName,
-            "orderStatus": orderStatus
+            "flagPermDate": dayTime,
+
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();

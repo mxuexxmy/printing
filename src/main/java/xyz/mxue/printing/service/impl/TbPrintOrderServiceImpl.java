@@ -72,8 +72,8 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     @Override
     public Integer sumPrintNumber(Date startDate, Date endDate) {
         QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("order_status",OrderStatusEnum.COMPLETE.getDesc())
-                .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, endDate);
+        queryWrapper.eq("a.order_status",OrderStatusEnum.COMPLETE.getDesc())
+                .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "a.create_time", startDate, endDate);
         Integer result =  orderMapper.sumPrintNumber(queryWrapper);
         return result != null ? result : 0;
     }

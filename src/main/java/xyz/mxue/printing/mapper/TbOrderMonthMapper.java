@@ -19,12 +19,4 @@ import java.util.Map;
  */
 public interface TbOrderMonthMapper extends BaseMapper<TbOrderMonth> {
 
-    @Select("SELECT COUNT(*) FROM tb_order_month")
-    int count(TbOrderMonth tbOrderMonth);
-
-    @Select("SELECT * FROM tb_order_month ORDER BY stats_month DESC limit #{start}, #{length}")
-    List<TbOrderMonth> page(Map<String, Object> params);
-
-    @Select("SELECT * FROM tb_order_month WHERE stats_month = #{dayDate}")
-    TbOrderMonth getOrderMonth(Map<String, Object> params);
 }

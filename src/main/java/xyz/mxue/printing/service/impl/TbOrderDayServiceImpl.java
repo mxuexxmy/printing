@@ -1,6 +1,10 @@
 package xyz.mxue.printing.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbOrderDay;
 import xyz.mxue.printing.mapper.TbOrderDayMapper;
@@ -34,25 +38,24 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
 
     @Override
     public PageInfo<TbOrderDay> page(int start, int length, int draw, TbOrderDay tbOrderDay) {
-        int count = dayMapper.count(tbOrderDay);
+        Page<TbOrderDay> tbOrderDayPage = new Page<>(start, length);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("length", length);
-        params.put("pageParams", tbOrderDay);
+        QueryWrapper<TbOrderDay> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StrUtil.isNotBlank(tbOrderDay.getFlagPermDate()), "date_format(stats_day,'%Y-%m-%d')", tbOrderDay.getFlagPermDate());
+
+        Page<TbOrderDay> tbPrintOrderPage1 = dayMapper.selectPage(tbOrderDayPage, queryWrapper);
 
         PageInfo<TbOrderDay> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(0L);
-        pageInfo.setRecordsFiltered(0L);
-        pageInfo.setData(dayMapper.page(params));
+        pageInfo.setRecordsTotal(tbPrintOrderPage1.getTotal());
+        pageInfo.setRecordsFiltered(tbPrintOrderPage1.getTotal());
+        pageInfo.setData(tbPrintOrderPage1.getRecords());
 
         return pageInfo;
     }
 
     @Override
     public String dayRecord(Date date)  {
-        Map<String, Object> params = new HashMap<>();
         // 今日开始时间
         Date startDate = DateUtil.beginOfDay(date);
         // 今日结束时间
@@ -63,7 +66,9 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
         // 计算每一次的金额
         BigDecimal totalAmount = orderService.getPrintfIncomeByDate(startDate, endDate);
         // 查询是否有记录
-        TbOrderDay tbOrderDay = dayMapper.getOrderDay(params);
+        QueryWrapper<TbOrderDay> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("stats_day", startDate);
+        TbOrderDay tbOrderDay = dayMapper.selectOne(queryWrapper);
 
         if (printNumber == null) {
             printNumber = 0;

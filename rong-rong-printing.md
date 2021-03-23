@@ -475,8 +475,6 @@ public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder
 
     Page<TbPrintOrder> tbPrintOrderPage = orderMapper.queryPrintfOrderInfo(printOrderPage, queryWrapper);
 
-    System.out.println("total:" + tbPrintOrderPage.getTotal() );
-
     PageInfo<TbPrintOrder> pageInfo = new PageInfo<>();
     pageInfo.setDraw(draw);
     pageInfo.setRecordsTotal(tbPrintOrderPage.getTotal());
@@ -578,13 +576,14 @@ public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder
 
 #### 统计
 
-* 份数
+* 份数 
 
 ```sql
-
+SELECT SUM(b.printf_number) FROM tb_print_order a LEFT JOIN tb_printf_info b ON a.id = b.order_id 
 ```
 
-
+* 打印统计的纸张
+* 
 
 * 金额  已写好
 

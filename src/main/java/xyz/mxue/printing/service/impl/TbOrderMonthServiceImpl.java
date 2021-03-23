@@ -1,8 +1,12 @@
 package xyz.mxue.printing.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbOrderMonth;
+import xyz.mxue.printing.entity.TbOrderYear;
 import xyz.mxue.printing.mapper.TbOrderMonthMapper;
 import xyz.mxue.printing.service.TbOrderMonthService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,38 +38,39 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
 
     @Override
     public PageInfo<TbOrderMonth> page(int start, int length, int draw, TbOrderMonth tbOrderMonth) {
-        int count = monthMapper.count(tbOrderMonth);
+        Page<TbOrderMonth> monthPage = new Page<>(start, length);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("length", length);
-        params.put("pageParams", tbOrderMonth);
+        QueryWrapper<TbOrderMonth> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StrUtil.isNotBlank(tbOrderMonth.getFlagPermDate()), "date_format(stats_month,'%Y-%m-%d')",
+                tbOrderMonth.getFlagPermDate());
+
+        Page<TbOrderMonth> monthPage1 = monthMapper.selectPage(monthPage, queryWrapper);
 
         PageInfo<TbOrderMonth> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(0L);
-        pageInfo.setRecordsFiltered(0L);
-        pageInfo.setData(monthMapper.page(params));
+        pageInfo.setRecordsTotal(monthPage1.getTotal());
+        pageInfo.setRecordsFiltered(monthPage1.getTotal());
+        pageInfo.setData(monthPage1.getRecords());
 
         return pageInfo;
     }
 
     @Override
     public String monthRecord(Date date) {
-        Map<String, Object> params = new HashMap<>();
+
         // 这个月开始时间
         Date startDate = DateUtil.beginOfMonth(date);
         // 这个月结束时间
         Date endDate = DateUtil.endOfMonth(date);
-        // 这个月
-        Date dayDate = DateUtil.beginOfMonth(date);
 
         // 计算每月的份数
-        Integer printNumber  = orderService.sumPrintNumber(startDate, endDate);
+        Integer printNumber = orderService.sumPrintNumber(startDate, endDate);
         // 计算每月的金额
         BigDecimal totalAmount = orderService.getPrintfIncomeByDate(startDate, endDate);
         // 查询是否有记录
-        TbOrderMonth tbOrderMonth = monthMapper.getOrderMonth(params);
+        QueryWrapper<TbOrderMonth> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("stats_month", startDate);
+        TbOrderMonth tbOrderMonth = monthMapper.selectOne(queryWrapper);
 
         if (printNumber == null) {
             printNumber = 0;
@@ -84,10 +89,10 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
             }
             return "月记录更新失败";
         }
-        TbOrderMonth newOrderMonth =  new TbOrderMonth();
+        TbOrderMonth newOrderMonth = new TbOrderMonth();
         newOrderMonth.setPrintfNumber(printNumber);
         newOrderMonth.setTotalAmount(totalAmount);
-        newOrderMonth.setStatsMonth(dayDate);
+        newOrderMonth.setStatsMonth(startDate);
         newOrderMonth.setCreateTime(new Date());
         newOrderMonth.setUpdateTime(new Date());
         int insert = monthMapper.insert(newOrderMonth);

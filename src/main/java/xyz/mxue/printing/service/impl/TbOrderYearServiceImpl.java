@@ -1,6 +1,9 @@
 package xyz.mxue.printing.service.impl;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import xyz.mxue.printing.commons.model.PageInfo;
 import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.entity.TbOrderYear;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import xyz.mxue.printing.service.TbPrintOrderService;
 
 import javax.annotation.Resource;
+import javax.management.Query;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,38 +39,38 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
 
     @Override
     public PageInfo<TbOrderYear> page(int start, int length, int draw, TbOrderYear tbOrderYear) {
-        int count = yearMapper.count(tbOrderYear);
+        Page<TbOrderYear> tbOrderDayPage = new Page<>(start, length);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("start", start);
-        params.put("length", length);
-        params.put("pageParams", tbOrderYear);
+        QueryWrapper<TbOrderYear> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StrUtil.isNotBlank(tbOrderYear.getFlagPermDate()), "date_format(stats_day,'%Y-%m-%d')", tbOrderYear.getFlagPermDate());
+
+        Page<TbOrderYear> tbPrintOrderPage1 = yearMapper.selectPage(tbOrderDayPage, queryWrapper);
 
         PageInfo<TbOrderYear> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(0L);
-        pageInfo.setRecordsFiltered(0L);
-        pageInfo.setData(yearMapper.page(params));
+        pageInfo.setRecordsTotal(tbPrintOrderPage1.getTotal());
+        pageInfo.setRecordsFiltered(tbPrintOrderPage1.getTotal());
+        pageInfo.setData(tbPrintOrderPage1.getRecords());
 
         return pageInfo;
     }
 
     @Override
     public String yearRecord(Date date) {
-        Map<String, Object> params = new HashMap<>();
         // 这年开始时间
         Date startDate = DateUtil.beginOfYear(date);
         // 这年结束时间
         Date endDate = DateUtil.endOfYear(date);
-        // 这年
-        Date dayDate = DateUtil.beginOfYear(date);
+
 
         // 计算每月的份数
         Integer printNumber  = orderService.sumPrintNumber(startDate, endDate);
         // 计算每月的金额
         BigDecimal totalAmount = orderService.getPrintfIncomeByDate(startDate, endDate);
         // 查询是否有记录
-        TbOrderYear tbOrderYear = yearMapper.getOrderYear(params);
+        QueryWrapper<TbOrderYear> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("stats_year", startDate);
+        TbOrderYear tbOrderYear = yearMapper.selectOne(queryWrapper);
 
         if (printNumber == null) {
             printNumber = 0;
@@ -88,7 +92,7 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         TbOrderYear newTbOrderYear =  new TbOrderYear();
         newTbOrderYear.setPrintfNumber(printNumber);
         newTbOrderYear.setTotalAmount(totalAmount);
-        newTbOrderYear.setStatsYear(dayDate);
+        newTbOrderYear.setStatsYear(startDate);
         newTbOrderYear.setCreateTime(new Date());
         newTbOrderYear.setUpdateTime(new Date());
         int insert = yearMapper.insert(newTbOrderYear);

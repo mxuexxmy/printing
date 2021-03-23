@@ -19,12 +19,4 @@ import java.util.Map;
  */
 public interface TbOrderYearMapper extends BaseMapper<TbOrderYear> {
 
-    @Select("SELECT COUNT(*) FROM tb_order_year")
-    int count(TbOrderYear tbOrderYear);
-
-    @Select("SELECT * FROM tb_order_year ORDER BY stats_year DESC limit #{start}, #{length}")
-    List<TbOrderYear> page(Map<String, Object> params);
-
-    @Select("SELECT * FROM tb_order_year WHERE stats_year = #{dayDate}")
-    TbOrderYear getOrderYear(Map<String, Object> params);
 }

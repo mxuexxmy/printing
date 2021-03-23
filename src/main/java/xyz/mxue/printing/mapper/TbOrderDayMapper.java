@@ -1,5 +1,9 @@
 package xyz.mxue.printing.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import xyz.mxue.printing.entity.TbOrderDay;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -18,12 +22,4 @@ import java.util.Map;
  */
 public interface TbOrderDayMapper extends BaseMapper<TbOrderDay> {
 
-    @Select("SELECT COUNT(*) FROM tb_order_day")
-    int count(TbOrderDay tbOrderDay);
-
-    @Select("SELECT * FROM tb_order_day ORDER BY stats_day DESC limit #{start}, #{length}")
-    List<TbOrderDay> page(Map<String, Object> params);
-
-    @Select("SELECT * FROM tb_order_day WHERE stats_day = #{dayDate}")
-    TbOrderDay getOrderDay(Map<String, Object> params);
 }

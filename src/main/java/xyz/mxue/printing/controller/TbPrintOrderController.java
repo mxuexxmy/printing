@@ -1,6 +1,7 @@
 package xyz.mxue.printing.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -234,10 +235,18 @@ public class TbPrintOrderController {
     @GetMapping("delete/{id}")
     @ResponseBody
     public Result deleteOrder(@PathVariable Long id, ModelMap map) {
-        boolean b = orderService.removeById(id);
-        if (b) {
-            return Result.success("序号" + id + "的打印记录删除成功!");
+        // 先删除打印详情
+        QueryWrapper<TbPrintfInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_id", id);
+        boolean remove = printfInfoService.remove(queryWrapper);
+
+        if (remove) {
+            boolean b = orderService.removeById(id);
+            if (b) {
+                return Result.success("序号" + id + "的打印记录删除成功!");
+            }
         }
+
         return Result.fail("序号" + id + "的打印记录删除失败!");
     }
 

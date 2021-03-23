@@ -43,8 +43,7 @@
                                     <div class="form-group">
                                         <label  class="col-sm-4 control-label">日期</label>
                                         <div class="col-sm-8">
-                                            <input type="text" id="monthTime" class="form-control" placeholder="请选择日期">
-                                            <!--                                            <input id="userName" id="dayTime" name="userName" class="form-control"/>-->
+                                            <input type="text" id="monthTime" name="monthTine" class="form-control" placeholder="请选择日期">->
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +111,7 @@
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a type="button"   href="/printing/tb-order-month/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i>更新</a>&nbsp;&nbsp;&nbsp;'
+                    return '<a type="button"   href="/printing/tb-order-month/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i> 更新</a>&nbsp;&nbsp;&nbsp;'
 
                 }
             }
@@ -126,12 +125,10 @@
         type: 'month'
     });
     function search() {
-        let userName = $("#userName").val();
-        let orderStatus = $("#orderStatus").val();
+        let monthTime = $("#monthTime").val();
 
         let param = {
-            "userName": userName,
-            "orderStatus": orderStatus
+            "flagPermDate": monthTime
         };
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();
