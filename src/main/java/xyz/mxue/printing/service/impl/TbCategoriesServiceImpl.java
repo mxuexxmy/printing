@@ -35,7 +35,8 @@ public class TbCategoriesServiceImpl extends ServiceImpl<TbCategoriesMapper, TbC
         Page<TbCategories> categoriesPage = new Page<>(start, length);
         QueryWrapper<TbCategories> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(tbCategories.getName()), "name", tbCategories.getName())
-                .like(StringUtils.isNotBlank(tbCategories.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbCategories.getFlagPermDate());
+                .like(StringUtils.isNotBlank(tbCategories.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')",
+                        tbCategories.getFlagPermDate()).orderByDesc("update_time");
 
         Page<TbCategories> categoriesPage1 = categoriesMapper.selectPage(categoriesPage, queryWrapper);
 

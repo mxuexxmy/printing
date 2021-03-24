@@ -55,7 +55,8 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
         QueryWrapper<AccountVO> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(Objects.nonNull(tbAccountBook.getCategoriesId()), "categories_id", tbAccountBook.getCategoriesId())
                 .like(Objects.nonNull(tbAccountBook.getSpendType()), "spend_type", tbAccountBook.getSpendType())
-                .like(StringUtils.isNotBlank(tbAccountBook.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbAccountBook.getFlagPermDate());
+                .like(StringUtils.isNotBlank(tbAccountBook.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')",
+                        tbAccountBook.getFlagPermDate()).orderByDesc("update_time");
 
         Page<AccountVO> accountVOPage1 = accountBookMapper.queryAccountBookInfos(accountVOPage, queryWrapper);
 

@@ -35,6 +35,9 @@ import java.util.*;
 @RequestMapping("/printing/tb-print-order")
 public class TbPrintOrderController {
 
+    // 双面
+    private final Integer DOUBLE = 2;
+
     private String prefix = "printf";
 
     @Resource
@@ -82,6 +85,12 @@ public class TbPrintOrderController {
     private BigDecimal calculationTotalAmount(List<TbPrintfInfo> printfInfoList) {
         BigDecimal totalAmount = BigDecimal.valueOf(0D);
         for (TbPrintfInfo info : printfInfoList) {
+            // 打印双面，判断页数是都是奇数，奇数加 1， 变成 偶数
+            if (info.getSingleDoubleSided().equals(DOUBLE)) {
+                if (info.getPagesNumber() % 2 == 1) {
+                    info.setPagesNumber(info.getPagesNumber() + 1);
+                }
+            }
             BigDecimal papers = BigDecimal.valueOf(Integer.toUnsignedLong(info.getPagesNumber() / info.getSingleDoubleSided()));
             BigDecimal totalPapers = papers.multiply(BigDecimal.valueOf(Integer.toUnsignedLong(info.getPrintfNumber())));
             BigDecimal printfMoney = totalPapers.multiply(info.getAmount());

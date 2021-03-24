@@ -42,7 +42,7 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
 
         QueryWrapper<TbOrderMonth> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(tbOrderMonth.getFlagPermDate()), "date_format(stats_month,'%Y-%m-%d')",
-                tbOrderMonth.getFlagPermDate());
+                tbOrderMonth.getFlagPermDate()).orderByDesc("stats_month");
 
         Page<TbOrderMonth> monthPage1 = monthMapper.selectPage(monthPage, queryWrapper);
 

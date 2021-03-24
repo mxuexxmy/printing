@@ -42,7 +42,8 @@ public class TbOrderYearServiceImpl extends ServiceImpl<TbOrderYearMapper, TbOrd
         Page<TbOrderYear> tbOrderDayPage = new Page<>(start, length);
 
         QueryWrapper<TbOrderYear> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(StrUtil.isNotBlank(tbOrderYear.getFlagPermDate()), "date_format(stats_day,'%Y-%m-%d')", tbOrderYear.getFlagPermDate());
+        queryWrapper.like(StrUtil.isNotBlank(tbOrderYear.getFlagPermDate()), "date_format(stats_day,'%Y-%m-%d')",
+                tbOrderYear.getFlagPermDate()).orderByDesc("stats_year");
 
         Page<TbOrderYear> tbPrintOrderPage1 = yearMapper.selectPage(tbOrderDayPage, queryWrapper);
 
