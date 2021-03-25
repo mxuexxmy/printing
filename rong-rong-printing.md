@@ -503,73 +503,21 @@ public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder
 * 临时用
 
 ```html
-  <form action="/printing/tb-print-order/confirm" method="post">
-      <div class="box-body">
-          <div class="form-group">
-              <div class="col-sm-4">
-                  <input type="hidden" th:value="${order.id}" name="id"/>
-                  <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
-                  <p class="text-muted">
-                      [[${order.id}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>顾客姓名</strong>
-                  <p class="text-muted">
-                      [[${order.userName}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
-                  <p class="text-muted">
-                      [[${order.totalAmount}]]元
-                  </p>
+ Page<TbOrderDay> tbOrderDayPage = new Page<>(start, length);
 
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
-                  <p class="text-muted">
-                      [[${order.userQq}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>顾客微信</strong>
-                  <p class="text-muted">
-                      [[${order.userWxchat}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>手机号</strong>
-                  <p class="text-muted">
-                      [[${order.userPhone}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
-                  <p class="text-muted">
-                      [[${order.note}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>地址</strong>
-                  <p class="text-muted">
-                      [[${order.address}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>创建时间</strong>
-                  <p class="text-muted">
-                      [[${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}]]
-                  </p>
-                  <hr>
-                  <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
-                  <p class="text-muted">
-                      [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]
-                  </p>
-              </div>
-              <div class="col-sm-8">
-                  表格
-              </div>
-          </div>
-          <div class="box-footer">
-              <button type="button" class="btn btn-default" onclick="history.go(-1)">返回</button>
-              <button type="submit" class="btn btn-info pull-right">确认完成</button>
-          </div>
+        QueryWrapper<TbOrderDay> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like(StrUtil.isNotBlank(tbOrderDay.getFlagPermDate()), "date_format(stats_day,'%Y-%m-%d')", tbOrderDay.getFlagPermDate());
 
-      </div>
-</form>
+        Page<TbOrderDay> tbPrintOrderPage1 = dayMapper.selectPage(tbOrderDayPage, queryWrapper);
+
+        PageInfo<TbOrderDay> pageInfo = new PageInfo<>();
+        pageInfo.setDraw(draw);
+        pageInfo.setRecordsTotal(tbPrintOrderPage1.getTotal());
+        pageInfo.setRecordsFiltered(tbPrintOrderPage1.getTotal());
+        pageInfo.setData(tbPrintOrderPage1.getRecords());
+
+        return pageInfo;
+
 ```
 
 ### 打印统计
@@ -583,9 +531,146 @@ SELECT SUM(b.printf_number) FROM tb_print_order a LEFT JOIN tb_printf_info b ON 
 ```
 
 * 打印统计的纸张
-* 
 
 * 金额  已写好
+
+### 异步处理
+
+```javascript
+ // 删除打印记录
+    function deleteOrder(url, msg) {
+        if (!msg) msg = null;
+        $("#modal-message").html(msg);
+        $("#modal-danger").modal("show");
+        // 绑定删除事件
+        $("#btnModalOk").bind("click", function () {
+            $("#modal-danger").modal("hide");
+            // AJAX 异步删除操作
+            setTimeout(function () {
+                $.ajax({
+                    "url": url,
+                    "type": "get",
+                    "dataType": "JSON",
+                    "success": function (data) {
+                        // 请求成功后，无论是成功或是失败都需要弹出模态框进行提示，所以这里需要先解绑原来的 click 事件
+                        $("#btnModalOk").unbind("click");
+
+                        // 请求成功
+                        if (data.status === 200) {
+                            // 刷新页面
+                            $("#btnModalOk").bind("click", function () {
+                                window.location.reload();
+                            });
+                        }
+
+                        // 请求失败
+                        else {
+                            // 确定按钮的事件改为隐藏模态框
+                            $("#btnModalOk").bind("click", function () {
+                                $("#modal-danger").modal("hide");
+                            });
+                        }
+
+                        // 因为无论如何都需要提示信息，所以这里的模态框是必须调用的
+                        $("#modal-message").html(data.message);
+                        $("#modal-danger").modal("show");
+                    }
+                });
+            }, 500)
+        });
+    }
+```
+
+
+
+#### 记住密码
+
+```javascript
+$("#btn-submit").on("click", function() {
+    var userPhone = $("#userPhone").val();
+    var password = $("#password").val();
+    var flag = $("#rememberUser").prop("checked");
+    if(flag) {
+        $.cookie("rememberUser", "true", {
+            expires: 7
+        });
+        $.cookie("userPhone", userPhone, {
+            expires: 7
+        });
+        $.cookie("password", password, {
+            expires: 7
+        });
+        location.href="http://mxue.xyz:9080/";
+    } else {
+        $.cookie("rememberUser", "false", {
+            expires: -1
+        });
+        $.cookie("userPhone", '', {
+            expires: -1
+        });
+        $.cookie("password", '', {
+            expires: -1
+        });
+    }
+```
+
+#### 登录的 ajax 和 layer 
+
+```javascript
+/**
+     * 登录
+     */
+    function login() {
+        var userPhone = $("#userPhone").val();
+        var password = $("#password").val();
+
+        var data = {"userPhone": userPhone, "password": password}
+
+        var ii = layer.load();
+
+        setTimeout(function () {
+
+            layer.close(ii);
+
+            $.ajax({
+                type: "post",
+                data: "json",
+                url: "/login",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.status == 200) {
+                        layer.msg(result.message, {icon: 1, time : 2000}, function () {
+                            window.location.href = "/";
+                        });
+                    };
+                    if (result.status == 500) {
+                        layer.msg(result.message);
+                    }
+                },
+                error: function () {
+                    layer.msg("登录失败！");
+                }
+
+            }, 10000);
+        });
+    };
+```
+
+```
+singleDoubleSided
+pagesNumber
+printfNumber
+amount
+fileName
+
+
+userPhone
+userQq
+userWxchat
+address
+note
+```
 
 
 

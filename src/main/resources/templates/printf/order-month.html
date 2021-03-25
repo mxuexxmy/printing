@@ -30,8 +30,6 @@
 
                     <th:block th:replace="commons/commons :: box-title('每月打印统计列表')"/>
 
-                    <th:block th:replace="commons/commons :: msg"/>
-
                     <div class="box box-info box-info-search" style="display: none;">
                         <div class="box-header">
                             <h3 class="box-title">高级搜索</h3>
@@ -110,8 +108,9 @@
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a type="button"   href="/printing/tb-order-month/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i> 更新</a>&nbsp;&nbsp;&nbsp;'
-
+                    let updateUrl = "/printing/tb-order-month/update/" + row.id;
+                    let goUrl = "/printing/tb-order-month";
+                    return '<a  type="button" onclick="statisticsRecord(\'' + updateUrl + '\', \''+ goUrl + '\')"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i> 更新</a>&nbsp;&nbsp;&nbsp;'
                 }
             }
         ];
@@ -132,8 +131,6 @@
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();
     };
-
-
 
 </script>
 </body>

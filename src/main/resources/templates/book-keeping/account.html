@@ -30,8 +30,6 @@
 
                     <th:block th:replace="commons/commons :: box-title('账单记录列表')"/>
 
-                    <th:block th:replace="commons/commons :: msg"/>
-
                     <div class="box box-info box-info-search" style="display: none;">
                         <div class="box-header">
                             <h3 class="box-title">高级搜索</h3>
@@ -163,57 +161,13 @@
                     let deleteUrl = "/printing/tb-account-book/delete/" + row.id;
                     let msg = '你确认删除序号'  + row.id  + '的账单？';
                     return '<a type="button"  href="/printing/tb-account-book/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;&nbsp;' +
-                        '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteOrder(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
+                        '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteInfo(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }
         ];
 
         _dataTable = App.initDataTables("/printing/tb-account-book/page", _columns);
     });
-
-    // 删除打印记录
-    function deleteOrder(url,  msg) {
-        if (!msg) msg = null;
-        $("#modal-message").html(msg);
-        $("#modal-danger").modal("show");
-        // 绑定删除事件
-        $("#btnModalOk").bind("click", function () {
-            $("#modal-danger").modal("hide");
-            // AJAX 异步删除操作
-            setTimeout(function () {
-                $.ajax({
-                    "url": url,
-                    "type": "get",
-                    "dataType": "JSON",
-                    "success": function (data) {
-                        // 请求成功后，无论是成功或是失败都需要弹出模态框进行提示，所以这里需要先解绑原来的 click 事件
-                        $("#btnModalOk").unbind("click");
-
-                        // 请求成功
-                        if (data.status === 200) {
-                            // 刷新页面
-                            $("#btnModalOk").bind("click", function () {
-                                window.location.reload();
-                            });
-                        }
-
-                        // 请求失败
-                        else {
-                            // 确定按钮的事件改为隐藏模态框
-                            $("#btnModalOk").bind("click", function () {
-                                $("#modal-danger").modal("hide");
-                            });
-                        }
-
-                        // 因为无论如何都需要提示信息，所以这里的模态框是必须调用的
-                        $("#modal-message").html(data.message);
-                        $("#modal-danger").modal("show");
-                    }
-                });
-            }, 500)
-        });
-
-    };
 
     laydate.render({
         elem: '#time' //指定元素

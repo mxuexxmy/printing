@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.service.TbOrderMonthService;
 
@@ -38,11 +39,11 @@ public class TbOrderMonthController {
 
 
     @GetMapping("update/{id}")
-    public String update(@PathVariable Long id, ModelMap map) {
+    @ResponseBody
+    public Result update(@PathVariable Long id) {
         TbOrderMonth orderMonth = monthService.getById(id);
         String message = monthService.monthRecord(orderMonth.getStatsMonth());
-        map.put("msg", DateUtil.format(orderMonth.getStatsMonth(), "yyyy-MM") + message);
-        return prefix + "/order-month";
+        return Result.success(DateUtil.format(orderMonth.getStatsMonth(), "yyyy-MM") + message);
     }
 
     /**

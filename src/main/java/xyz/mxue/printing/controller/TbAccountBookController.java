@@ -47,16 +47,12 @@ public class TbAccountBookController {
     }
 
     @PostMapping("save-account")
-    public String saveAccount(@ModelAttribute @Valid TbAccountBook tbAccountBook, ModelMap map) {
+    @ResponseBody
+    public Result saveAccount(@RequestBody TbAccountBook tbAccountBook) {
        tbAccountBook.setCreateTime(new Date());
        tbAccountBook.setUpdateTime(new Date());
        boolean save = accountBookService.save(tbAccountBook);
-       if (save) {
-         map.put("msg", "添加账单成功!");
-       } else {
-           map.put("msg", "添加账单失败，请重试！");
-       }
-       return save == true ? prefix + "/account" : prefix + "add-account";
+       return save == true ? Result.success("添加账单成功!") : Result.fail("添加账单失败，请重试！");
     }
 
     @GetMapping("update/{id}")
@@ -66,15 +62,11 @@ public class TbAccountBookController {
     }
 
     @PostMapping("save-update")
-    public String saveUpdate(ModelMap map, @ModelAttribute @Valid TbAccountBook tbAccountBook) {
+    @ResponseBody
+    public Result saveUpdate(@RequestBody TbAccountBook tbAccountBook) {
         tbAccountBook.setUpdateTime(new Date());
         boolean b = accountBookService.saveOrUpdate(tbAccountBook);
-        if (b) {
-            map.put("msg", "修改账单消息成功！");
-        } else {
-            map.put("msg", "修改账单消息失败！");
-        }
-        return b == true ? prefix + "/account" : prefix + "/update-account";
+        return b == true ? Result.success("修改账单消息成功！") : Result.fail("修改账单消息失败！");
     }
 
     @GetMapping("delete/{id}")

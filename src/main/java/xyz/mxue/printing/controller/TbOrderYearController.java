@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.entity.TbOrderYear;
 import xyz.mxue.printing.service.TbOrderYearService;
 
@@ -36,11 +37,11 @@ public class TbOrderYearController {
     }
 
     @GetMapping("update/{id}")
-    public String update(@PathVariable Long id, ModelMap map) {
+    @ResponseBody
+    public Result update(@PathVariable Long id) {
         TbOrderYear orderYear = yearService.getById(id);
         String message = yearService.yearRecord(orderYear.getStatsYear());
-        map.put("msg", DateUtil.format(orderYear.getStatsYear(), "yyyy")  + message);
-        return prefix + "/order-year";
+        return Result.success(DateUtil.format(orderYear.getStatsYear(), "yyyy")  + message);
     }
 
     /**

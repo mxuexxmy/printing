@@ -28,8 +28,6 @@
             <section class="content">
                 <div class="box box-default">
 
-                    <th:block th:replace="commons/commons :: msg"/>
-
                     <div class="box-body">
 
                         <!-- Info boxes -->
@@ -170,13 +168,13 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body">
-                                        <a class="btn btn-app" href="/time/day-record">
+                                        <a class="btn btn-app" onclick="statisticsRecord('/time/day-record', null)">
                                             <i class="fa fa-refresh"></i> 每日更新
                                         </a>
-                                        <a class="btn btn-app" href="/time/month-record">
+                                        <a class="btn btn-app" onclick="statisticsRecord('/time/month-record', null)">
                                             <i class="fa fa-refresh"></i> 每月更新
                                         </a>
-                                        <a class="btn btn-app" href="/time/year-record">
+                                        <a class="btn btn-app" onclick="statisticsRecord('/time/year-record', null)">
                                             <i class="fa fa-refresh"></i> 每年更新
                                         </a>
                                     </div>
@@ -232,7 +230,6 @@
 <!-- ./wrapper -->
 
 <th:block th:include="include/include :: foot"/>
-
 
 </body>
 </html>

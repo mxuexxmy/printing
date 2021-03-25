@@ -30,64 +30,96 @@
 
                     <th:block th:replace="commons/commons :: box-title('打印订单详情')"/>
 
-                    <th:block th:replace="commons/commons :: msg"/>
-
-
-                    <form action="/printing/tb-print-order/confirm" method="post">
+                    <form action="#" onsubmit="return false;" method="post">
                         <div class="box-body">
                             <div class="form-group">
                                 <div class="col-sm-4">
-                                    <input type="hidden" th:value="${order.id}" name="id"/>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
-                                    <p class="text-muted">
-                                        [[${order.id}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>顾客姓名</strong>
-                                    <p class="text-muted">
-                                        [[${order.userName}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
-                                    <p class="text-muted">
-                                        [[${order.totalAmount}]]元
-                                    </p>
+                                    <div class="box box-solid box-primary">
+                                        <div class="box-body">
 
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
-                                    <p class="text-muted">
-                                        [[${order.userQq}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>顾客微信</strong>
-                                    <p class="text-muted">
-                                        [[${order.userWxchat}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>手机号</strong>
-                                    <p class="text-muted">
-                                        [[${order.userPhone}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
-                                    <p class="text-muted">
-                                        [[${order.note}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>地址</strong>
-                                    <p class="text-muted">
-                                        [[${order.address}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>创建时间</strong>
-                                    <p class="text-muted">
-                                        [[${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}]]
-                                    </p>
-                                    <hr>
-                                    <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
-                                    <p class="text-muted">
-                                        [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]
-                                    </p>
+                                            <input type="hidden" id="idValue" th:value="${order.id}" name="idValue"/>
+                                            <div th:if="${order.id}" >
+                                                <strong><i class="fa   fa-user margin-r-5"></i>序号</strong>
+                                                <p class="text-muted">
+                                                    [[${order.id}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.userName}" >
+                                                <hr>
+                                                <strong><i class="fa  fa-user margin-r-5"></i>顾客姓名</strong>
+                                                <p class="text-muted">
+                                                    [[${order.userName}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.totalAmount}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>总价</strong>
+                                                <p class="text-muted">
+                                                    [[${order.totalAmount}]]元
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.userQq}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>顾客QQ</strong>
+                                                <p class="text-muted">
+                                                    [[${order.userQq}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.userWxchat}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>顾客微信</strong>
+                                                <p class="text-muted">
+                                                    [[${order.userWxchat}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.userPhone}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>手机号</strong>
+                                                <p class="text-muted">
+                                                    [[${order.userPhone}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.note}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>备注</strong>
+                                                <p class="text-muted">
+                                                    [[${order.note}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.address}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>地址</strong>
+                                                <p class="text-muted">
+                                                    [[${order.address}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.createTime}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>创建时间</strong>
+                                                <p class="text-muted">
+                                                    [[${#dates.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}]]
+                                                </p>
+                                            </div>
+
+                                            <div th:if="${order.updateTime}" >
+                                                <hr>
+                                                <strong><i class="fa   fa-user margin-r-5"></i>更新时间</strong>
+                                                <p class="text-muted">
+                                                    [[${#dates.format(order.updateTime,'yyyy-MM-dd HH:mm:ss')}]]
+                                                </p>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-8">
 
@@ -130,8 +162,9 @@
                         <!-- /.box-body -->
                         <div class="box-footer" th:switch="${order.orderStatus}">
                             <button type="button" class="btn btn-default" onclick="history.go(-1)">返回</button>
-                            <button th:case="否" type="submit" class="btn btn-info pull-right">确认完成</button>
-                            <button th:case="是" type="submit" class="btn btn-info pull-right" disabled="disabled">已完成</button>
+                            <button th:case="否" type="submit" onclick="confirmOrder('/printing/tb-print-order/confirm')" class="btn btn-info pull-right">确认完成</button>
+                            <button th:case="是" type="submit" class="btn btn-info pull-right" disabled="disabled">已完成
+                            </button>
                         </div>
                         <!-- /.box-footer -->
                     </form>
@@ -149,6 +182,39 @@
 <!-- ./wrapper -->
 
 <th:block th:include="include/include :: foot"/>
+
+<script>
+
+    function confirmOrder(url) {
+        var idValue = $("#idValue").val();
+
+        var ii = layer.load();
+        setTimeout(function () {
+            layer.close(ii);
+            $.ajax(
+                {
+                    type: "get",
+                    data: "json",
+                    url: url + "/" + idValue,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        if (result.status == 200) {
+                            layer.msg(result.message, {icon: 6}, function () {
+                                window.location.href = "/printing/tb-print-order/list";
+                            });
+                        }
+                        if (result.status == 500) {
+                            layer.msg(result.message, {icon: 5});
+                        }
+                    },
+                    error: function () {
+                        layer.msg("参数错误！");
+                    }
+
+                }, 10000);
+        });
+    }
+</script>
 
 </body>
 </html>

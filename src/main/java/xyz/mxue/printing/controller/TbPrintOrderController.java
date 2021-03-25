@@ -1,6 +1,7 @@
 package xyz.mxue.printing.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -47,14 +48,11 @@ public class TbPrintOrderController {
     private TbPrintfInfoService printfInfoService;
 
     @PostMapping(value = "/calculate")
-    public String calculate(ModelMap map,
-                            @ModelAttribute @Valid PrintfOrderInfoDTO printfOrderInfoDTO) {
-
+    @ResponseBody
+    public Result calculate(@RequestBody PrintfOrderInfoDTO printfOrderInfoDTO) {
         if (printfOrderInfoDTO.getUserName().isEmpty()) {
-            map.put("msg", "请输入姓名！");
-            return prefix + "/input-printf";
+            return Result.fail("请输入姓名！");
         }
-
         // 分离订单
         TbPrintOrder tbPrintOrder = getPrintfOrderInfo(printfOrderInfoDTO);
         // 订单详细信息
@@ -64,21 +62,15 @@ public class TbPrintOrderController {
         String printfInfoTips = checkPrintfInfo(printfInfoList);
 
         if (!printfInfoTips.isEmpty()) {
-            map.put("msg", printfInfoTips);
-            return prefix + "/input-printf";
+            return Result.fail(printfInfoTips);
         }
         // 计算价格
         tbPrintOrder.setTotalAmount(calculationTotalAmount(printfInfoList));
 
         boolean save = orderService.saveOrderInfoAndPrintfInfo(tbPrintOrder, printfInfoList);
 
-        if (save) {
-            map.put("msg", "添加打印录入成功， 总价格为：" + tbPrintOrder.getTotalAmount() + "元!");
-        } else {
-            map.put("msg", "添加打印录入失败，请重新录入！");
-        }
-
-        return prefix + "/input-printf";
+        return save == true ? Result.success("添加打印录入成功， 总价格为：" + tbPrintOrder.getTotalAmount() + "元!")
+                : Result.fail("添加打印录入失败，请重新录入！");
     }
 
     // 计算总价格
@@ -126,7 +118,9 @@ public class TbPrintOrderController {
             printfInfo.setPagesNumber(printfInfoDTO.getPagesNumber());
             printfInfo.setPrintfNumber(printfInfoDTO.getPrintfNumber());
             printfInfo.setAmount(printfInfoDTO.getAmount());
-            printfInfo.setFileName(printfInfoDTO.getFileName());
+            if (StrUtil.isNotBlank(printfInfo.getFileName())) {
+                printfInfo.setFileName(printfInfoDTO.getFileName());
+            }
             printfInfoList.add(printfInfo);
         }
 
@@ -137,27 +131,39 @@ public class TbPrintOrderController {
     private TbPrintOrder getPrintfOrderInfo(PrintfOrderInfoDTO printfOrderInfoDTO) {
         TbPrintOrder tbPrintOrder = new TbPrintOrder();
         tbPrintOrder.setUserName(printfOrderInfoDTO.getUserName());
-        tbPrintOrder.setUserPhone(printfOrderInfoDTO.getUserPhone());
-        tbPrintOrder.setUserQq(printfOrderInfoDTO.getUserQq());
-        tbPrintOrder.setUserWxchat(printfOrderInfoDTO.getUserWxchat());
-        tbPrintOrder.setAddress(printfOrderInfoDTO.getAddress());
-        tbPrintOrder.setNote(printfOrderInfoDTO.getNote());
+        if (StrUtil.isNotBlank(tbPrintOrder.getUserPhone())) {
+            tbPrintOrder.setUserPhone(printfOrderInfoDTO.getUserPhone());
+        }
+        if (StrUtil.isNotBlank(tbPrintOrder.getUserQq())) {
+            tbPrintOrder.setUserQq(printfOrderInfoDTO.getUserQq());
+        }
+        if (StrUtil.isNotBlank(tbPrintOrder.getUserWxchat())) {
+            tbPrintOrder.setUserWxchat(printfOrderInfoDTO.getUserWxchat());
+        }
+        if (StrUtil.isNotBlank(printfOrderInfoDTO.getAddress())) {
+            tbPrintOrder.setAddress(printfOrderInfoDTO.getAddress());
+        }
+        if (StrUtil.isNotBlank(printfOrderInfoDTO.getNote())) {
+            tbPrintOrder.setNote(printfOrderInfoDTO.getNote());
+        }
         tbPrintOrder.setOrderStatus(OrderStatusEnum.UNDONE.getDesc());
         tbPrintOrder.setCreateTime(new Date());
         tbPrintOrder.setUpdateTime(new Date());
         return tbPrintOrder;
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addPrintingOrder(ModelMap map,
-                                   @ModelAttribute @Valid PrintfOrderInfoDTO printfOrderInfoDTO) {
+    @PostMapping(value = "/add")
+    @ResponseBody
+    public Result addPrintingOrder(@RequestBody PrintfOrderInfoDTO printfOrderInfoDTO) {
+        System.out.println(printfOrderInfoDTO);
+
         if (printfOrderInfoDTO.getUserName().isEmpty()) {
-            map.put("msg", "请输入姓名！");
-            return prefix + "/order-input";
+            return Result.fail("请输入姓名！");
         }
 
         // 分离订单
         TbPrintOrder tbPrintOrder = getPrintfOrderInfo(printfOrderInfoDTO);
+
         // 订单详细信息
         List<TbPrintfInfo> printfInfoList = getPrintfInfoList(printfOrderInfoDTO.getPrintfInfos());
 
@@ -165,24 +171,17 @@ public class TbPrintOrderController {
         String printfInfoTips = checkPrintfInfo(printfInfoList);
 
         if (!printfInfoTips.isEmpty()) {
-            map.put("msg", printfInfoTips);
-            return prefix + "/order-input";
+            return Result.fail(printfInfoTips);
         }
         // 计算价格
         tbPrintOrder.setTotalAmount(calculationTotalAmount(printfInfoList));
 
         boolean save = orderService.saveOrderInfoAndPrintfInfo(tbPrintOrder, printfInfoList);
 
-        if (save) {
-            map.put("msg", "添加打印详细录入成功， 总价格为：" + tbPrintOrder.getTotalAmount() + "元!");
-        } else {
-            map.put("msg", "添加打印详细录入失败，请重新录入！");
-        }
-
-        return prefix + "/order-input";
+        return save == true ? Result.success("添加打印详细录入成功， 总价格为：" + tbPrintOrder.getTotalAmount() + "元!")
+                : Result.fail("添加打印详细录入失败，请重新录入！");
 
     }
-
 
     @GetMapping("/list")
     public String printList() {
@@ -195,7 +194,6 @@ public class TbPrintOrderController {
         TbPrintOrder order = orderService.getById(id);
         // 份数详情
         List<TbPrintfInfo> printfInfoList = printfInfoService.queryPrintfInfos(order.getId());
-        System.out.println("printfInfoList:" + printfInfoList);
         map.put("order", order);
         map.put("printfInfos", convertSingleAndDoubleSidedName(printfInfoList));
         return prefix + "/order-detail";
@@ -219,26 +217,24 @@ public class TbPrintOrderController {
         return printfNumberInfoVOS;
     }
 
-    @PostMapping("confirm")
-    public String confirmOrder(@RequestParam(required = true) Long id, ModelMap map) {
+    @GetMapping("confirm/{id}")
+    @ResponseBody
+    public Result confirmOrder(@PathVariable Long id) {
 
         TbPrintOrder tbPrintOrder = orderService.getById(id);
         if (tbPrintOrder.getOrderStatus().equals(OrderStatusEnum.COMPLETE.getDesc())) {
-            map.put("msg", tbPrintOrder.getUserName() + "的订单已确认，无需再更改!");
-            return prefix + "/print-list";
+            return Result.fail(tbPrintOrder.getUserName() + "的订单已确认，无需再更改!");
         }
         tbPrintOrder.setOrderStatus(OrderStatusEnum.COMPLETE.getDesc());
+        tbPrintOrder.setUpdateTime(new Date());
         boolean b = orderService.saveOrUpdate(tbPrintOrder);
         if (b) {
             if (tbPrintOrder.getUserName().isEmpty()) {
-                map.put("msg", "序号" + tbPrintOrder.getId() + "用户的订单已完成");
-                return prefix + "/print-list";
+                return Result.success("序号" + tbPrintOrder.getId() + "用户的订单已完成");
             }
-            map.put("msg", tbPrintOrder.getUserName() + "的订单已完成");
-            return prefix + "/print-list";
+            return Result.success(tbPrintOrder.getUserName() + "的订单已完成");
         }
-        map.put("msg", "订单确认失败，请稍后再试！");
-        return prefix + "/print-list";
+        return Result.fail("订单确认失败，请稍后再试！");
     }
 
     @GetMapping("delete/{id}")
