@@ -255,23 +255,12 @@ public class TbPrintOrderController {
         return Result.fail("序号" + id + "的打印记录删除失败!");
     }
 
-    /**
-     * 分页查询
-     *
-     * @param request
-     * @param tbPrintOrder
-     * @return
-     */
     @ResponseBody
     @GetMapping("/page")
-    public PageInfo<TbPrintOrder> page(HttpServletRequest request, TbPrintOrder tbPrintOrder) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
+    public PageInfo<TbPrintOrder> page(@RequestParam(value = "draw", required = false, defaultValue = "0") Integer draw,
+                                       @RequestParam(value = "start", required = false, defaultValue = "0")Integer start,
+                                       @RequestParam(value = "length", required = false, defaultValue = "10") Integer length,
+                                       TbPrintOrder tbPrintOrder) {
 
         // 对输入的值进行处理 orderStatus
         if (Objects.nonNull(tbPrintOrder)) {

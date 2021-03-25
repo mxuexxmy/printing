@@ -44,23 +44,12 @@ public class TbOrderYearController {
         return Result.success(DateUtil.format(orderYear.getStatsYear(), "yyyy")  + message);
     }
 
-    /**
-     * 分页查询
-     *
-     * @param request
-     * @param tbOrderYear
-     * @return
-     */
     @ResponseBody
     @GetMapping("/page")
-    public PageInfo<TbOrderYear> page(HttpServletRequest request, TbOrderYear tbOrderYear) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
+    public PageInfo<TbOrderYear> page(@RequestParam(value = "draw", required = false, defaultValue = "0") Integer draw,
+                                      @RequestParam(value = "start", required = false, defaultValue = "0")Integer start,
+                                      @RequestParam(value = "length", required = false, defaultValue = "10") Integer length,
+                                      TbOrderYear tbOrderYear) {
 
         // 封装 Datatables 需要的结果
         PageInfo<TbOrderYear> pageInfo = yearService.page(start, length, draw, tbOrderYear);

@@ -1,6 +1,7 @@
 package xyz.mxue.printing.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import java.util.Objects;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author mxuexxmy
@@ -49,10 +50,10 @@ public class TbAccountBookController {
     @PostMapping("save-account")
     @ResponseBody
     public Result saveAccount(@RequestBody TbAccountBook tbAccountBook) {
-       tbAccountBook.setCreateTime(new Date());
-       tbAccountBook.setUpdateTime(new Date());
-       boolean save = accountBookService.save(tbAccountBook);
-       return save == true ? Result.success("添加账单成功!") : Result.fail("添加账单失败，请重试！");
+        tbAccountBook.setCreateTime(new Date());
+        tbAccountBook.setUpdateTime(new Date());
+        boolean save = accountBookService.save(tbAccountBook);
+        return save == true ? Result.success("添加账单成功!") : Result.fail("添加账单失败，请重试！");
     }
 
     @GetMapping("update/{id}")
@@ -81,21 +82,25 @@ public class TbAccountBookController {
 
     @GetMapping("page")
     @ResponseBody
-    public PageInfo<AccountVO> page(HttpServletRequest request, TbAccountBook tbAccountBook) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
-
-        // 对输入的值进行处理 spendType
+    public PageInfo<AccountVO> page(@RequestParam(value = "draw", required = false, defaultValue = "0") Integer draw,
+                                    @RequestParam(value = "start", required = false, defaultValue = "0") Integer start,
+                                    @RequestParam(value = "length", required = false, defaultValue = "10") Integer length,
+                                    TbAccountBook tbAccountBook) {
+        // 对输入的值进行处理
         Integer checkSpendType = 2;
+        Integer checkCategoriesId = -1;
         if (Objects.nonNull(tbAccountBook)) {
+            // 处理  spendType
             if (tbAccountBook.getSpendType() != null) {
-                if (tbAccountBook.getSpendType().equals(checkSpendType)) {
+                if (checkSpendType.equals(tbAccountBook.getSpendType())) {
                     tbAccountBook.setSpendType(null);
+                }
+            }
+
+            // 处理类别
+            if (tbAccountBook.getCategoriesId() != null) {
+                if (checkCategoriesId.equals(tbAccountBook.getCategoriesId())) {
+                    tbAccountBook.setCategoriesId(null);
                 }
             }
         }

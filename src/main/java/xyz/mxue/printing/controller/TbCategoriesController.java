@@ -104,14 +104,10 @@ public class TbCategoriesController {
 
     @GetMapping("page")
     @ResponseBody
-    public PageInfo<TbCategories> page(HttpServletRequest request, TbCategories tbCategories) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
+    public PageInfo<TbCategories> page(@RequestParam(value = "draw", required = false, defaultValue = "0") Integer draw,
+                                       @RequestParam(value = "start", required = false, defaultValue = "0")Integer start,
+                                       @RequestParam(value = "length", required = false, defaultValue = "10") Integer length,
+                                       TbCategories tbCategories) {
 
         // 封装 Datatables 需要的结果
         PageInfo<TbCategories> pageInfo = categoriesService.page(start, length, draw, tbCategories);

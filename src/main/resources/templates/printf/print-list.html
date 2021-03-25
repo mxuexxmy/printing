@@ -96,7 +96,7 @@
                                 <th>姓名</th>
                                 <th>金额</th>
                                 <th>完成</th>
-                                <th>更新时间</th>
+                                <th>时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -137,7 +137,7 @@
                 "data": function (row, type, val, meta) {
                     let deleteUrl = "/printing/tb-print-order/delete/" + row.id;
                     let msg = '你确认删除' + row.userName + '的订单？';
-                    return '<a type="button"  href="/printing/tb-print-order/show/' + row.id + '" class="btn btn-sm btn-default" ><i class="fa fa-search"></i> 查看</a>&nbsp;&nbsp;&nbsp;' +
+                    return '<a type="button"  href="/printing/tb-print-order/show/' + row.id + '" class="btn btn-sm btn-info" ><i class="fa fa-search"></i> 查看</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteInfo(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }

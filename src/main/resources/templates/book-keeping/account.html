@@ -42,6 +42,7 @@
                                         <label  class="col-sm-4 control-label ">类别</label>
                                         <div class="col-sm-8">
                                             <select  id="categoriesId" name="categoriesId" class="form-control" >
+                                                <option value="-1">请选择</option>
                                                 <option th:each=" categorie: ${categories}" th:value="${categorie.categoriesId}">[[${categorie.categoriesName}]]</option>
                                             </select>
                                         </div>
@@ -97,9 +98,9 @@
                                     <th>序号</th>
                                     <th>金额</th>
                                     <th>类别</th>
-                                    <th>消费类型</th>
+                                    <th>类型</th>
                                     <th>说明</th>
-                                    <th>更新时间</th>
+                                    <th>时间</th>
                                     <th>操作</th>
                                 </tr>
                                 </thead>
@@ -139,8 +140,9 @@
             {
                 "data": function (row, type, val, meta) {
                     let deleteUrl = "/printing/tb-account-book/delete/" + row.id;
+                    let showInfoUrl =  "/printing/tb-account-book/show/" + row.id;
                     let msg = '你确认删除序号'  + row.id  + '的账单？';
-                    return '<a type="button"  href="/printing/tb-account-book/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;&nbsp;' +
+                    return '<a type="button"  href="/printing/tb-account-book/update/'+ row.id +'" class="btn btn-sm btn-primary" ><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteInfo(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }
@@ -166,6 +168,7 @@
         _dataTable.settings()[0].ajax.data = param;
         _dataTable.ajax.reload();
     };
+
 </script>
 </body>
 </html>

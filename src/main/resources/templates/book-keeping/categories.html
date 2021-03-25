@@ -78,7 +78,7 @@
                                 <th>序号</th>
                                 <th>类别</th>
                                 <th>说明</th>
-                                <th>更新时间</th>
+                                <th>时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -114,7 +114,7 @@
                 "data": function (row, type, val, meta) {
                     let deleteUrl = "/printing/tb-categories/delete/" + row.id;
                     let msg = '你确认删除序号'  + row.id  + '的类别？';
-                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;&nbsp;' +
+                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-primary" ><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;&nbsp;' +
                         '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteInfo(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }

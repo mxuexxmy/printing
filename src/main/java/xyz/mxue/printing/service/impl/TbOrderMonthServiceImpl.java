@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.utils.PageUtils;
 import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.entity.TbOrderYear;
 import xyz.mxue.printing.mapper.TbOrderMonthMapper;
@@ -38,7 +39,7 @@ public class TbOrderMonthServiceImpl extends ServiceImpl<TbOrderMonthMapper, TbO
 
     @Override
     public PageInfo<TbOrderMonth> page(int start, int length, int draw, TbOrderMonth tbOrderMonth) {
-        Page<TbOrderMonth> monthPage = new Page<>(start, length);
+        Page<TbOrderMonth> monthPage = new Page<>(PageUtils.current(start, length), length);
 
         QueryWrapper<TbOrderMonth> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(tbOrderMonth.getFlagPermDate()), "date_format(stats_month,'%Y-%m-%d')",
