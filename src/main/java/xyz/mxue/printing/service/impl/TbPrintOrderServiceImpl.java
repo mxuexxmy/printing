@@ -109,7 +109,7 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     public BigDecimal getPrintfIncomeByDate(Date startDate, Date endDate) {
         QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_status", OrderStatusEnum.COMPLETE.getDesc())
-                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_date", startDate, endDate);
+                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_time", startDate, endDate);
         BigDecimal queryResult = orderMapper.getPrintfIncomeByDate(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
