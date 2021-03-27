@@ -58,6 +58,7 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
         queryWrapper.like(StrUtil.isNotBlank(tbPrintOrder.getUserName()), "user_name", tbPrintOrder.getUserName())
                 .eq(StrUtil.isNotBlank(tbPrintOrder.getOrderStatus()), "order_status", tbPrintOrder.getOrderStatus())
                 .like(StringUtils.isNotBlank(tbPrintOrder.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbPrintOrder.getFlagPermDate())
+                .orderByDesc("order_status", OrderStatusEnum.UNDONE.getDesc())
                  .orderByDesc("update_time");
 
         IPage<TbPrintOrder> tbPrintOrderPage1 = orderMapper.selectPage(printOrderPage, queryWrapper);
@@ -108,7 +109,7 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     public BigDecimal getPrintfIncomeByDate(Date startDate, Date endDate) {
         QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_status", OrderStatusEnum.COMPLETE.getDesc())
-                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, endDate);
+                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_date", startDate, endDate);
         BigDecimal queryResult = orderMapper.getPrintfIncomeByDate(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
