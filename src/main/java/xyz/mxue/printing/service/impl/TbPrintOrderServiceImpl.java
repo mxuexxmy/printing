@@ -58,7 +58,7 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
         queryWrapper.like(StrUtil.isNotBlank(tbPrintOrder.getUserName()), "user_name", tbPrintOrder.getUserName())
                 .eq(StrUtil.isNotBlank(tbPrintOrder.getOrderStatus()), "order_status", tbPrintOrder.getOrderStatus())
                 .like(StringUtils.isNotBlank(tbPrintOrder.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbPrintOrder.getFlagPermDate())
-                .orderByDesc("order_status", OrderStatusEnum.UNDONE.getDesc())
+                .orderByAsc("order_status")
                  .orderByDesc("update_time");
 
         IPage<TbPrintOrder> tbPrintOrderPage1 = orderMapper.selectPage(printOrderPage, queryWrapper);
