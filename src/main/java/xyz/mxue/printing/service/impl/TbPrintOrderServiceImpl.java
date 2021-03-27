@@ -3,11 +3,13 @@ package xyz.mxue.printing.service.impl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.mxue.printing.commons.commonenum.OrderStatusEnum;
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.utils.PageUtils;
 import xyz.mxue.printing.entity.TbPrintOrder;
 import xyz.mxue.printing.entity.TbPrintfInfo;
 import xyz.mxue.printing.mapper.TbPrintOrderMapper;
@@ -50,22 +52,22 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
      */
     @Override
     public PageInfo<TbPrintOrder> page(int start, int length, int draw, TbPrintOrder tbPrintOrder)  {
-
-        Page<TbPrintOrder> printOrderPage = new Page<>(start, length);
+        Page<TbPrintOrder> printOrderPage = new Page<>(PageUtils.current(start, length), length);
 
         QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(tbPrintOrder.getUserName()), "user_name", tbPrintOrder.getUserName())
                 .eq(StrUtil.isNotBlank(tbPrintOrder.getOrderStatus()), "order_status", tbPrintOrder.getOrderStatus())
                 .like(StringUtils.isNotBlank(tbPrintOrder.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')", tbPrintOrder.getFlagPermDate())
+                .orderByDesc("order_status", OrderStatusEnum.UNDONE.getDesc())
                  .orderByDesc("update_time");
 
-        Page<TbPrintOrder> tbPrintOrderPage = orderMapper.queryPrintfOrderInfo(printOrderPage, queryWrapper);
+        IPage<TbPrintOrder> tbPrintOrderPage1 = orderMapper.selectPage(printOrderPage, queryWrapper);
 
         PageInfo<TbPrintOrder> pageInfo = new PageInfo<>();
         pageInfo.setDraw(draw);
-        pageInfo.setRecordsTotal(tbPrintOrderPage.getTotal());
-        pageInfo.setRecordsFiltered(tbPrintOrderPage.getTotal());
-        pageInfo.setData(tbPrintOrderPage.getRecords());
+        pageInfo.setRecordsTotal(tbPrintOrderPage1.getTotal());
+        pageInfo.setRecordsFiltered(tbPrintOrderPage1.getTotal());
+        pageInfo.setData(tbPrintOrderPage1.getRecords());
 
         return pageInfo;
     }
@@ -107,7 +109,7 @@ public class TbPrintOrderServiceImpl extends ServiceImpl<TbPrintOrderMapper, TbP
     public BigDecimal getPrintfIncomeByDate(Date startDate, Date endDate) {
         QueryWrapper<TbPrintOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("order_status", OrderStatusEnum.COMPLETE.getDesc())
-                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, endDate);
+                    .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_date", startDate, endDate);
         BigDecimal queryResult = orderMapper.getPrintfIncomeByDate(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }

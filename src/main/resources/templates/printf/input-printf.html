@@ -36,9 +36,7 @@
 
                     <th:block th:replace="commons/commons :: box-title('录入打印信息')"/>
 
-                    <th:block th:replace="commons/commons :: msg"/>
-
-                    <form action="/printing/tb-print-order/calculate" id="myForm" class="form-horizontal" method="post">
+                    <form action="#" id="myForm" onsubmit="return false" class="form-horizontal" method="post">
                         <div class="box-body">
 
                             <div class="form-group">
@@ -48,7 +46,8 @@
                                     <label class="col-sm-2 control-label xrequired">顾客姓名</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="userName" required="required" placeholder="请输入姓名">
+                                        <input type="text" class="form-control" id="userName" name="userName"
+                                               required="required" placeholder="请输入姓名">
                                     </div>
 
                                 </div>
@@ -62,7 +61,10 @@
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <button type="button" class="btn btn-default" onclick="formReset()">清除</button>
-                            <button type="submit" class="btn btn-info pull-right">录入</button>
+                            <button type="submit"
+                                    onclick="savePrintfOrderInfo('/printing/tb-print-order/calculate', 'input-printf')"
+                                    class="btn btn-info pull-right">录入
+                            </button>
                         </div>
                         <!-- /.box-footer -->
                     </form>
@@ -83,10 +85,6 @@
 <script th:src="@{/plugins/mootools-core-1.4.4/Source/Core/Core.js}"></script>
 <script th:src="@{/app/printf-info.js}"></script>
 
-<script>
-    function formReset() {
-        document.getElementById("myForm").reset();
-    }
-</script>
+
 </body>
 </html>

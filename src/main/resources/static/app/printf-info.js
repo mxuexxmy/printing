@@ -25,7 +25,7 @@ function addInput(id) {
         "                <div class=\"form-group\">\n" +
         "                    <label class=\"col-sm-2 control-label \">单双面</label>\n" +
         "                    <div class=\"col-sm-7\">\n" +
-        "                        <select name='printfInfos["+ addId +"].singleDoubleSided' class=\"form-control\">\n" +
+        "                        <select id='singleDoubleSided"+ addId +"' name='printfInfos["+ addId +"].singleDoubleSided' class=\"form-control\">\n" +
         "                            <option value=\"1\">单面</option>\n" +
         "                            <option value=\"2\">双面</option>\n" +
         "                        </select>\n" +
@@ -36,7 +36,7 @@ function addInput(id) {
         "                    <label class=\"col-sm-2 control-label xrequired\">页数</label>\n" +
         "\n" +
         "                    <div class=\"col-sm-7\">\n" +
-        "                        <input name='printfInfos["+ addId +"].pagesNumber' type=\"text\" class=\"form-control\" \n" +
+        "                        <input id='pagesNumber"+ addId +"' name='printfInfos["+ addId +"].pagesNumber' type=\"text\" class=\"form-control\" \n" +
         "                             required=\"required\"  placeholder=\"请输入打印页数\">\n" +
         "                    </div>\n" +
         "                </div>\n" +
@@ -45,7 +45,7 @@ function addInput(id) {
         "                    <label class=\"col-sm-2 control-label xrequired\">份数</label>\n" +
         "\n" +
         "                    <div class=\"col-sm-7\">\n" +
-        "                        <input type=\"text\" class=\"form-control xrequired\" name='printfInfos["+ addId +"].printfNumber' \n" +
+        "                        <input type=\"text\" class=\"form-control xrequired\" id='printfNumber"+ addId +"' name='printfInfos["+ addId +"].printfNumber' \n" +
         "                              required=\"required\" placeholder=\"请输入打印份数\">\n" +
         "                    </div>\n" +
         "                </div>\n" +
@@ -53,7 +53,7 @@ function addInput(id) {
         "                <div class=\"form-group\">\n" +
         "                    <label class=\"col-sm-2 control-label xrequired\">价格</label>\n" +
         "                    <div class=\"col-sm-7\">\n" +
-        "                        <input type=\"text\" class=\"form-control\" name='printfInfos["+ addId +"].amount' \n" +
+        "                        <input type=\"text\" class=\"form-control\" id='amount"+ addId +"' name='printfInfos["+ addId +"].amount' \n" +
         "                           required=\"required\"    placeholder=\"请输入打印一张的价格\">\n" +
         "                    </div>\n" +
         "                </div>\n" +
@@ -61,7 +61,7 @@ function addInput(id) {
         "                <div class=\"form-group\">\n" +
         "                    <label class=\"col-sm-2 control-label \">文件名</label>\n" +
         "                    <div class=\"col-sm-7\">\n" +
-        "                        <input type=\"text\" class=\"form-control\" name='printfInfos["+ addId +"].fileName' \n" +
+        "                        <input type=\"text\" class=\"form-control\" id='fileName"+ addId +"' name='printfInfos["+ addId +"].fileName' \n" +
         "                               placeholder=\"请输入文件名\">\n" +
         "                    </div>\n" +
         "                </div>\n" +

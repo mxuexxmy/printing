@@ -41,7 +41,7 @@ public class TbCategoriesController {
 
     @GetMapping
     public String index() {
-      return prefix + "/categories";
+        return prefix + "/categories";
     }
 
     @GetMapping("/add")
@@ -50,11 +50,11 @@ public class TbCategoriesController {
     }
 
     @PostMapping("save")
-    public String saveCategories(ModelMap map, @ModelAttribute @Valid TbCategories tbCategories) {
+    @ResponseBody
+    public Result saveCategories(@RequestBody TbCategories tbCategories) {
 
         if (tbCategories.getName().isEmpty()) {
-            map.put("msg", "类别不能为空！");
-            return prefix + "/add-categories";
+            return Result.fail("类别不能为空！");
         }
 
         // 查询是否存在相同的类别
@@ -63,20 +63,13 @@ public class TbCategoriesController {
         TbCategories tbCategories1 = categoriesService.getOne(queryWrapper);
         // 如果不为空，返回
         if (Objects.nonNull(tbCategories1)) {
-            map.put("msg", "存在相同的类别，请检查！");
-            return prefix + "/add-categories";
+            return Result.fail("存在相同的类别，请检查！");
         }
-
 
         tbCategories.setCreateTime(new Date());
         tbCategories.setUpdateTime(new Date());
         boolean save = categoriesService.save(tbCategories);
-        if (save) {
-            map.put("msg", "添加类别成功！");
-        } else {
-            map.put("msg", "添加类别失败！");
-        }
-        return prefix + "/categories";
+        return save == true ? Result.success("添加类别成功！") : Result.fail("添加类别失败！");
     }
 
     @GetMapping("update/{id}")
@@ -86,17 +79,11 @@ public class TbCategoriesController {
     }
 
     @PostMapping("saveUpdate")
-    public String saveUpdate(ModelMap map, @ModelAttribute @Valid TbCategories tbCategories) {
+    @ResponseBody
+    public Result saveUpdate(@RequestBody TbCategories tbCategories) {
         tbCategories.setUpdateTime(new Date());
-
         boolean b = categoriesService.saveOrUpdate(tbCategories);
-        if (b) {
-            map.put("msg","修改类别成功！");
-        } else {
-            map.put("msg", "修改类别失败，请重修修改！");
-        }
-
-        return b == true ? prefix + "/categories" : prefix + "/update-categories";
+        return b == true ? Result.success("修改类别成功！") : Result.fail("修改类别失败，请重修修改！");
     }
 
     @GetMapping("delete/{id}")
@@ -106,7 +93,7 @@ public class TbCategoriesController {
         queryWrapper.eq("categories_id", id);
         int count = accountBookService.count(queryWrapper);
         if (count > 0) {
-           return Result.fail("序号为" + id + "的类别不能删除," + "如需删除，请删除所有相关的账单记录！");
+            return Result.fail("序号为" + id + "的类别不能删除," + "如需删除，请删除所有相关的账单记录！");
         }
         boolean b = categoriesService.removeById(id);
         if (b) {
@@ -117,14 +104,10 @@ public class TbCategoriesController {
 
     @GetMapping("page")
     @ResponseBody
-    public PageInfo<TbCategories> page(HttpServletRequest request, TbCategories tbCategories) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
+    public PageInfo<TbCategories> page(@RequestParam(value = "draw", required = false, defaultValue = "0") Integer draw,
+                                       @RequestParam(value = "start", required = false, defaultValue = "0")Integer start,
+                                       @RequestParam(value = "length", required = false, defaultValue = "10") Integer length,
+                                       TbCategories tbCategories) {
 
         // 封装 Datatables 需要的结果
         PageInfo<TbCategories> pageInfo = categoriesService.page(start, length, draw, tbCategories);

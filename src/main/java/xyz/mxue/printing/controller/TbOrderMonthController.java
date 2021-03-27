@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.entity.TbOrderMonth;
 import xyz.mxue.printing.service.TbOrderMonthService;
 
@@ -38,11 +39,11 @@ public class TbOrderMonthController {
 
 
     @GetMapping("update/{id}")
-    public String update(@PathVariable Long id, ModelMap map) {
+    @ResponseBody
+    public Result update(@PathVariable Long id) {
         TbOrderMonth orderMonth = monthService.getById(id);
         String message = monthService.monthRecord(orderMonth.getStatsMonth());
-        map.put("msg", DateUtil.format(orderMonth.getStatsMonth(), "yyyy-MM") + message);
-        return prefix + "/order-month";
+        return Result.success(DateUtil.format(orderMonth.getStatsMonth(), "yyyy-MM") + message);
     }
 
     /**
@@ -54,15 +55,10 @@ public class TbOrderMonthController {
      */
     @ResponseBody
     @GetMapping("/page")
-    public PageInfo<TbOrderMonth> page(HttpServletRequest request, TbOrderMonth tbOrderMonth) {
-        String strDraw = request.getParameter("draw");
-        String strStart = request.getParameter("start");
-        String strLength = request.getParameter("length");
-
-        int draw = strDraw == null ? 0 : Integer.parseInt(strDraw);
-        int start = strStart == null ? 0 : Integer.parseInt(strStart);
-        int length = strLength == null ? 10 : Integer.parseInt(strLength);
-
+    public PageInfo<TbOrderMonth> page(@RequestParam(value = "draw", required = false, defaultValue = "0") Integer draw,
+                                       @RequestParam(value = "start", required = false, defaultValue = "0")Integer start,
+                                       @RequestParam(value = "length", required = false, defaultValue = "10") Integer length,
+                                       TbOrderMonth tbOrderMonth) {
         // 封装 Datatables 需要的结果
         PageInfo<TbOrderMonth> pageInfo = monthService.page(start, length, draw, tbOrderMonth);
 

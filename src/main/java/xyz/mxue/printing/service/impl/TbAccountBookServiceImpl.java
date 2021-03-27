@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.utils.PageUtils;
 import xyz.mxue.printing.entity.TbAccountBook;
 import xyz.mxue.printing.entity.TbCategories;
 import xyz.mxue.printing.entity.dto.AccountUpdateDTO;
@@ -50,8 +51,7 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
     @Override
     public PageInfo<AccountVO> page(int start, int length, int draw, TbAccountBook tbAccountBook) {
 
-
-        Page<AccountVO> accountVOPage = new Page<>(start, length);
+        Page<AccountVO> accountVOPage = new Page<>(PageUtils.current(start, length), length);
         QueryWrapper<AccountVO> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(Objects.nonNull(tbAccountBook.getCategoriesId()), "categories_id", tbAccountBook.getCategoriesId())
                 .like(Objects.nonNull(tbAccountBook.getSpendType()), "spend_type", tbAccountBook.getSpendType())
@@ -104,7 +104,7 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
     public BigDecimal getDayOfIncome(Date startDate, Date endDate) {
         QueryWrapper<TbAccountBook> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("spend_type", INCOME)
-                   .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "create_time", startDate, startDate);
+                   .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_time", startDate, startDate);
         BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
