@@ -28,5 +28,4 @@ public interface TbPrintOrderMapper extends BaseMapper<TbPrintOrder> {
 
     BigDecimal getPrintfIncomeByDate(@Param(Constants.WRAPPER) QueryWrapper<TbPrintOrder> queryWrapper);
 
-    Page<TbPrintOrder> queryPrintfOrderInfo(Page<TbPrintOrder> printOrderPage ,@Param(Constants.WRAPPER) QueryWrapper<TbPrintOrder> queryWrapper);
 }

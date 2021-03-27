@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.utils.PageUtils;
 import xyz.mxue.printing.entity.TbOrderDay;
 import xyz.mxue.printing.mapper.TbOrderDayMapper;
 import xyz.mxue.printing.service.TbOrderDayService;
@@ -38,7 +39,7 @@ public class TbOrderDayServiceImpl extends ServiceImpl<TbOrderDayMapper, TbOrder
 
     @Override
     public PageInfo<TbOrderDay> page(int start, int length, int draw, TbOrderDay tbOrderDay) {
-        Page<TbOrderDay> tbOrderDayPage = new Page<>(start, length);
+        Page<TbOrderDay> tbOrderDayPage = new Page<>(PageUtils.current(start, length), length);
 
         QueryWrapper<TbOrderDay> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(tbOrderDay.getFlagPermDate()), "date_format(stats_day,'%Y-%m-%d')", tbOrderDay.getFlagPermDate())

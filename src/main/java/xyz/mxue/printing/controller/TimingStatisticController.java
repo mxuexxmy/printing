@@ -2,9 +2,10 @@ package xyz.mxue.printing.controller;
 
 import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.service.TbOrderDayService;
 import xyz.mxue.printing.service.TbOrderMonthService;
 import xyz.mxue.printing.service.TbOrderYearService;
@@ -32,26 +33,26 @@ public class TimingStatisticController {
     private TbOrderYearService yearService;
 
     @GetMapping("day-record")
-    public String dayRecord(ModelMap map) {
+    @ResponseBody
+    public Result dayRecord() {
         Date date = new Date();
         String message = dayService.dayRecord(date);
-        map.put("msg", DateUtil.format(date, "yyyy-MM-dd") + message);
-        return prefix + "/order-day";
+        return Result.success(DateUtil.format(date, "yyyy-MM-dd") + message);
     }
 
     @GetMapping("month-record")
-    public String monthRecord(ModelMap map) {
+    @ResponseBody
+    public Result monthRecord() {
         Date date = new Date();
         String message = monthService.monthRecord(date);
-        map.put("msg", DateUtil.format(date, "yyyy-MM") + message);
-        return prefix + "/order-month";
+        return Result.success(DateUtil.format(date, "yyyy-MM") + message);
     }
 
     @GetMapping("year-record")
-    public String yearRecord(ModelMap map) {
+    @ResponseBody
+    public Result yearRecord() {
         Date date = new Date();
         String message = yearService.yearRecord(date);
-        map.put("msg", DateUtil.format(date, "yyyy") + message);
-        return prefix + "/order-year";
+        return Result.success(DateUtil.format(date, "yyyy") + message);
     }
 }

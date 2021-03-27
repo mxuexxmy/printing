@@ -6,7 +6,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.entity.TbUser;
+import xyz.mxue.printing.entity.dto.PasswordDTO;
 import xyz.mxue.printing.service.TbUserService;
 
 import javax.annotation.Resource;
@@ -45,39 +47,36 @@ public class TbUserController {
     }
 
     @PostMapping("update")
-    public String profileUpdate(ModelMap map, @Valid TbUser tbUser, HttpServletRequest request) {
+    @ResponseBody
+    public Result profileUpdate(@RequestBody TbUser tbUser, HttpServletRequest request) {
         TbUser tbUser1 = (TbUser) request.getSession().getAttribute("user");
         tbUser1.setUserName(tbUser.getUserName());
         tbUser1.setAddress(tbUser.getAddress());
         tbUser1.setUserPhone(tbUser.getUserPhone());
         boolean b = userService.updateById(tbUser1);
-        if (b) {
-            return "redirect:/printing/tb-user/profile";
-        }
-        map.put("msg", "基本信息修改失败");
-        return printfPrefix + "/index";
+        return b == true ? Result.success("基本信息修改成功！") : Result.fail("基本信息修改失败");
     }
 
     /**
      * 修改个人密码
      *
-     * @param oldPassword
-     * @param newPassword
+     * @param passwordDTO
      * @param request
      * @return
      */
     @PostMapping("/password")
-    public String updatePassword(@RequestParam("oldPassword") String oldPassword, @RequestParam("newPassword") String newPassword, HttpServletRequest request, ModelMap map) {
+    @ResponseBody
+    public Result updatePassword(@RequestBody PasswordDTO passwordDTO, HttpServletRequest request) {
+        System.out.println(passwordDTO);
         TbUser tbUser = (TbUser) request.getSession().getAttribute("user");
         // 查询原密码是否符合
-        if (tbUser.getPassword().equals(DigestUtils.md5DigestAsHex(oldPassword.getBytes()))) {
-            tbUser.setPassword(DigestUtils.md5DigestAsHex(newPassword.getBytes()));
+        if (tbUser.getPassword().equals(DigestUtils.md5DigestAsHex(passwordDTO.getOldPassword().getBytes()))) {
+            tbUser.setPassword(DigestUtils.md5DigestAsHex(passwordDTO.getNewPassword().getBytes()));
             userService.updateById(tbUser);
             request.getSession().invalidate();
-            return "login";
+          return Result.success("密码修改成功，正在退出！");
         }
-        map.put("msg", "原密码错误，请重新输入");
-        return printfPrefix + "/index";
+        return Result.fail("原密码错误，请重新输入");
     }
 
 }

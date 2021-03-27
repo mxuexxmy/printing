@@ -10,6 +10,7 @@ import xyz.mxue.printing.service.TbPrintOrderService;
 import xyz.mxue.printing.service.TbStatisticsService;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -54,7 +55,9 @@ public class IndexController {
         // 今日打印收入
         indexInfoVO.setDayPrintfIncome(orderService.getPrintfIncomeByDate(startDate, endDate));
         // 今日收入
-        indexInfoVO.setDayIncome(statisticsService.getDayOfIncome(startDate, endDate).add(indexInfoVO.getDayPrintfIncome()));
+        BigDecimal dayIncome = statisticsService.getDayOfIncome(startDate, endDate);
+        System.out.println("今日收入:" + dayIncome);
+        indexInfoVO.setDayIncome(dayIncome.add(indexInfoVO.getDayPrintfIncome()));
         // 今日支出
          indexInfoVO.setDayPayOut(statisticsService.getDayOfPayOut(startDate, endDate));
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include/include :: head('类型列表-荣荣打印')"/>
+    <th:block th:include="include/include :: head('类型列表-打印收支管理系统')"/>
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
@@ -29,8 +29,6 @@
                 <div class="box box-default">
 
                     <th:block th:replace="commons/commons :: box-title('类别信息列表')"/>
-
-                    <th:block th:replace="commons/commons :: msg"/>
 
                     <div class="box box-info box-info-search" style="display: none;">
                         <div class="box-header">
@@ -80,7 +78,7 @@
                                 <th>序号</th>
                                 <th>类别</th>
                                 <th>说明</th>
-                                <th>更新时间</th>
+                                <th>时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -88,27 +86,6 @@
                     </div>
                 </div>
 
-                <!-- /.box -->
-                <div class="modal modal-danger fade" id="modal-danger">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">删除账单</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p id="modal-message">[[${message}]]</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
-                                <button id="btnModalOk" type="button" class="btn btn-outline">确认</button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
             </section>
             <!-- /.content -->
         </div>
@@ -137,8 +114,8 @@
                 "data": function (row, type, val, meta) {
                     let deleteUrl = "/printing/tb-categories/delete/" + row.id;
                     let msg = '你确认删除序号'  + row.id  + '的类别？';
-                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-default" ><i class="fa fa-edit"></i>修改</a>&nbsp;&nbsp;&nbsp;' +
-                        '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteOrder(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i>删除</button>';
+                    return '<a type="button"  href="/printing/tb-categories/update/'+ row.id +'" class="btn btn-sm btn-primary" ><i class="fa fa-edit"></i> 修改</a>&nbsp;&nbsp;&nbsp;' +
+                        '<button type="button" class="btn btn-sm btn-danger" data-toggle="modal" onclick="deleteInfo(\'' + deleteUrl + '\', \'' + msg + '\')"><i class="fa fa-trash-o"></i> 删除</button>';
                 }
             }
         ];
@@ -146,53 +123,9 @@
         _dataTable = App.initDataTables("/printing/tb-categories/page", _columns);
     });
 
-    // 删除打印记录
-    function deleteOrder(url,  msg) {
-        if (!msg) msg = null;
-        $("#modal-message").html(msg);
-        $("#modal-danger").modal("show");
-        // 绑定删除事件
-        $("#btnModalOk").bind("click", function () {
-            $("#modal-danger").modal("hide");
-            // AJAX 异步删除操作
-            setTimeout(function () {
-                $.ajax({
-                    "url": url,
-                    "type": "get",
-                    "dataType": "JSON",
-                    "success": function (data) {
-                        // 请求成功后，无论是成功或是失败都需要弹出模态框进行提示，所以这里需要先解绑原来的 click 事件
-                        $("#btnModalOk").unbind("click");
-
-                        // 请求成功
-                        if (data.status === 200) {
-                            // 刷新页面
-                            $("#btnModalOk").bind("click", function () {
-                                window.location.reload();
-                            });
-                        }
-
-                        // 请求失败
-                        else {
-                            // 确定按钮的事件改为隐藏模态框
-                            $("#btnModalOk").bind("click", function () {
-                                $("#modal-danger").modal("hide");
-                            });
-                        }
-
-                        // 因为无论如何都需要提示信息，所以这里的模态框是必须调用的
-                        $("#modal-message").html(data.message);
-                        $("#modal-danger").modal("show");
-                    }
-                });
-            }, 500)
-        });
-    };
-
     laydate.render({
         elem: '#time' //指定元素
     });
-
 
     function search() {
         let name = $("#name").val();

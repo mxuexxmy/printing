@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 import xyz.mxue.printing.commons.model.PageInfo;
+import xyz.mxue.printing.commons.utils.PageUtils;
 import xyz.mxue.printing.entity.TbCategories;
 import xyz.mxue.printing.entity.dto.CategoriesDetailsDTO;
 import xyz.mxue.printing.entity.vo.AccountVO;
@@ -32,7 +33,7 @@ public class TbCategoriesServiceImpl extends ServiceImpl<TbCategoriesMapper, TbC
 
     @Override
     public PageInfo<TbCategories> page(int start, int length, int draw, TbCategories tbCategories) {
-        Page<TbCategories> categoriesPage = new Page<>(start, length);
+        Page<TbCategories> categoriesPage = new Page<>(PageUtils.current(start, length), length);
         QueryWrapper<TbCategories> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(tbCategories.getName()), "name", tbCategories.getName())
                 .like(StringUtils.isNotBlank(tbCategories.getFlagPermDate()), "date_format(update_time,'%Y-%m-%d')",

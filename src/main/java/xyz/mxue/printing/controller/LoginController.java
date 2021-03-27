@@ -2,11 +2,9 @@ package xyz.mxue.printing.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import xyz.mxue.printing.commons.commonenum.ConstantUtils;
+import xyz.mxue.printing.commons.model.Result;
 import xyz.mxue.printing.entity.TbUser;
 import xyz.mxue.printing.service.TbUserService;
 
@@ -25,24 +23,24 @@ public class LoginController {
     private TbUserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestParam(required = true) String userPhone, @RequestParam(required = true) String password,
-                        HttpServletRequest httpServletRequest, ModelMap map) {
-        TbUser user = userService.getByUsername(userPhone, password);
+    @ResponseBody
+    public Result login(@RequestBody TbUser tbUser, HttpServletRequest httpServletRequest) {
+        TbUser user = userService.getByUsername(tbUser.getUserPhone(), tbUser.getPassword());
         if (user == null) {
-            map.put("msg", "手机号或者密码不正确");
-            return "login";
+            return Result.fail("手机号或者密码不正确");
         }
         // 登录成功
         else {
             httpServletRequest.getSession().setAttribute(ConstantUtils.SESSION_USER, user);
-            return "redirect:/index";
+            return Result.success("登录成功！");
         }
     }
 
     @GetMapping("logout")
-    public String logout(HttpServletRequest httpServletRequest, ModelMap map){
+    @ResponseBody
+    public Result logout(HttpServletRequest httpServletRequest) {
         httpServletRequest.getSession().invalidate();
-        return "login";
+        return Result.success("系统退出成功！");
     }
 
 }

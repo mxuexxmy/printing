@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include/include :: head('打印年记录-荣荣打印')"/>
+    <th:block th:include="include/include :: head('打印年记录-打印收支管理系统')"/>
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
@@ -29,8 +29,6 @@
                 <div class="box box-default">
 
                     <th:block th:replace="commons/commons :: box-title('每年打印统计列表')"/>
-
-                    <th:block th:replace="commons/commons :: msg"/>
 
                     <div class="box box-info box-info-search" style="display: none;">
                         <div class="box-header">
@@ -76,7 +74,7 @@
                                 <th>年</th>
                                 <th>份数</th>
                                 <th>金额</th>
-                                <th>更新时间</th>
+                                <th>时间</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -111,7 +109,9 @@
             {"data": "updateTime"},
             {
                 "data": function (row, type, val, meta) {
-                    return '<a type="button"   href="/printing/tb-order-year/update/'+ row.id +'"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i> 更新</a>&nbsp;&nbsp;&nbsp;'
+                    let updateUrl = "/printing/tb-order-year/update/" + row.id;
+                    let goUrl = "/printing/tb-order-year";
+                    return '<a  type="button" onclick="statisticsRecord(\'' + updateUrl + '\', \''+ goUrl + '\')"  class="btn btn-sm btn-default" ><i class="fa  fa-refresh"></i> 更新</a>&nbsp;&nbsp;&nbsp;'
 
                 }
             }

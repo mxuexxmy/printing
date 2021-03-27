@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:include="include/include :: head('修改账单-荣荣打印')"/>
+    <th:block th:include="include/include :: head('修改账单-打印收支管理系统')"/>
+    <style>
+        label.xrequired:before {
+            content: '* ';
+            color: red;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
@@ -30,26 +36,24 @@
 
                     <th:block th:replace="commons/commons :: box-title('修改账单信息')"/>
 
-                    <th:block th:replace="commons/commons :: msg"/>
-
                     <div class="box-body ">
-                        <form action="/printing/tb-account-book/save-update" id="myForm" class="form-horizontal" method="post">
+                        <form action="#" onsubmit="return false;" id="myForm" class="form-horizontal" method="post">
                             <div class="box-body">
 
-                                <input type="hidden" name="id" th:value="*{accountUpdateDTO.id}"/>
+                                <input type="hidden" id="id" name="id" th:value="*{accountUpdateDTO.id}"/>
 
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label xrequired">金额</label>
 
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control"  name="money" th:value="${accountUpdateDTO.money}" placeholder="请输入金额">
+                                        <input type="text" class="form-control" id="money" name="money" required="required" th:value="${accountUpdateDTO.money}" placeholder="请输入金额">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label ">类别</label>
                                     <div class="col-sm-8">
-                                        <select  name="categoriesId" class="form-control" >
+                                        <select  id="categoriesId" name="categoriesId" class="form-control" >
                                             <option th:each=" categorie: ${accountUpdateDTO.categoriesName}" th:value="${categorie.categoriesId}">[[${categorie.categoriesName}]]</option>
                                         </select>
                                     </div>
@@ -58,7 +62,7 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label ">消费</label>
                                     <div class="col-sm-8">
-                                        <select  name="spendType" class="form-control">
+                                        <select   id="spendType" name="spendType" class="form-control">
                                             <option th:each=" spendTypeT: ${accountUpdateDTO.spendTypes}" th:value="${spendTypeT.spendType}">[[${spendTypeT.spendTypeName}]]</option>
                                         </select>
                                     </div>
@@ -68,7 +72,7 @@
                                     <label  class="col-sm-2 control-label xrequired">说明</label>
 
                                     <div class="col-sm-8">
-                                        <input type="text" class="form-control" name="description" th:value="${accountUpdateDTO.description}" placeholder="说明">
+                                        <input type="text" class="form-control"  id="description" name="description" th:value="${accountUpdateDTO.description}" placeholder="说明">
                                     </div>
                                 </div>
 
@@ -76,7 +80,7 @@
                             <!-- /.box-body -->
                             <div class="box-footer">
                                 <button type="button" class="btn btn-default"  onclick="history.go(-1)">返回</button>
-                                <button type="submit" class="btn btn-info pull-right">修改</button>
+                                <button type="submit"  onclick="saveAccount('/printing/tb-account-book/save-update','/printing/tb-account-book')" class="btn btn-info pull-right">修改</button>
                             </div>
                             <!-- /.box-footer -->
                         </form>
