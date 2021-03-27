@@ -104,7 +104,7 @@ public class TbAccountBookServiceImpl extends ServiceImpl<TbAccountBookMapper, T
     public BigDecimal getDayOfIncome(Date startDate, Date endDate) {
         QueryWrapper<TbAccountBook> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("spend_type", INCOME)
-                   .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_time", startDate, startDate);
+                   .between(Objects.nonNull(startDate) && Objects.nonNull(endDate), "update_time", startDate, endDate);
         BigDecimal queryResult = accountBookMapper.getDayOfIncomeOrPayOut(queryWrapper);
         return queryResult != null ? queryResult : BigDecimal.valueOf(0D);
     }
