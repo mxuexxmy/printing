@@ -49,8 +49,15 @@ Linux下查看和停止所有java进程
 > 2. 打包
 > 3. 打包去掉测试
 
+#### 打包方式 1（已过期）
+
 ```
 mvn clean package -Dmaven.test.skip=true
+```
+
+#### 打包方式 2
+```
+ mvn clean install package '-Dmaven.test.skip=true'
 ```
 
 ### 打入本地jar

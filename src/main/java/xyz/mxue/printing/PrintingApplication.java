@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-// 开启事务管理
+/**
+ * @author LX
+ */
 @EnableTransactionManagement
 @SpringBootApplication
 @MapperScan("xyz.mxue.printing.mapper")

@@ -56,7 +56,6 @@ public class IndexController {
         indexInfoVO.setDayPrintfIncome(orderService.getPrintfIncomeByDate(startDate, endDate));
         // 今日收入
         BigDecimal dayIncome = statisticsService.getDayOfIncome(startDate, endDate);
-        System.out.println("今日收入:" + dayIncome);
         indexInfoVO.setDayIncome(dayIncome.add(indexInfoVO.getDayPrintfIncome()));
         // 今日支出
          indexInfoVO.setDayPayOut(statisticsService.getDayOfPayOut(startDate, endDate));
