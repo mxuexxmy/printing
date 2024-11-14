@@ -6,47 +6,54 @@
 <body class="hold-transition skin-blue layout-top-nav">
 <div class="wrapper">
 
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (页眉) -->
-        <section class="content-header">
-            <h1>
-                打印收支管理系统
-            </h1>
-        </section>
+        <div class="container">
+            <!-- Content Header (页眉) -->
+            <section class="content-header">
+                <h1>
+                    仪表盘
+                    <small>控制面板</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+                    <li class="active">关于</li>
+                </ol>
+            </section>
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="error-page">
-                <h2 class="headline text-yellow">打印收支管理系统</h2>
+            <!-- Main content -->
+            <section class="content">
+                <div class="box box-default">
 
-                <div class="error-content">
-                    <h3><i class="fa  text-yellow"></i>贵工程-绣4-624</h3>
+                    <div class="box-body">
+                        <h2 class="headline text-yellow">打印收支管理系统</h2>
 
-                    <p>
-                    <h4><a href="/"> &nbsp;&nbsp;回首页 &nbsp;&nbsp;</h4></a>或尝试使用搜索
-                    </p>
+                        <div class="error-content">
+                            <h3><i class="fa  text-yellow"></i>贵工程-绣4-624</h3>
 
-                    <form class="search-form">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="搜索">
+                            <p>
+                                <a href="/"> &nbsp;&nbsp;回首页 &nbsp;&nbsp;</a>或尝试使用搜索
+                            </p>
 
-                            <div class="input-group-btn">
-                                <button type="submit" name="submit" class="btn btn-warning btn-flat"><i
-                                        class="fa fa-search"></i>
-                                </button>
-                            </div>
+                            <form class="search-form">
+                                <div class="input-group">
+                                    <input type="text" name="search" class="form-control" placeholder="搜索">
+
+                                    <div class="input-group-btn">
+                                        <button type="submit" name="submit" class="btn btn-warning btn-flat"><i
+                                                class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.input-group -->
+                            </form>
                         </div>
-                        <!-- /.input-group -->
-                    </form>
+                        <!-- /.error-content -->
+                    </div>
                 </div>
-                <!-- /.error-content -->
-            </div>
-            <!-- /.error-page -->
-        </section>
-        <!-- /.content -->
+            </section>
+
+        </div>
     </div>
-    <!-- /.content-wrapper -->
 
     <th:block th:replace="include/footer :: footer"/>
 </div>
